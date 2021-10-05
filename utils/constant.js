@@ -1,3 +1,3 @@
 export const pageData = {
-  mainTitle: "NextJs Starter",
+  mainTitle: "Gladax Admin",
 };
