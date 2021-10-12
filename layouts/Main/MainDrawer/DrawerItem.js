@@ -5,9 +5,9 @@ import { useRouter } from "next/router";
 import { CustomIcon } from "components/Icons";
 
 //*material-ui
-import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import ListItemButton from "@mui/material/ListItemButton";
 
 //*assets
 
@@ -41,12 +41,12 @@ function DrawerItem({ label, icon, href }) {
   };
 
   return (
-    <ListItem button key={label} onClick={handleGoToPage}>
+    <ListItemButton onClick={handleGoToPage}>
       <ListItemIcon>
         <CustomIcon icon={icon} />
       </ListItemIcon>
       <ListItemText primary={label} />
-    </ListItem>
+    </ListItemButton>
   );
 }
 

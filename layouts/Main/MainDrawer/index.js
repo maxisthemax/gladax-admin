@@ -76,7 +76,7 @@ function MainDrawer({ drawerWidth }) {
       >
         {mdUp && <Toolbar />}
         <Box sx={{ overflow: "auto" }}>
-          <List>
+          <List component="nav">
             {!mdUp && (
               <>
                 <ListItem>
