@@ -15,6 +15,7 @@ import IconButton from "@mui/material/IconButton";
 import { CustomIcon } from "components/Icons";
 import LayoutWrapper from "layouts/LayoutWrapper";
 import { SWRConfig } from "swr";
+import axios from "axios";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -35,8 +36,21 @@ export default function MyApp(props) {
         <CssBaseline />
         <SWRConfig
           value={{
-            fetcher: (resource, init) =>
-              fetch(resource, init).then((res) => res.json()),
+            fetcher: async (resource) => {
+              const fetch = await axios.get(resource);
+              const data = JSON.parse(
+                fetch.request.response,
+                function (key, value) {
+                  if (typeof value === "string") {
+                    if (isIsoDate(value)) {
+                      return new Date(value);
+                    }
+                  }
+                  return value;
+                }
+              );
+              return data;
+            },
           }}
         >
           <Provider store={store}>
@@ -67,3 +81,9 @@ MyApp.propTypes = {
   emotionCache: PropTypes.object,
   pageProps: PropTypes.object.isRequired,
 };
+
+function isIsoDate(str) {
+  if (!/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/.test(str)) return false;
+  var d = new Date(str);
+  return d.toISOString() === str;
+}
