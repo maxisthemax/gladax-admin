@@ -51,6 +51,7 @@ export default function MyApp(props) {
               );
               return data;
             },
+            revalidateOnFocus: false,
           }}
         >
           <Provider store={store}>
