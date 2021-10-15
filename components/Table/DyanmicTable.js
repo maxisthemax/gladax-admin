@@ -120,9 +120,9 @@ function DyanmicTable({ tableName, columnsData }) {
       dataNumber: 0,
     };
     try {
-      const data = await axios.post(tableName, newData);
+      const resData = await axios.post(tableName, newData);
       mutate();
-      enqueueSnackbar(data.statusText, {
+      enqueueSnackbar(resData.statusText, {
         variant: "success",
       });
     } catch ({ response }) {
@@ -153,8 +153,8 @@ function DyanmicTable({ tableName, columnsData }) {
     forOwn(unflatEditData, (data, key) => {
       allPromises.push(axios.patch(`${tableName}/${key}`, data));
     });
-    const editRes = await Promise.all(allPromises);
-    editRes.forEach((data) => {
+    const resData = await Promise.all(allPromises);
+    resData.forEach((data) => {
       enqueueSnackbar(data.statusText, {
         variant: "success",
       });
@@ -169,8 +169,8 @@ function DyanmicTable({ tableName, columnsData }) {
       allPromises.push(axios.delete(`${tableName}/${key}`))
     );
 
-    const deleteRes = await Promise.all(allPromises);
-    deleteRes.forEach((data) => {
+    const resData = await Promise.all(allPromises);
+    resData.forEach((data) => {
       enqueueSnackbar(data.statusText, {
         variant: "success",
       });
