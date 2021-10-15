@@ -113,7 +113,6 @@ function DyanmicTable({ tableName, columnsData }) {
   //*functions
   const handleAddNewRow = async () => {
     const newData = {
-      id: "new",
       dataBoolean: true,
       dataDate: new Date(),
       dataString: "",
@@ -153,27 +152,35 @@ function DyanmicTable({ tableName, columnsData }) {
     forOwn(unflatEditData, (data, key) => {
       allPromises.push(axios.patch(`${tableName}/${key}`, data));
     });
-    const resData = await Promise.all(allPromises);
-    resData.forEach((data) => {
-      enqueueSnackbar(data.statusText, {
-        variant: "success",
-      });
+    const resData = await Promise.allSettled(allPromises);
+    resData.forEach(({ status, value, reason }) => {
+      if (status === "fulfilled")
+        enqueueSnackbar(value.statusText, {
+          variant: "success",
+        });
+      else
+        enqueueSnackbar(reason.response.data.message, {
+          variant: "error",
+        });
     });
     setEditedData({});
   };
 
   const handleDelete = async () => {
     const allPromises = [];
-
     selectionModel.forEach((key) =>
       allPromises.push(axios.delete(`${tableName}/${key}`))
     );
-
-    const resData = await Promise.all(allPromises);
-    resData.forEach((data) => {
-      enqueueSnackbar(data.statusText, {
-        variant: "success",
-      });
+    const resData = await Promise.allSettled(allPromises);
+    resData.forEach(({ status, value, reason }) => {
+      if (status === "fulfilled")
+        enqueueSnackbar(value.statusText, {
+          variant: "success",
+        });
+      else
+        enqueueSnackbar(reason.response.data.message, {
+          variant: "error",
+        });
     });
     setEditedData({});
     mutate();
