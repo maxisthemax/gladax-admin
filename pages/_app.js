@@ -51,6 +51,7 @@ export default function MyApp(props) {
               );
               return data;
             },
+            errorRetryCount: 5,
             revalidateOnFocus: false,
           }}
         >

@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { useSnackbar } from "notistack";
 import { unflatten } from "flat";
@@ -37,7 +37,7 @@ import useSwrHttp from "utils/useSwrHttp";
 
 function DyanmicTable({ tableName, columnsData }) {
   //*define
-  const { data, mutate, isValidating } = useSwrHttp(tableName, {
+  const { data, mutate, isValidating, error } = useSwrHttp(tableName, {
     fallbackData: [],
   });
   const [selectionModel, setSelectionModel] = useState([]);
@@ -101,6 +101,14 @@ function DyanmicTable({ tableName, columnsData }) {
   //*ref
 
   //*useEffect
+  useEffect(() => {
+    if (error) {
+      const errorMessage = error.response.statusText;
+      enqueueSnackbar(errorMessage, {
+        variant: "error",
+      });
+    }
+  }, [enqueueSnackbar, error]);
 
   //*functions
   const handleAddNewRow = async () => {

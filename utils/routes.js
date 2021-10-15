@@ -11,6 +11,12 @@ const routes = [
     reference: "test",
     href: "/test",
   },
+  {
+    label: "Users",
+    icon: "people",
+    reference: "users",
+    href: "/users",
+  },
 ];
 
 export default routes;
