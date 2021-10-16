@@ -102,13 +102,14 @@ function DyanmicTable({ tableName, columnsData }) {
 
   //*useEffect
   useEffect(() => {
-    if (error) {
-      const errorMessage = error.response.statusText;
-      enqueueSnackbar(errorMessage, {
-        variant: "error",
-      });
-    }
-  }, [enqueueSnackbar, error]);
+    if (!isValidating)
+      if (error?.response) {
+        const errorMessage = error.response.statusText;
+        enqueueSnackbar(errorMessage, {
+          variant: "error",
+        });
+      }
+  }, [enqueueSnackbar, error, isValidating]);
 
   //*functions
   const handleAddNewRow = async () => {
