@@ -67,7 +67,7 @@ function Login() {
             type="email"
             name="email"
             inputProps={{
-              autocomplete: "new-password",
+              autoComplete: "new-password",
             }}
             onBlur={(event) => setUsername(event.target.value)}
           />
@@ -77,7 +77,7 @@ function Login() {
             type="password"
             name="new-password"
             inputProps={{
-              autocomplete: "new-password",
+              autoComplete: "new-password",
             }}
             onBlur={(event) => setPassword(event.target.value)}
           />
