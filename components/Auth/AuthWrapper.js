@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 //*lodash
+import includes from "lodash/includes";
 
 //*components
 
@@ -28,7 +29,7 @@ function AuthWrapper({ children }) {
   //*define
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const { userData, isValidating, error } = useUser();
+  const { userData, isValidating } = useUser();
 
   //*states
 
@@ -42,8 +43,15 @@ function AuthWrapper({ children }) {
   useEffect(() => {
     if (!isValidating) {
       if (userData?.id) {
-        router.replace("/");
-      } else router.replace("/login");
+        if (includes(["/login", "/signup"], router.pathname)) {
+          router.replace("/");
+        }
+      } else {
+        if (!includes(["/login", "/signup"], router.pathname)) {
+          router.replace("/login");
+        }
+      }
+
       setLoading(false);
     } else {
       setLoading(true);
