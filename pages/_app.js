@@ -9,13 +9,15 @@ import createEmotionCache from "utils/createEmotionCache";
 import { store } from "app/store";
 import { Provider } from "reactive-react-redux";
 import { SnackbarProvider } from "notistack";
-
+import { encryptStorage } from "utils/encryptStorage";
+import { AuthWrapper } from "components/Auth";
 import Container from "@mui/material/Container";
 import IconButton from "@mui/material/IconButton";
 import { CustomIcon } from "components/Icons";
 import LayoutWrapper from "layouts/LayoutWrapper";
 import { SWRConfig } from "swr";
 import axios from "axios";
+import { OverlayLoading } from "components/Loading";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -37,7 +39,10 @@ export default function MyApp(props) {
         <SWRConfig
           value={{
             fetcher: async (resource) => {
-              const fetch = await axios.get(resource);
+              const accessToken = encryptStorage.decrypt("access_token");
+              const fetch = await axios.get(resource, {
+                headers: { Authorization: "bearer " + accessToken },
+              });
               const data = JSON.parse(
                 fetch.request.response,
                 function (key, value) {
@@ -55,21 +60,25 @@ export default function MyApp(props) {
           }}
         >
           <Provider store={store}>
-            <SnackbarProvider
-              maxSnack={3}
-              ref={notistackRef}
-              action={(key) => (
-                <IconButton onClick={onClickDismiss(key)}>
-                  <CustomIcon icon="close" color="white" />
-                </IconButton>
-              )}
-            >
-              <LayoutWrapper>
-                <Container maxWidth="xl" disableGutters>
-                  <Component {...pageProps} />
-                </Container>
-              </LayoutWrapper>
-            </SnackbarProvider>
+            <OverlayLoading>
+              <SnackbarProvider
+                maxSnack={3}
+                ref={notistackRef}
+                action={(key) => (
+                  <IconButton onClick={onClickDismiss(key)}>
+                    <CustomIcon icon="close" color="white" />
+                  </IconButton>
+                )}
+              >
+                <AuthWrapper>
+                  <LayoutWrapper>
+                    <Container maxWidth="xl" disableGutters>
+                      <Component {...pageProps} />
+                    </Container>
+                  </LayoutWrapper>
+                </AuthWrapper>
+              </SnackbarProvider>
+            </OverlayLoading>
           </Provider>
         </SWRConfig>
       </ThemeProvider>

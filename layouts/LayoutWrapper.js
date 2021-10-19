@@ -1,6 +1,10 @@
+import { useRouter } from "next/router";
+
 //*lodash
+import includes from "lodash/includes";
 
 //*components
+import Minimal from "layouts/Minimal";
 import Main from "layouts/Main";
 
 //*material-ui
@@ -19,10 +23,12 @@ import Main from "layouts/Main";
 
 function LayoutWrapper({ children }) {
   //*define
+  const router = useRouter();
 
   //*states
 
   //*const
+  const minimialPath = ["/login", "/signup"];
 
   //*let
 
@@ -31,8 +37,9 @@ function LayoutWrapper({ children }) {
   //*useEffect
 
   //*functions
-
-  return <Main>{children}</Main>;
+  if (includes(minimialPath, router.pathname))
+    return <Minimal>{children}</Minimal>;
+  else return <Main>{children}</Main>;
 }
 
 export default LayoutWrapper;

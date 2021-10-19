@@ -12,9 +12,9 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   (req) => {
-    const jwt = encryptStorage.decrypt("access_token");
+    const accessToken = encryptStorage.decrypt("access_token");
 
-    jwt && (req.headers["Authorization"] = `Bearer ${jwt}`);
+    accessToken && (req.headers["Authorization"] = `Bearer ${accessToken}`);
 
     return req;
   },

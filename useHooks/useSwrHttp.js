@@ -5,8 +5,8 @@ const url = {
 };
 
 function useSwrHttp(func, options = {}) {
-  const swr = useSwr(`${url["staging"]}${func}`, options);
-  return swr;
+  const swr = useSwr(func ? `${url["staging"]}${func}` : null, options);
+  return { ...swr };
 }
 
 export default useSwrHttp;

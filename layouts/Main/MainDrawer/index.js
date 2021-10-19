@@ -15,6 +15,7 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
+import ListItemButton from "@mui/material/ListItemButton";
 
 //*assets
 
@@ -33,8 +34,12 @@ import DrawerItem from "./DrawerItem";
 
 //*custom components
 
+//*useHooks
+import useUser from "useHooks/useUser";
+
 function MainDrawer({ drawerWidth }) {
   //*define
+  const { handleLogout } = useUser();
   const mdUp = useGetScreen("md", "up");
   const {
     mainLayout: { drawerOpen },
@@ -95,6 +100,12 @@ function MainDrawer({ drawerWidth }) {
             {routes.map(({ label, icon, href }) => (
               <DrawerItem key={href} label={label} icon={icon} href={href} />
             ))}
+            <ListItemButton onClick={handleLogout}>
+              <ListItemIcon>
+                <CustomIcon icon={"logout"} />
+              </ListItemIcon>
+              <ListItemText primary={"Logout"} />
+            </ListItemButton>
           </List>
         </Box>
       </Drawer>

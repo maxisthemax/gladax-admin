@@ -29,11 +29,13 @@ import IconButton from "@mui/material/IconButton";
 
 //*helpers
 import axios from "utils/http-anxios";
-import useSwrHttp from "useHooks/useSwrHttp";
 
 //*styles
 
 //*custom components
+
+//*useHooks
+import useSwrHttp from "useHooks/useSwrHttp";
 
 function DyanmicTable({ tableName, columnsData }) {
   //*define
