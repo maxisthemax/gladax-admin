@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { encryptStorage } from "utils/encryptStorage";
 
 //*lodash
 import includes from "lodash/includes";
@@ -27,7 +28,7 @@ import useUser from "useHooks/useUser";
 
 function AuthWrapper({ children }) {
   //*define
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
   const { userData, isValidating } = useUser();
 
@@ -51,8 +52,11 @@ function AuthWrapper({ children }) {
           router.replace("/login");
         }
       }
-
-      setLoading(false);
+      if (encryptStorage.storage.access_token) {
+        setTimeout(function () {
+          setLoading(false);
+        }, 500);
+      } else setLoading(false);
     } else {
       setLoading(true);
     }
@@ -67,7 +71,7 @@ function AuthWrapper({ children }) {
         invisible={false}
         sx={{
           backgroundColor: "white",
-          zIndex: (theme) => theme.zIndex.drawer + 1,
+          zIndex: (theme) => theme.zIndex.drawer + 2,
         }}
         open={loading}
       >
