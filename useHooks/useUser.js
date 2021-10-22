@@ -23,6 +23,12 @@ function useUser() {
         username: username,
         password: password,
       });
+      if (resData.data.role !== "A") {
+        enqueueSnackbar("Administrator Only", {
+          variant: "error",
+        });
+        return;
+      }
       enqueueSnackbar("Login Success", {
         variant: "success",
       });

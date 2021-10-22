@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { encryptStorage } from "utils/encryptStorage";
 
 //*lodash
 import includes from "lodash/includes";
@@ -41,22 +40,24 @@ function AuthWrapper({ children }) {
   //*ref
 
   //*useEffect
+
   useEffect(() => {
     if (!isValidating) {
       if (userData?.id) {
         if (includes(["/login", "/signup"], router.pathname)) {
+          setTimeout(function () {
+            setLoading(false);
+          }, 500);
           router.replace("/");
-        }
+        } else setLoading(false);
       } else {
         if (!includes(["/login", "/signup"], router.pathname)) {
+          setTimeout(function () {
+            setLoading(false);
+          }, 500);
           router.replace("/login");
-        }
+        } else setLoading(false);
       }
-      if (encryptStorage.storage.access_token) {
-        setTimeout(function () {
-          setLoading(false);
-        }, 500);
-      } else setLoading(false);
     } else {
       setLoading(true);
     }
