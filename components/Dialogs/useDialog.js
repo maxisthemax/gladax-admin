@@ -35,7 +35,7 @@ function DialogComponent({
   handleOk,
   children,
   size = "sm",
-  canCloseOutside = true,
+  canCloseOutside = false,
 }) {
   //*define
   const smDown = useGetScreen("sm", "down");

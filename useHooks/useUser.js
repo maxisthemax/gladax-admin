@@ -44,8 +44,8 @@ function useUser() {
 
   function handleLogout() {
     encryptStorage.remove("access_token");
-    router.replace("/login");
     mutate({}, true);
+    router.replace("/");
   }
 
   return {
