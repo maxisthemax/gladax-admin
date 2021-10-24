@@ -33,6 +33,7 @@
     "react-final-form": "^6.5.7",
     "react-redux": "^7.2.5",
     "reactive-react-redux": "^4.9.0",
+    "reactjs-localstorage": "^1.0.1",
     "storage-encryption": "^1.0.16",
     "swr": "^1.0.1",
     "yup": "^0.32.11"
