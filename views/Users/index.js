@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useSnackbar } from "notistack";
 import { unflatten } from "flat";
 import { reactLocalStorage } from "reactjs-localstorage";
@@ -197,21 +197,27 @@ function User() {
   }, [enqueueSnackbar, error, isValidating]);
 
   //*functions
-  const handleEditCell = (editData) => {
-    const { field, value, id } = editData;
-    const findData = find(data, { id: id }) || "";
-    if (trim(value) !== trim(findData[`${field}`]))
-      setEditedData({ ...editedData, [`${id}.${field}`]: value });
-    else {
+  const handleEditCell = useCallback(
+    (editData) => {
+      const { field, value, id } = editData;
+      const findData = find(data, { id: id }) || "";
+      if (trim(value) !== trim(findData[`${field}`]))
+        setEditedData({ ...editedData, [`${id}.${field}`]: value });
+      else {
+        setEditedData({ ...omit(editedData, [`${id}.${field}`]) });
+      }
+    },
+    [data, editedData]
+  );
+
+  const handleUndoEditData = useCallback(
+    (id, field) => {
       setEditedData({ ...omit(editedData, [`${id}.${field}`]) });
-    }
-  };
+    },
+    [editedData]
+  );
 
-  const handleUndoEditData = (id, field) => {
-    setEditedData({ ...omit(editedData, [`${id}.${field}`]) });
-  };
-
-  const handleSaveAll = async () => {
+  const handleSaveAll = useCallback(async () => {
     const unflatEditData = unflatten(editedData);
     const allPromises = [];
     forOwn(unflatEditData, (data, key) => {
@@ -229,9 +235,9 @@ function User() {
         });
     });
     setEditedData({});
-  };
+  }, [editedData]);
 
-  const handleDelete = async () => {
+  const handleDelete = useCallback(async () => {
     const allPromises = [];
     selectionModel.forEach((key) =>
       allPromises.push(axios.delete(`user/${key}`))
@@ -249,7 +255,7 @@ function User() {
     });
     setEditedData({});
     mutate();
-  };
+  }, [selectionModel]);
 
   return (
     <Box style={{ minHeight: 400, width: "100%" }}>
