@@ -17,6 +17,8 @@ import find from "lodash/find";
 import trim from "lodash/trim";
 import isEmpty from "lodash/isEmpty";
 import forOwn from "lodash/forOwn";
+import values from "lodash/values";
+import filter from "lodash/filter";
 
 //*components
 import UserDialog from "./UserDialog";
@@ -24,12 +26,14 @@ import { LightTooltip } from "components/Tooltip";
 import { CustomIcon } from "components/Icons";
 
 //*material-ui
+import Divider from "@mui/material/Divider";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import TextField from "@mui/material/TextField";
 import Popover from "@mui/material/Popover";
+import Badge from "@mui/material/Badge";
 
 //*assets
 
@@ -50,11 +54,26 @@ import useSwrHttp from "useHooks/useSwrHttp";
 //*custom components
 const ISSERVER = typeof window === "undefined";
 function CustomToolbar() {
+  const lookupState = ISSERVER
+    ? {}
+    : reactLocalStorage.getObject("userTableLookupHide");
+
+  const columnHide = values(lookupState);
+  const totalHide = filter(columnHide, (hide) => hide).length;
+
   return (
     <GridToolbarContainer>
-      <GridToolbarColumnsButton />
-      <GridToolbarDensitySelector />
-      <GridToolbarExport />
+      <Stack
+        direction="row"
+        divider={<Divider orientation="vertical" flexItem />}
+        spacing={2}
+      >
+        <Badge badgeContent={totalHide} color="primary">
+          <GridToolbarColumnsButton />
+        </Badge>
+        <GridToolbarDensitySelector />
+        <GridToolbarExport />
+      </Stack>
     </GridToolbarContainer>
   );
 }
@@ -71,6 +90,13 @@ function User() {
   const [editedData, setEditedData] = useState({});
 
   //*const
+  const lookupState = ISSERVER
+    ? {}
+    : reactLocalStorage.getObject("userTableLookupHide");
+  const densityState = ISSERVER
+    ? "compact"
+    : reactLocalStorage.getObject("userTableDensity");
+
   const RenderCell = ({ field, formattedValue, api, id }) => {
     const isEdited = has(editedData, `${id}.${field}`);
     const findData = find(data, { id: id }) || "";
@@ -145,12 +171,6 @@ function User() {
       </Box>
     );
   };
-  const lookupState = ISSERVER
-    ? {}
-    : reactLocalStorage.getObject("userTableLookupHide");
-  const densityState = ISSERVER
-    ? "compact"
-    : reactLocalStorage.getObject("userTableDensity");
 
   const columns = [
     {
@@ -160,7 +180,7 @@ function User() {
       editable: false,
       width: 300,
       renderCell: RenderCell,
-      hide: lookupState["email"]?.hide,
+      hide: lookupState["email"],
     },
     {
       field: "name",
@@ -169,7 +189,7 @@ function User() {
       editable: true,
       width: 300,
       renderCell: RenderCell,
-      hide: lookupState["name"]?.hide,
+      hide: lookupState["name"],
     },
     {
       field: "phoneNo",
@@ -178,7 +198,7 @@ function User() {
       editable: true,
       width: 150,
       renderCell: RenderCell,
-      hide: lookupState["phoneNo"]?.hide,
+      hide: lookupState["phoneNo"],
     },
     {
       field: "address",
@@ -188,7 +208,7 @@ function User() {
       width: 300,
       renderCell: RenderCell,
       renderEditCell: RenderEditStringCell,
-      hide: lookupState["address"]?.hide,
+      hide: lookupState["address"],
     },
     {
       field: "role",
@@ -197,7 +217,7 @@ function User() {
       editable: false,
       width: 100,
       renderCell: RenderCell,
-      hide: lookupState["role"]?.hide,
+      hide: lookupState["role"],
     },
   ];
 
