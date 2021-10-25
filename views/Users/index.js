@@ -20,6 +20,7 @@ import forOwn from "lodash/forOwn";
 
 //*components
 import UserDialog from "./UserDialog";
+import { LightTooltip } from "components/Tooltip";
 import { CustomIcon } from "components/Icons";
 
 //*material-ui
@@ -28,7 +29,6 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import TextField from "@mui/material/TextField";
-import Tooltip from "@mui/material/Tooltip";
 import Popover from "@mui/material/Popover";
 
 //*assets
@@ -82,9 +82,9 @@ function User() {
     };
     const cellElement = api.getCellElement(id, field);
     return (
-      <Tooltip
+      <LightTooltip
         placement="bottom-start"
-        title={formattedValue}
+        title={formattedValue ? formattedValue : ""}
         disableHoverListener={
           cellElement?.scrollWidth <= cellElement?.clientWidth
         }
@@ -106,7 +106,7 @@ function User() {
             )}
           </Box>
         </Box>
-      </Tooltip>
+      </LightTooltip>
     );
   };
 
