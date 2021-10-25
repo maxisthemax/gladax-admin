@@ -9,7 +9,6 @@ import { CustomIcon } from "components/Icons";
 import makeStyles from "@mui/styles/makeStyles";
 import IconButton from "@mui/material/IconButton";
 import Drawer from "@mui/material/Drawer";
-import { useGetScreen } from "helpers/screenSizeHelpers";
 
 //*assets
 
@@ -18,6 +17,7 @@ import { useGetScreen } from "helpers/screenSizeHelpers";
 //*utils
 
 //*helpers
+import { useGetScreen } from "helpers/screenSizeHelpers";
 
 //*style
 const useStyles = makeStyles((theme) => ({

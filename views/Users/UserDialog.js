@@ -20,10 +20,12 @@ import Button from "@mui/material/Button";
 //*redux
 
 //*utils
+import axios from "utils/http-anxios";
+
+//*validation
 import { addNewUserValidation } from "validation";
 
 //*helpers
-import axios from "utils/http-anxios";
 
 //*styles
 

@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-
 import { useSnackbar } from "notistack";
 import { unflatten } from "flat";
 import { reactLocalStorage } from "reactjs-localstorage";
@@ -38,8 +37,6 @@ import axios from "utils/http-anxios";
 
 //*useHooks
 import useSwrHttp from "useHooks/useSwrHttp";
-
-//*mui-rff
 
 //*custom components
 const ISSERVER = typeof window === "undefined";
