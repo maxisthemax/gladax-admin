@@ -1,11 +1,5 @@
-import { useState, useCallback, useEffect } from "react";
-import {
-  DataGrid,
-  GridToolbarContainer,
-  GridToolbarColumnsButton,
-  GridToolbarExport,
-  GridToolbarDensitySelector,
-} from "@mui/x-data-grid";
+import { useState, useEffect } from "react";
+
 import { useSnackbar } from "notistack";
 import { unflatten } from "flat";
 import { reactLocalStorage } from "reactjs-localstorage";
@@ -17,24 +11,20 @@ import find from "lodash/find";
 import trim from "lodash/trim";
 import isEmpty from "lodash/isEmpty";
 import forOwn from "lodash/forOwn";
-import values from "lodash/values";
-import filter from "lodash/filter";
 
 //*components
 import UserDialog from "./UserDialog";
 import { LightTooltip } from "components/Tooltip";
 import { CustomIcon } from "components/Icons";
+import { DataGridTable } from "components/Table";
 
 //*material-ui
-import Divider from "@mui/material/Divider";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import TextField from "@mui/material/TextField";
 import Popover from "@mui/material/Popover";
-import Badge from "@mui/material/Badge";
-
 //*assets
 
 //*redux
@@ -53,30 +43,6 @@ import useSwrHttp from "useHooks/useSwrHttp";
 
 //*custom components
 const ISSERVER = typeof window === "undefined";
-function CustomToolbar() {
-  const lookupState = ISSERVER
-    ? {}
-    : reactLocalStorage.getObject("userTableLookupHide");
-
-  const columnHide = values(lookupState);
-  const totalHide = filter(columnHide, (hide) => hide).length;
-
-  return (
-    <GridToolbarContainer>
-      <Stack
-        direction="row"
-        divider={<Divider orientation="vertical" flexItem />}
-        spacing={2}
-      >
-        <Badge badgeContent={totalHide} color="primary">
-          <GridToolbarColumnsButton />
-        </Badge>
-        <GridToolbarDensitySelector />
-        <GridToolbarExport />
-      </Stack>
-    </GridToolbarContainer>
-  );
-}
 
 function User() {
   //*define
@@ -92,10 +58,7 @@ function User() {
   //*const
   const lookupState = ISSERVER
     ? {}
-    : reactLocalStorage.getObject("userTableLookupHide");
-  const densityState = ISSERVER
-    ? "compact"
-    : reactLocalStorage.getObject("userTableDensity");
+    : reactLocalStorage.getObject("user_TableLookupHide");
 
   const RenderCell = ({ field, formattedValue, api, id }) => {
     const isEdited = has(editedData, `${id}.${field}`);
@@ -291,24 +254,6 @@ function User() {
     mutate();
   };
 
-  const handleCellKeyDown = useCallback((params, event) => {
-    if (!["Escape", "Delete", "Backspace", "Enter"].includes(event.key)) {
-      event.defaultMuiPrevented = true;
-    }
-  }, []);
-
-  const handleSaveColumnHideState = (lookup) => {
-    let hideColumn = {};
-    forOwn(lookup, (data, key) => {
-      hideColumn[key] = data.hide;
-    });
-    reactLocalStorage.setObject("userTableLookupHide", hideColumn);
-  };
-
-  const handleSaveDensityState = (density) => {
-    reactLocalStorage.setObject("userTableDensity", density);
-  };
-
   return (
     <Box style={{ minHeight: 400, width: "100%" }}>
       <Box style={{ display: "flex", height: "100%" }}>
@@ -338,29 +283,14 @@ function User() {
               )}
             </Stack>
           </Box>
-          <DataGrid
-            onStateChange={(state) => {
-              handleSaveDensityState(state.density);
-              handleSaveColumnHideState(state.columns.lookup);
-            }}
-            components={{
-              Toolbar: CustomToolbar,
-            }}
-            autoHeight
-            loading={isValidating}
-            autoPageSize
-            rows={data}
+          <DataGridTable
+            id="user"
+            isValidating={isValidating}
+            data={data}
             columns={columns}
-            checkboxSelection
-            disableSelectionOnClick
-            editMode="cell"
-            density={densityState.value || "compact"}
-            onCellEditCommit={handleEditCell}
-            onCellKeyDown={handleCellKeyDown}
-            onSelectionModelChange={(newSelectionModel) => {
-              setSelectionModel(newSelectionModel);
-            }}
             selectionModel={selectionModel}
+            setSelectionModel={setSelectionModel}
+            handleEditCell={handleEditCell}
           />
         </Box>
       </Box>
