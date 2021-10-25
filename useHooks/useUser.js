@@ -8,12 +8,17 @@ import { useEffect } from "react";
 function useUser() {
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
-  const { data, mutate, isValidating, error } = useSwrHttp("account", {
-    revalidateOnFocus: false,
-    shouldRetryOnError: false,
-    revalidateIfStale: false,
-    revalidateOnReconnect: false,
-  });
+  const accessToken = encryptStorage.decrypt("access_token");
+
+  const { data, mutate, isValidating, error } = useSwrHttp(
+    accessToken ? "account" : null,
+    {
+      revalidateOnFocus: false,
+      shouldRetryOnError: false,
+      revalidateIfStale: false,
+      revalidateOnReconnect: false,
+    }
+  );
 
   useEffect(() => {}, [error]);
 

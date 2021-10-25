@@ -5,6 +5,7 @@ import { Form } from "react-final-form";
 //*lodash
 
 //*components
+import { TextFieldForm } from "components/Form";
 import { CustomIcon } from "components/Icons";
 import { useDialog } from "components/Dialogs";
 
@@ -30,7 +31,6 @@ import axios from "utils/http-anxios";
 import useSwrHttp from "useHooks/useSwrHttp";
 
 //*mui-rff
-import { TextField } from "mui-rff";
 
 //*custom components
 
@@ -109,33 +109,11 @@ function UserDialog() {
           validate={addNewUserValidation}
           validateOnBlur={true}
           render={({ handleSubmit }) => {
-            function myShowErrorFunction({
-              meta: {
-                submitError,
-                dirtySinceLastSubmit,
-                error,
-                touched,
-                submitFailed,
-              },
-            }) {
-              // this is actually the contents of showErrorOnBlur but you can be as creative as you want.
-              return (
-                !!(
-                  ((submitError && !dirtySinceLastSubmit) || error) &&
-                  touched
-                ) && submitFailed
-              );
-            }
             return (
               <form id="addNewUserForm" onSubmit={handleSubmit} noValidate>
                 <Stack spacing={2}>
-                  <TextField
-                    label="Email"
-                    name="email"
-                    showError={myShowErrorFunction}
-                    required={true}
-                  />
-                  <TextField
+                  <TextFieldForm label="Email" name="email" required={true} />
+                  <TextFieldForm
                     label="Password"
                     name="password"
                     required={true}
@@ -143,7 +121,6 @@ function UserDialog() {
                     inputProps={{
                       autoComplete: "new-password",
                     }}
-                    showError={myShowErrorFunction}
                     helperText="Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
                     InputProps={{
                       endAdornment: (
@@ -163,23 +140,16 @@ function UserDialog() {
                       ),
                     }}
                   />
-                  <TextField
-                    label="Name"
-                    name="name"
-                    required={true}
-                    showError={myShowErrorFunction}
-                  />
-                  <TextField
+                  <TextFieldForm label="Name" name="name" required={true} />
+                  <TextFieldForm
                     label="Address"
                     name="address"
                     required={true}
-                    showError={myShowErrorFunction}
                   />
-                  <TextField
+                  <TextFieldForm
                     label="Phone No."
                     name="phoneNo"
                     required={true}
-                    showError={myShowErrorFunction}
                   />
                 </Stack>
               </form>

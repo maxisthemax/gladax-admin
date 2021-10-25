@@ -2,7 +2,7 @@ import * as Yup from "yup";
 import { makeValidate } from "mui-rff";
 import { email, password, phoneNo } from "./commonValidation";
 
-const schema = makeValidate(
+const addNewUserValidation = makeValidate(
   Yup.object().shape({
     email: email,
     password: password,
@@ -11,4 +11,4 @@ const schema = makeValidate(
     phoneNo: phoneNo,
   })
 );
-export default schema;
+export default addNewUserValidation;

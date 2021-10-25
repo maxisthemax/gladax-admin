@@ -1,13 +1,17 @@
 import { useState } from "react";
+import { Form } from "react-final-form";
 //*lodash
 
 //*components
+import { TextFieldForm } from "components/Form";
+import { CustomIcon } from "components/Icons";
 
 //*material-ui
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import Button from "@mui/material/Button";
 
 //*assets
 
@@ -16,6 +20,7 @@ import Stack from "@mui/material/Stack";
 //*utils
 
 //*helpers
+import loginValidate from "validation/loginValidate";
 
 //*styles
 
@@ -23,15 +28,13 @@ import Stack from "@mui/material/Stack";
 
 //*useHooks
 import useUser from "useHooks/useUser";
-import { Typography } from "@mui/material";
 
 function Login() {
   //*define
   const { handleLogin } = useUser();
 
   //*states
-  const [userName, setUsername] = useState();
-  const [password, setPassword] = useState();
+  const [showPassword, setShowPassword] = useState(false);
 
   //*const
 
@@ -42,6 +45,12 @@ function Login() {
   //*useEffect
 
   //*functions
+  const onSubmit = async ({ email, password }) => {
+    await handleLogin(email, password);
+  };
+  const handleToggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
 
   return (
     <Grid
@@ -53,41 +62,54 @@ function Login() {
       style={{ minHeight: "100vh" }}
     >
       <Grid item xs={12}>
-        <Stack
-          width="500px"
-          direction="column"
-          justifyContent="center"
-          spacing={2}
-        >
-          <Typography variant="h4">Gladax Admin</Typography>
-          <Typography variant="h5">Login</Typography>
-          <TextField
-            fullWidth
-            id="email"
-            type="email"
-            name="email"
-            inputProps={{
-              autoComplete: "new-password",
-            }}
-            onBlur={(event) => setUsername(event.target.value)}
-          />
-          <TextField
-            fullWidth
-            id="new-password"
-            type="password"
-            name="new-password"
-            inputProps={{
-              autoComplete: "new-password",
-            }}
-            onBlur={(event) => setPassword(event.target.value)}
-          />
-          <Button
-            disabled={!(userName && password)}
-            onClick={() => handleLogin(userName, password)}
-          >
-            Login
-          </Button>
-        </Stack>
+        <Form
+          onSubmit={onSubmit}
+          validate={loginValidate}
+          validateOnBlur={true}
+          render={({ handleSubmit, invalid }) => {
+            return (
+              <form
+                id="addNewUserForm"
+                onSubmit={handleSubmit}
+                noValidate
+                style={{ minWidth: "300px" }}
+              >
+                <Stack spacing={2}>
+                  <TextFieldForm label="Email" name="email" required={true} />
+                  <TextFieldForm
+                    label="Password"
+                    name="password"
+                    required={true}
+                    type={showPassword ? "text" : "password"}
+                    inputProps={{
+                      autoComplete: "new-password",
+                    }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleToggleShowPassword}
+                            edge="end"
+                          >
+                            {showPassword ? (
+                              <CustomIcon icon="visibility" color="black" />
+                            ) : (
+                              <CustomIcon icon="visibility_off" />
+                            )}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                  <Button disabled={invalid} type="submit">
+                    Login
+                  </Button>
+                </Stack>
+              </form>
+            );
+          }}
+        />
       </Grid>
     </Grid>
   );
