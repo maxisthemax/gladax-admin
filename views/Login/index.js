@@ -47,8 +47,8 @@ function Login() {
   //*useEffect
 
   //*functions
-  const onSubmit = async ({ email, password }) => {
-    await handleLogin(email, password);
+  const onSubmit = ({ email, password }) => {
+    handleLogin(email, password);
   };
   const handleToggleShowPassword = () => {
     setShowPassword(!showPassword);
@@ -74,7 +74,7 @@ function Login() {
                 id="addNewUserForm"
                 onSubmit={handleSubmit}
                 noValidate
-                style={{ minWidth: "300px" }}
+                style={{ width: "300px" }}
               >
                 <Stack spacing={2}>
                   <TextFieldForm label="Email" name="email" required={true} />
