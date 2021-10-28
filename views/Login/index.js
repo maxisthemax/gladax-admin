@@ -66,7 +66,7 @@ function Login() {
       <Grid item xs={12}>
         <Form
           onSubmit={onSubmit}
-          validate={loginValidate}
+          //validate={loginValidate}
           validateOnBlur={true}
           render={({ handleSubmit, invalid }) => {
             return (
