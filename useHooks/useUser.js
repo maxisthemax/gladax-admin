@@ -8,17 +8,13 @@ import { useEffect } from "react";
 function useUser() {
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
-  const accessToken = encryptStorage.decrypt("access_token");
 
-  const { data, mutate, isValidating, error } = useSwrHttp(
-    accessToken ? "account" : null,
-    {
-      revalidateOnFocus: false,
-      shouldRetryOnError: false,
-      revalidateIfStale: false,
-      revalidateOnReconnect: false,
-    }
-  );
+  const { data, mutate, isValidating, error } = useSwrHttp("account", {
+    revalidateOnFocus: false,
+    shouldRetryOnError: false,
+    revalidateIfStale: false,
+    revalidateOnReconnect: false,
+  });
 
   useEffect(() => {}, [error]);
 
@@ -40,6 +36,7 @@ function useUser() {
 
       encryptStorage.encrypt("access_token", resData.data.accessToken);
       mutate();
+      router.replace("/");
     } catch (eror) {
       enqueueSnackbar(eror?.response?.statusText, {
         variant: "error",

@@ -1,7 +1,7 @@
 import useSwr from "swr";
 
 const url = {
-  staging: "http://47.254.248.181/",
+  staging: process.env.NEXT_PUBLIC_API_URL,
 };
 
 function useSwrHttp(func, options = {}) {

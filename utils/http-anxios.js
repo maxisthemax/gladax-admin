@@ -2,7 +2,7 @@ import axios from "axios";
 import { encryptStorage } from "utils/encryptStorage";
 
 const url = {
-  staging: "http://47.254.248.181/",
+  staging: process.env.NEXT_PUBLIC_API_URL,
 };
 
 const instance = axios.create({
