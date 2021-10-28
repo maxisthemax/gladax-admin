@@ -1,5 +1,5 @@
 import axios from "axios";
-import { encryptStorage } from "utils/encryptStorage";
+import { reactLocalStorage } from "reactjs-localstorage";
 
 const url = {
   staging: process.env.NEXT_PUBLIC_API_URL,
@@ -12,7 +12,7 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   (req) => {
-    const accessToken = encryptStorage.decrypt("access_token");
+    const accessToken = reactLocalStorage.get("access_token");
 
     accessToken && (req.headers["Authorization"] = `Bearer ${accessToken}`);
 

@@ -1,6 +1,6 @@
 import axios from "utils/http-anxios";
 import { useRouter } from "next/router";
-import { encryptStorage } from "utils/encryptStorage";
+import { reactLocalStorage } from "reactjs-localstorage";
 import useSwrHttp from "useHooks/useSwrHttp";
 import { useSnackbar } from "notistack";
 import { useEffect } from "react";
@@ -34,7 +34,7 @@ function useUser() {
         variant: "success",
       });
 
-      encryptStorage.encrypt("access_token", resData.data.accessToken);
+      reactLocalStorage.set("access_token", resData.data.accessToken);
       mutate();
       router.replace("/");
     } catch (eror) {
@@ -45,7 +45,7 @@ function useUser() {
   }
 
   function handleLogout() {
-    encryptStorage.remove("access_token");
+    reactLocalStorage.remove("access_token");
     mutate({}, true);
     router.replace("/");
   }

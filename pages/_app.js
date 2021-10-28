@@ -9,7 +9,7 @@ import createEmotionCache from "utils/createEmotionCache";
 import { store } from "app/store";
 import { Provider } from "reactive-react-redux";
 import { SnackbarProvider } from "notistack";
-import { encryptStorage } from "utils/encryptStorage";
+import { reactLocalStorage } from "reactjs-localstorage";
 import { AuthWrapper } from "components/Auth";
 import Container from "@mui/material/Container";
 import IconButton from "@mui/material/IconButton";
@@ -39,7 +39,7 @@ export default function MyApp(props) {
         <SWRConfig
           value={{
             fetcher: async (resource) => {
-              const accessToken = encryptStorage.decrypt("access_token");
+              const accessToken = reactLocalStorage.get("access_token");
               const fetch = await axios.get(resource, {
                 headers: { Authorization: "bearer " + accessToken },
               });
