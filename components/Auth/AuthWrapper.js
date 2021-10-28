@@ -47,14 +47,14 @@ function AuthWrapper({ children }) {
         if (includes(["/login", "/signup"], router.pathname)) {
           setTimeout(function () {
             setLoading(false);
-          }, 500);
+          }, 1000);
           router.replace("/");
         } else setLoading(false);
       } else {
         if (!includes(["/login", "/signup"], router.pathname)) {
           setTimeout(function () {
             setLoading(false);
-          }, 500);
+          }, 1000);
           router.replace("/login");
         } else setLoading(false);
       }
