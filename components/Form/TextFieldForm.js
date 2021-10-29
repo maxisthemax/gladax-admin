@@ -40,6 +40,7 @@ function TextFieldForm({ name, label, required, ...props }) {
 
   return (
     <TextField
+      size="small"
       fullWidth
       label={label}
       name={name}

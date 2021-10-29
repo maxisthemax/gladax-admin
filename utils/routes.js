@@ -6,10 +6,10 @@ const routes = [
     href: "/products",
   },
   {
-    label: "Test",
+    label: "Layouts",
     icon: "science",
-    reference: "test",
-    href: "/test",
+    reference: "layouts",
+    href: "/layouts",
   },
   {
     label: "Users",

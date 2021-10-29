@@ -6,13 +6,13 @@ const url = {
 };
 
 const instance = axios.create({
-  //baseURL: url[process.env.APP_ENV],
   baseURL: url["staging"],
 });
 
+const ISSERVER = typeof window === "undefined";
 instance.interceptors.request.use(
   (req) => {
-    const accessToken = reactLocalStorage.get("access_token");
+    const accessToken = ISSERVER || reactLocalStorage.get("access_token");
 
     accessToken && (req.headers["Authorization"] = `Bearer ${accessToken}`);
 
