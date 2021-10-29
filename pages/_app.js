@@ -18,6 +18,7 @@ import LayoutWrapper from "layouts/LayoutWrapper";
 import { SWRConfig } from "swr";
 import axios from "axios";
 import { OverlayLoading } from "components/Loading";
+import { isIsoDate } from "helpers/dateHelpers";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -91,9 +92,3 @@ MyApp.propTypes = {
   emotionCache: PropTypes.object,
   pageProps: PropTypes.object.isRequired,
 };
-
-function isIsoDate(str) {
-  if (!/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/.test(str)) return false;
-  var d = new Date(str);
-  return d.toISOString() === str;
-}

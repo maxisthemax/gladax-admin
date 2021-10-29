@@ -74,8 +74,8 @@ function UserDialog() {
         variant: "success",
       });
       handleCloseDialog();
-    } catch ({ response }) {
-      const errorMessage = response.data.message;
+    } catch (eror) {
+      const errorMessage = eror.response.data.message;
       enqueueSnackbar(errorMessage, {
         variant: "error",
       });
@@ -108,7 +108,6 @@ function UserDialog() {
       >
         <Form
           onSubmit={onSubmit}
-          validate={addNewUserValidation}
           validateOnBlur={true}
           render={({ handleSubmit }) => {
             return (
