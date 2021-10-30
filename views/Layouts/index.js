@@ -6,23 +6,16 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { v4 as uuidv4 } from "uuid";
 
 //*components
+import { Button } from "components/Buttons";
 import { TextFieldForm } from "components/Form";
 
 //*material-ui
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 
 //*utils
 import axios from "utils/http-anxios";
-
-const makeOnDragEndFunction = (fields) => (result) => {
-  if (!result.destination) {
-    return;
-  }
-  fields.move(result.source.index, result.destination.index);
-};
 
 //*useHooks
 import useSwrHttp from "useHooks/useSwrHttp";
@@ -36,14 +29,20 @@ function Layout() {
   const { enqueueSnackbar } = useSnackbar();
 
   //*functions
+  const makeOnDragEndFunction = (fields) => (result) => {
+    if (!result.destination) {
+      return;
+    }
+    fields.move(result.source.index, result.destination.index);
+  };
+
   const onSubmit = async (values) => {
     try {
       const resData = data.layout
         ? await axios.patch("layout/home", {
-            key: "home",
             layout: values,
           })
-        : await axios.patch("layout/home", {
+        : await axios.post("layout", {
             key: "home",
             layout: values,
           });
@@ -80,7 +79,6 @@ function Layout() {
           <form onSubmit={handleSubmit}>
             <Stack spacing={1} direction="row">
               <Button
-                variant="contained"
                 onClick={() =>
                   push("bannerCarousel", {
                     id: uuidv4(),
@@ -94,16 +92,10 @@ function Layout() {
                   })
                 }
               >
-                Add Customer
+                Add Banner
               </Button>
-              <Button type="submit" variant="contained">
-                Update
-              </Button>
-              <Button
-                variant="contained"
-                onClick={reset}
-                disabled={submitting || pristine}
-              >
+              <Button type="submit">{data.layout ? "Update" : "Create"}</Button>
+              <Button onClick={reset} disabled={submitting || pristine}>
                 Reset
               </Button>
             </Stack>
@@ -175,9 +167,8 @@ function Layout() {
                                       </Paper>
                                     </Stack>
                                   </Stack>
-                                  <Box textAlig="end">
+                                  <Box textAlign="end">
                                     <Button
-                                      variant="contained"
                                       onClick={() => fields.remove(index)}
                                     >
                                       Delete Banner

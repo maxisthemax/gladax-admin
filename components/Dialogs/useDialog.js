@@ -4,9 +4,9 @@ import { useState, useCallback } from "react";
 
 //*components
 import { CustomIcon } from "components/Icons";
+import { Button } from "components/Buttons";
 
 //*material-ui
-import Button from "@mui/material/Button";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
@@ -90,7 +90,7 @@ function DialogComponent({
         <Box>{children}</Box>
       </DialogContent>
       <DialogActions>
-        <Button autoFocus onClick={handleCancel}>
+        <Button color="inherit" autoFocus onClick={handleCancel}>
           Cancel
         </Button>
         <Button onClick={handleOk}>Ok</Button>

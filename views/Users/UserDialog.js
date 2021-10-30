@@ -8,12 +8,12 @@ import { Form } from "react-final-form";
 import { TextFieldForm } from "components/Form";
 import { CustomIcon } from "components/Icons";
 import { useDialog } from "components/Dialogs";
+import { Button } from "components/Buttons";
 
 //*material-ui
 import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
-import Button from "@mui/material/Button";
 
 //*assets
 
@@ -90,8 +90,6 @@ function UserDialog() {
     <>
       <Button
         onClick={handleOpenDialog}
-        size="small"
-        variant="contained"
         startIcon={<CustomIcon icon="add" color="white" />}
       >
         New

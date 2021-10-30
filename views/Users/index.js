@@ -16,11 +16,11 @@ import UserDialog from "./UserDialog";
 import { LightTooltip } from "components/Tooltip";
 import { CustomIcon } from "components/Icons";
 import { DataGridTable } from "components/Table";
+import { Button } from "components/Buttons";
 
 //*material-ui
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import TextField from "@mui/material/TextField";
 import Popover from "@mui/material/Popover";
@@ -266,9 +266,7 @@ function User() {
               <UserDialog />
               {!isEmpty(editedData) && (
                 <Button
-                  size="small"
                   onClick={handleSaveAll}
-                  variant="contained"
                   startIcon={<CustomIcon icon="save" color="white" />}
                 >
                   Save
@@ -276,9 +274,7 @@ function User() {
               )}
               {!isEmpty(selectionModel) && (
                 <Button
-                  size="small"
                   onClick={handleDelete}
-                  variant="contained"
                   startIcon={<CustomIcon icon="save" color="white" />}
                 >
                   Delete {`(${selectionModel.length})`}
