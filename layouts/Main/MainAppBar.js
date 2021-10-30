@@ -52,8 +52,9 @@ function MainAppBar() {
       <AppBar
         position="fixed"
         sx={mdUp && { zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        variant="dense"
       >
-        <Toolbar>
+        <Toolbar variant="dense">
           {!mdUp && (
             <IconButton
               color="inherit"

@@ -1,4 +1,3 @@
-import { DataGrid } from "@mui/x-data-grid";
 //*lodash
 
 //*components
@@ -24,8 +23,6 @@ function Products() {
   //*states
 
   //*const
-  const columns = [];
-  const rows = [];
 
   //*let
 
@@ -35,22 +32,7 @@ function Products() {
 
   //*functions
 
-  return (
-    <Box style={{ height: 400, width: "100%" }}>
-      <Box style={{ display: "flex", height: "100%" }}>
-        <Box style={{ flexGrow: 1 }}>
-          <DataGrid
-            autoPageSize
-            rows={rows}
-            columns={columns}
-            checkboxSelection
-            disableSelectionOnClick
-            density="compact"
-          />
-        </Box>
-      </Box>
-    </Box>
-  );
+  return <Box>Products</Box>;
 }
 
 export default Products;

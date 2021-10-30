@@ -8,8 +8,10 @@ import { v4 as uuidv4 } from "uuid";
 //*components
 import { Button } from "components/Buttons";
 import { TextFieldForm } from "components/Form";
+import { CustomIcon } from "components/Icons";
 
 //*material-ui
+import Divider from "@mui/material/Divider";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
@@ -94,7 +96,9 @@ function Layout() {
               >
                 Add Banner
               </Button>
-              <Button type="submit">{data.layout ? "Update" : "Create"}</Button>
+              <Button disabled={submitting || pristine}>
+                {data.layout ? "Update" : "Create"}
+              </Button>
               <Button onClick={reset} disabled={submitting || pristine}>
                 Reset
               </Button>
@@ -121,6 +125,19 @@ function Layout() {
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}
                               >
+                                <Box
+                                  sx={{
+                                    width: "100%",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                  }}
+                                >
+                                  <CustomIcon
+                                    icon="drag_handle"
+                                    color="black"
+                                  />
+                                </Box>
+                                <Divider />
                                 <Box p={1}>
                                   <Stack p={1} m={1} spacing={1}>
                                     <TextFieldForm

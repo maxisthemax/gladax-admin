@@ -60,8 +60,8 @@ function DialogComponent({
       fullWidth={true}
       onClose={canCloseOutside ? handleCancel : null}
     >
-      <AppBar sx={{ position: "relative" }} color="primary">
-        <Toolbar>
+      <AppBar sx={{ position: "relative" }} color="primary" variant="dense">
+        <Toolbar variant="dense">
           <Box
             width="100%"
             display="flex"

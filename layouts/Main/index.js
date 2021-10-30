@@ -42,7 +42,7 @@ function Main({ children }) {
       <MainAppBar />
       <MainDrawer drawerWidth={drawerWidth} />
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <Toolbar />
+        <Toolbar variant="dense" />
         <div>{children}</div>
       </Box>
     </Box>

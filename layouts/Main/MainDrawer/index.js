@@ -6,6 +6,7 @@ import { useDispatch, useTrackedState } from "reactive-react-redux";
 //*components
 import { CustomIcon } from "components/Icons";
 import DrawerItem from "./DrawerItem";
+import { useDialog } from "components/Dialogs";
 
 //*material-ui
 import ListItem from "@mui/material/ListItem";
@@ -39,6 +40,7 @@ import useUser from "useHooks/useUser";
 
 function MainDrawer({ drawerWidth }) {
   //*define
+  const { Dialog, handleOpenDialog } = useDialog();
   const { handleLogout } = useUser();
   const mdUp = useGetScreen("md", "up");
   const {
@@ -79,7 +81,7 @@ function MainDrawer({ drawerWidth }) {
           },
         }}
       >
-        {mdUp && <Toolbar />}
+        {mdUp && <Toolbar variant="dense" />}
         <Box sx={{ overflow: "auto" }}>
           <List component="nav">
             {!mdUp && (
@@ -100,13 +102,16 @@ function MainDrawer({ drawerWidth }) {
             {routes.map(({ label, icon, href }) => (
               <DrawerItem key={href} label={label} icon={icon} href={href} />
             ))}
-            <ListItemButton onClick={handleLogout}>
+            <ListItemButton onClick={handleOpenDialog}>
               <ListItemIcon>
                 <CustomIcon icon={"logout"} />
               </ListItemIcon>
               <ListItemText primary={"Logout"} />
             </ListItemButton>
           </List>
+          <Dialog title="Logout" handleOk={handleLogout}>
+            Are You Sure To Logout?
+          </Dialog>
         </Box>
       </Drawer>
     </>
