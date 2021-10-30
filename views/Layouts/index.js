@@ -24,7 +24,7 @@ import useSwrHttp from "useHooks/useSwrHttp";
 
 function Layout() {
   //*define
-  const { data } = useSwrHttp("layout/home", {
+  const { data, mutate } = useSwrHttp("layout/home", {
     fallbackData: [],
   });
 
@@ -53,6 +53,7 @@ function Layout() {
         enqueueSnackbar(resData.statusText, {
           variant: "success",
         });
+      mutate();
     } catch (eror) {
       const errorMessage = eror.response.data.message;
       enqueueSnackbar(errorMessage, {
@@ -86,17 +87,17 @@ function Layout() {
                     id: uuidv4(),
                     title: "",
                     description: "",
-                    bannerUrl: "",
-                    button_1_title: "",
-                    button_1_url: "",
-                    button_2_title: "",
-                    button_2_url: "",
+                    bannerPicUrl: "",
+                    firstButtonTitle: "",
+                    firstButtonLink: "",
+                    secondButtonTitle: "",
+                    secondButtonLink: "",
                   })
                 }
               >
                 Add Banner
               </Button>
-              <Button disabled={submitting || pristine}>
+              <Button disabled={submitting || pristine} type="submit">
                 {data.layout ? "Update" : "Create"}
               </Button>
               <Button onClick={reset} disabled={submitting || pristine}>
@@ -149,8 +150,8 @@ function Layout() {
                                       name={`${name}.description`}
                                     />
                                     <TextFieldForm
-                                      label="Banner Url"
-                                      name={`${name}.bannerUrl`}
+                                      label="Banner Picture Url"
+                                      name={`${name}.bannerPicUrl`}
                                     />
 
                                     <Stack spacing={3} direction="row">
@@ -159,11 +160,11 @@ function Layout() {
                                           <Stack spacing={1}>
                                             <TextFieldForm
                                               label="First Button Title"
-                                              name={`${name}.button_1_title`}
+                                              name={`${name}.firstButtonTitle`}
                                             />
                                             <TextFieldForm
-                                              label="First Button Url"
-                                              name={`${name}.button_1_url`}
+                                              label="First Button Link"
+                                              name={`${name}.firstButtonLink`}
                                             />
                                           </Stack>
                                         </Box>
@@ -173,11 +174,11 @@ function Layout() {
                                           <Stack spacing={1}>
                                             <TextFieldForm
                                               label="Second Button Title"
-                                              name={`${name}.button_2_title`}
+                                              name={`${name}.secondButtonTitle`}
                                             />
                                             <TextFieldForm
-                                              label="Second Button Url"
-                                              name={`${name}.button_2_url`}
+                                              label="Second Button Link"
+                                              name={`${name}.secondButtonLink`}
                                             />
                                           </Stack>
                                         </Box>
