@@ -107,6 +107,7 @@ function UserDialog() {
         }}
       >
         <Form
+          validate={addNewUserValidation}
           onSubmit={onSubmit}
           validateOnBlur={true}
           render={({ handleSubmit }) => {
@@ -122,7 +123,7 @@ function UserDialog() {
                     inputProps={{
                       autoComplete: "new-password",
                     }}
-                    helperText="Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
+                    helperText="Minimum six characters, at least one letter and one number"
                     InputProps={{
                       endAdornment: (
                         <InputAdornment position="end">

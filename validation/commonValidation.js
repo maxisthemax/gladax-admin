@@ -6,8 +6,8 @@ export const email = Yup.string()
 export const password = Yup.string()
   .required("Please Enter your password")
   .matches(
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
-    "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
+    /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/,
+    "Minimum six characters, at least one letter and one number"
   );
 export const phoneNo = Yup.string()
   .required("Please Enter your password")
