@@ -57,6 +57,16 @@ function LayoutOverview({ push, change }) {
     });
     popupState.close();
   };
+  const handleAddNewText = () => {
+    const uuid = uuidv4();
+    push("layoutOverview", {
+      id: uuid,
+      key: "text",
+      label: `Text`,
+    });
+    change(uuid, { title: "", variant: "" });
+    popupState.close();
+  };
 
   return (
     <Paper>
@@ -134,6 +144,7 @@ function LayoutOverview({ push, change }) {
         </Stack>
       </Box>
       <Menu {...bindMenu(popupState)}>
+        <MenuItem onClick={handleAddNewText}>Text</MenuItem>
         <MenuItem onClick={() => handleAddNewLayout("bannerCarousel")}>
           Banner Carousel
         </MenuItem>

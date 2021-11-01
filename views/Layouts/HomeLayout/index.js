@@ -7,6 +7,7 @@ import { useDrawer } from "components/Drawers";
 import CarouselBanner from "./CarouselBanner";
 import LayoutOverview from "./LayoutOverview";
 import GridSlider from "./GridSlider";
+import Text from "./Text";
 
 //*material-ui
 import Grid from "@mui/material/Grid";
@@ -69,7 +70,7 @@ function HomeLayout() {
           handleSubmit,
           form: {
             change,
-            mutators: { push, remove },
+            mutators: { push },
             reset,
           },
           pristine,
@@ -79,11 +80,13 @@ function HomeLayout() {
             <form onSubmit={handleSubmit}>
               <Grid container spacing={2}>
                 <Grid item xs={4}>
-                  <LayoutOverview push={push} remove={remove} change={change} />
+                  <LayoutOverview push={push} change={change} />
                 </Grid>
                 <Grid item xs={8}>
                   {layoutOverview.map(({ id, key, label }) => {
                     switch (key) {
+                      case "text":
+                        return <Text key={id} id={id} label={label} />;
                       case "bannerCarousel":
                         return (
                           <CarouselBanner
