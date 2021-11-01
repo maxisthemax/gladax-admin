@@ -14,10 +14,6 @@ import { InViewPage } from "components/Pages";
 
 //styles
 const useStyles = makeStyles((theme) => ({
-  divider: {
-    border: 0,
-    borderBottom: "1px solid #d0d0d0",
-  },
   tabContainer: {
     position: "relative",
     width: "100%",
@@ -43,7 +39,6 @@ function CustomTabs({
   tabIndexFromParent,
   ...other
 }) {
-  const classes = useStyles();
   const [tabIndex, setTabIndex] = useState(
     defaultTabIndex ? defaultTabIndex : 0
   );
@@ -67,7 +62,7 @@ function CustomTabs({
           <Tab key={tab.value} label={tab.label} />
         ))}
       </Tabs>
-      {divider && <Divider className={classes.divider} />}
+      {divider && <Divider />}
       <InViewPage>
         <CustomTabsContent
           tabs={tabs}
