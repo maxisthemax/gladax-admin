@@ -58,7 +58,7 @@ function HomeLayout() {
   };
 
   return (
-    <Box>
+    <Box pb={10}>
       <Form
         initialValues={data.layout}
         onSubmit={onSubmit}
@@ -82,12 +82,26 @@ function HomeLayout() {
                   <LayoutOverview push={push} remove={remove} change={change} />
                 </Grid>
                 <Grid item xs={8}>
-                  {layoutOverview.map(({ id, key }) => {
+                  {layoutOverview.map(({ id, key, label }) => {
                     switch (key) {
                       case "bannerCarousel":
-                        return <CarouselBanner key={id} id={id} push={push} />;
+                        return (
+                          <CarouselBanner
+                            key={id}
+                            id={id}
+                            push={push}
+                            label={label}
+                          />
+                        );
                       case "gridSlider":
-                        return <GridSlider key={id} id={id} push={push} />;
+                        return (
+                          <GridSlider
+                            key={id}
+                            id={id}
+                            push={push}
+                            label={label}
+                          />
+                        );
                       default:
                         break;
                     }

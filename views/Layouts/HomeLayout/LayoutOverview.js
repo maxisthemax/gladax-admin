@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useState } from "react";
 import { FieldArray } from "react-final-form-arrays";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { v4 as uuidv4 } from "uuid";
@@ -7,6 +7,9 @@ import {
   bindTrigger,
   bindMenu,
 } from "material-ui-popup-state/hooks";
+
+//*lodash
+import startCase from "lodash/startCase";
 
 //*components
 import { Button } from "components/Buttons";
@@ -23,6 +26,7 @@ import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import { TextFieldForm } from "components/Form";
 
 //*utils
 
@@ -35,6 +39,9 @@ function LayoutOverview({ push, change }) {
     popupId: "layoutOverviewMenu",
   });
 
+  //*states
+  const [isEdit, setIsEdit] = useState(false);
+
   //*functions
   const makeOnDragEndFunction = (fields) => (result) => {
     if (!result.destination) {
@@ -46,6 +53,7 @@ function LayoutOverview({ push, change }) {
     push("layoutOverview", {
       id: uuidv4(),
       key: value,
+      label: `${startCase(value)}`,
     });
     popupState.close();
   };
@@ -73,7 +81,6 @@ function LayoutOverview({ push, change }) {
                                   edge="end"
                                   onClick={() => {
                                     fields.remove(index);
-
                                     change(fields.value[index].id, undefined);
                                   }}
                                 >
@@ -84,9 +91,16 @@ function LayoutOverview({ push, change }) {
                               <ListItemIcon {...provided.dragHandleProps}>
                                 <CustomIcon icon="drag_handle" />
                               </ListItemIcon>
-                              <ListItemText>
-                                {fields.value[index].key}
-                              </ListItemText>
+                              {isEdit ? (
+                                <TextFieldForm
+                                  label="Label"
+                                  name={`${name}.label`}
+                                />
+                              ) : (
+                                <ListItemText
+                                  primary={fields.value[index].label}
+                                ></ListItemText>
+                              )}
                             </ListItem>
                           )}
                         </Draggable>
@@ -107,7 +121,16 @@ function LayoutOverview({ push, change }) {
           >
             Layout
           </Button>
-          <Button type="submit">Save</Button>
+          <Button
+            onClick={() => {
+              setIsEdit(!isEdit);
+            }}
+          >
+            Edit
+          </Button>
+          <Button type="submit" onClick={() => setIsEdit(false)}>
+            Save
+          </Button>
         </Stack>
       </Box>
       <Menu {...bindMenu(popupState)}>

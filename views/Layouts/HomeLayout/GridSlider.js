@@ -22,7 +22,7 @@ import Typography from "@mui/material/Typography";
 
 //*useHooks
 
-function GridSlider({ id, push }) {
+function GridSlider({ id, push, label }) {
   //*define
 
   //*functions
@@ -36,7 +36,7 @@ function GridSlider({ id, push }) {
   return (
     <Accordion>
       <AccordionSummary expandIcon={<CustomIcon icon="expand_more" />}>
-        <Typography>Grid Slider</Typography>
+        <Typography>{label}</Typography>
       </AccordionSummary>
       <AccordionDetails>
         <Stack spacing={1} direction="row">

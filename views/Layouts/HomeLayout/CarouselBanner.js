@@ -22,7 +22,7 @@ import Typography from "@mui/material/Typography";
 
 //*useHooks
 
-function CarouselBanner({ id, push }) {
+function CarouselBanner({ id, push, label }) {
   //*define
 
   //*functions
@@ -36,7 +36,7 @@ function CarouselBanner({ id, push }) {
   return (
     <Accordion>
       <AccordionSummary expandIcon={<CustomIcon icon="expand_more" />}>
-        <Typography>Banner Carousel</Typography>
+        <Typography>{label}</Typography>
       </AccordionSummary>
       <AccordionDetails>
         <Stack spacing={1} direction="row">
