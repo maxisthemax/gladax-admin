@@ -148,6 +148,9 @@ function LayoutOverview({ push, change }) {
         <MenuItem onClick={() => handleAddNewLayout("bannerCarousel")}>
           Banner Carousel
         </MenuItem>
+        <MenuItem onClick={() => handleAddNewLayout("doubleBannerCarousel")}>
+          Double Banner Carousel
+        </MenuItem>
         <MenuItem onClick={() => handleAddNewLayout("gridSlider")}>
           Grid Slider
         </MenuItem>

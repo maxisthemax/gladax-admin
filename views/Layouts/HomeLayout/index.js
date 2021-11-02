@@ -4,7 +4,8 @@ import { useSnackbar } from "notistack";
 
 //*components
 import { useDrawer } from "components/Drawers";
-import CarouselBanner from "./CarouselBanner";
+import CarouselBanner from "./CarouselBanner/SingleBanner";
+import DoubleCarouselBanner from "./CarouselBanner/DoubleBanner";
 import LayoutOverview from "./LayoutOverview";
 import GridSlider from "./GridSlider";
 import Text from "./Text";
@@ -90,6 +91,15 @@ function HomeLayout() {
                       case "bannerCarousel":
                         return (
                           <CarouselBanner
+                            key={id}
+                            id={id}
+                            push={push}
+                            label={label}
+                          />
+                        );
+                      case "doubleBannerCarousel":
+                        return (
+                          <DoubleCarouselBanner
                             key={id}
                             id={id}
                             push={push}
