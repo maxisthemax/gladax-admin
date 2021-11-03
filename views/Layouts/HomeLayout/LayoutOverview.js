@@ -64,7 +64,12 @@ function LayoutOverview({ push, change }) {
       key: "text",
       label: `Text`,
     });
-    change(uuid, { title: "", variant: "" });
+    change(uuid, {
+      title: "Untitled",
+      variant: "h6",
+      position: "center",
+      textProperties: {},
+    });
     popupState.close();
   };
 
