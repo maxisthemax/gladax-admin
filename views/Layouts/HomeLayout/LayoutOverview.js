@@ -82,7 +82,6 @@ function LayoutOverview({ push, change }) {
                         <Draggable key={name} draggableId={name} index={index}>
                           {(provided) => (
                             <ListItem
-                              disablePadding
                               dense
                               component={Paper}
                               square
