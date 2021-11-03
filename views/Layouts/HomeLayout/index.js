@@ -4,8 +4,8 @@ import { useSnackbar } from "notistack";
 
 //*components
 import { useDrawer } from "components/Drawers";
-import CarouselBanner from "./CarouselBanner/SingleBanner";
-import DoubleCarouselBanner from "./CarouselBanner/DoubleBanner";
+import SingleBanner from "./CarouselBanner/SingleBanner";
+import DoubleBanner from "./CarouselBanner/DoubleBanner";
 import LayoutOverview from "./LayoutOverview";
 import GridSlider from "./GridSlider";
 import Text from "./Text";
@@ -78,7 +78,7 @@ function HomeLayout() {
           submitting,
           values,
         }) => {
-          //console.log(values);
+          console.log(values);
           return (
             <form onSubmit={handleSubmit}>
               <Grid container spacing={2}>
@@ -92,7 +92,7 @@ function HomeLayout() {
                         return <Text key={id} id={id} label={label} />;
                       case "bannerCarousel":
                         return (
-                          <CarouselBanner
+                          <SingleBanner
                             key={id}
                             id={id}
                             push={push}
@@ -101,7 +101,7 @@ function HomeLayout() {
                         );
                       case "doubleBannerCarousel":
                         return (
-                          <DoubleCarouselBanner
+                          <DoubleBanner
                             key={id}
                             id={id}
                             push={push}

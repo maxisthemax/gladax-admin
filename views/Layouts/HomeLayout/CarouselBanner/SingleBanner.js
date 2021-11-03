@@ -33,7 +33,7 @@ function SingleBanner({ id, push, label }) {
         <Stack spacing={1} direction="row">
           <Button
             onClick={() =>
-              push(id, {
+              push(`${id}.data`, {
                 id: uuidv4(),
                 title: "",
                 description: "",
@@ -49,8 +49,8 @@ function SingleBanner({ id, push, label }) {
           </Button>
         </Stack>
         <Box p={1} />
-        <FieldArray name={id}>
-          {({ fields }) => <CarouselComponentDrag fields={fields} />}
+        <FieldArray name={`${id}.data`}>
+          {({ fields }) => <CarouselComponentDrag fields={fields} id={id} />}
         </FieldArray>
       </AccordionDetails>
     </Accordion>

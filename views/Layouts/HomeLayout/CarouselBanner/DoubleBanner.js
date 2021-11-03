@@ -35,7 +35,7 @@ function DoubleBanner({ id, push, label }) {
             <Stack spacing={1} direction="row">
               <Button
                 onClick={() =>
-                  push(`${id}.0`, {
+                  push(`${id}.0.data`, {
                     id: uuidv4(),
                     title: "",
                     description: "",
@@ -51,15 +51,17 @@ function DoubleBanner({ id, push, label }) {
               </Button>
             </Stack>
             <Box p={1} />
-            <FieldArray name={`${id}.0`}>
-              {({ fields }) => <CarouselComponentDrag fields={fields} />}
+            <FieldArray name={`${id}.0.data`}>
+              {({ fields }) => (
+                <CarouselComponentDrag fields={fields} id={`${id}.0`} />
+              )}
             </FieldArray>
           </Box>
           <Box>
             <Stack spacing={1} direction="row">
               <Button
                 onClick={() =>
-                  push(`${id}.1`, {
+                  push(`${id}.1.data`, {
                     id: uuidv4(),
                     title: "",
                     description: "",
@@ -75,8 +77,10 @@ function DoubleBanner({ id, push, label }) {
               </Button>
             </Stack>
             <Box p={1} />
-            <FieldArray name={`${id}.1`}>
-              {({ fields }) => <CarouselComponentDrag fields={fields} />}
+            <FieldArray name={`${id}.1.data`}>
+              {({ fields }) => (
+                <CarouselComponentDrag fields={fields} id={`${id}.1`} />
+              )}
             </FieldArray>
           </Box>
         </Stack>

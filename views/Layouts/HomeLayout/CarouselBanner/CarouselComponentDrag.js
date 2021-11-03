@@ -22,7 +22,7 @@ import Stack from "@mui/material/Stack";
 
 //*custom components
 
-function CarouselComponentDrag({ fields }) {
+function CarouselComponentDrag({ fields, id }) {
   //*define
 
   //*states
@@ -44,89 +44,96 @@ function CarouselComponentDrag({ fields }) {
   };
 
   return (
-    <DragDropContext onDragEnd={makeOnDragEndFunction(fields)}>
-      <Droppable droppableId="droppable">
-        {(provided) => (
-          <Box ref={provided.innerRef}>
-            {fields.map((name, index) => (
-              <Draggable key={name} draggableId={name} index={index}>
-                {(provided) => (
-                  <Paper
-                    sx={{
-                      marginBottom: 2,
-                    }}
-                    ref={provided.innerRef}
-                    {...provided.draggableProps}
-                  >
-                    <Box
-                      {...provided.dragHandleProps}
+    <Stack p={1} m={1} spacing={1}>
+      <TextFieldForm
+        type="number"
+        name={`${id}.speed`}
+        label="Speed"
+        placeholder="seconds"
+      />
+      <DragDropContext onDragEnd={makeOnDragEndFunction(fields)}>
+        <Droppable droppableId="droppable">
+          {(provided) => (
+            <Box ref={provided.innerRef}>
+              {fields.map((name, index) => (
+                <Draggable key={name} draggableId={name} index={index}>
+                  {(provided) => (
+                    <Paper
                       sx={{
-                        width: "100%",
-                        display: "flex",
-                        justifyContent: "center",
+                        marginBottom: 2,
                       }}
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
                     >
-                      <CustomIcon icon="drag_handle" color="black" />
-                    </Box>
-                    <Divider />
-                    <Box p={1}>
-                      <Stack p={1} m={1} spacing={1}>
-                        <TextFieldForm name={`${name}.title`} label="Title" />
-                        <TextFieldForm
-                          label="Description"
-                          name={`${name}.description`}
-                        />
-                        <TextFieldForm
-                          label="Banner Picture Url"
-                          name={`${name}.bannerPicUrl`}
-                        />
-
-                        <Stack spacing={3} direction="row">
-                          <Paper>
-                            <Box p={1}>
-                              <Stack spacing={1}>
-                                <TextFieldForm
-                                  label="1st Button Title"
-                                  name={`${name}.firstButtonTitle`}
-                                />
-                                <TextFieldForm
-                                  label="1st Button Link"
-                                  name={`${name}.firstButtonLink`}
-                                />
-                              </Stack>
-                            </Box>
-                          </Paper>
-                          <Paper>
-                            <Box p={1}>
-                              <Stack spacing={1}>
-                                <TextFieldForm
-                                  label="2nd Button Title"
-                                  name={`${name}.secondButtonTitle`}
-                                />
-                                <TextFieldForm
-                                  label="2nd Button Link"
-                                  name={`${name}.secondButtonLink`}
-                                />
-                              </Stack>
-                            </Box>
-                          </Paper>
-                        </Stack>
-                      </Stack>
-                      <Box textAlign="end">
-                        <Button onClick={() => fields.remove(index)}>
-                          Delete Banner
-                        </Button>
+                      <Box
+                        {...provided.dragHandleProps}
+                        sx={{
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <CustomIcon icon="drag_handle" color="black" />
                       </Box>
-                    </Box>
-                  </Paper>
-                )}
-              </Draggable>
-            ))}
-            {provided.placeholder}
-          </Box>
-        )}
-      </Droppable>
-    </DragDropContext>
+                      <Divider />
+                      <Box p={1}>
+                        <Stack p={1} m={1} spacing={1}>
+                          <TextFieldForm name={`${name}.title`} label="Title" />
+                          <TextFieldForm
+                            label="Description"
+                            name={`${name}.description`}
+                          />
+                          <TextFieldForm
+                            label="Banner Picture Url"
+                            name={`${name}.bannerPicUrl`}
+                          />
+                          <Stack spacing={3} direction="row">
+                            <Paper>
+                              <Box p={1}>
+                                <Stack spacing={1}>
+                                  <TextFieldForm
+                                    label="1st Button Title"
+                                    name={`${name}.firstButtonTitle`}
+                                  />
+                                  <TextFieldForm
+                                    label="1st Button Link"
+                                    name={`${name}.firstButtonLink`}
+                                  />
+                                </Stack>
+                              </Box>
+                            </Paper>
+                            <Paper>
+                              <Box p={1}>
+                                <Stack spacing={1}>
+                                  <TextFieldForm
+                                    label="2nd Button Title"
+                                    name={`${name}.secondButtonTitle`}
+                                  />
+                                  <TextFieldForm
+                                    label="2nd Button Link"
+                                    name={`${name}.secondButtonLink`}
+                                  />
+                                </Stack>
+                              </Box>
+                            </Paper>
+                          </Stack>
+                        </Stack>
+                        <Box textAlign="end">
+                          <Button onClick={() => fields.remove(index)}>
+                            Delete Banner
+                          </Button>
+                        </Box>
+                      </Box>
+                    </Paper>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </Box>
+          )}
+        </Droppable>
+      </DragDropContext>
+    </Stack>
   );
 }
 
