@@ -130,9 +130,13 @@ function LayoutOverview({ push, change }) {
           }}
         </FieldArray>
         <Box p={2} />
-        <Stack direction="row" spacing={2}>
+        <Stack
+          direction={{ xs: "column", sm: "column", md: "column", lg: "row" }}
+          spacing={2}
+          flexWrap
+        >
           <Button
-            startIcon={<CustomIcon icon="add" color="white" />}
+            startIcon={<CustomIcon icon="add" color="white" size="small" />}
             {...bindTrigger(popupState)}
           >
             Layout
