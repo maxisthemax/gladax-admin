@@ -77,11 +77,13 @@ function LayoutOverview({ push, change }) {
               <DragDropContext onDragEnd={makeOnDragEndFunction(fields)}>
                 <Droppable droppableId="droppable">
                   {(provided) => (
-                    <List ref={provided.innerRef}>
+                    <List ref={provided.innerRef} dense disablePadding>
                       {fields.map((name, index) => (
                         <Draggable key={name} draggableId={name} index={index}>
                           {(provided) => (
                             <ListItem
+                              disablePadding
+                              dense
                               component={Paper}
                               square
                               ref={provided.innerRef}
