@@ -18,7 +18,6 @@ import { CustomIcon } from "components/Icons";
 //*material-ui
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
@@ -92,21 +91,20 @@ function LayoutOverview({ push, change }) {
                               square
                               ref={provided.innerRef}
                               {...provided.draggableProps}
+                              {...provided.dragHandleProps}
                               secondaryAction={
                                 <IconButton
+                                  size="small"
                                   edge="end"
                                   onClick={() => {
                                     fields.remove(index);
                                     change(fields.value[index].id, undefined);
                                   }}
                                 >
-                                  <CustomIcon icon="delete" />
+                                  <CustomIcon icon="delete" size="small" />
                                 </IconButton>
                               }
                             >
-                              <ListItemIcon {...provided.dragHandleProps}>
-                                <CustomIcon icon="drag_handle" />
-                              </ListItemIcon>
                               {isEdit ? (
                                 <TextFieldForm
                                   label="Label"
