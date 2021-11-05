@@ -22,7 +22,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 //*helpers
 
 //*validation
-import loginValidate from "validation/loginValidate";
+import { loginValidate } from "validation";
 
 //*styles
 
