@@ -2,6 +2,7 @@
 
 //*components
 import CategoryTable from "./CategoryTable";
+import ProductTable from "./ProductTable";
 import { CustomTabs } from "components/Tabs";
 
 //*material-ui
@@ -27,6 +28,11 @@ function Products() {
 
   //*const
   const tabs = [
+    {
+      value: "product",
+      label: "Product",
+      content: <ProductTable />,
+    },
     {
       value: "category",
       label: "Category",

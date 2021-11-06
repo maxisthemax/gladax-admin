@@ -76,9 +76,7 @@ function HomeLayout() {
           },
           pristine,
           submitting,
-          values,
         }) => {
-          console.log(values);
           return (
             <form onSubmit={handleSubmit}>
               <Grid container spacing={2}>

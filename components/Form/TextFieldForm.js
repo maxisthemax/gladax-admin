@@ -38,14 +38,33 @@ function TextFieldForm({ name, label, required, ...props }) {
     return !!(((submitError && !dirtySinceLastSubmit) || error) && touched);
   };
 
+  const normalizeNumber = (value) => {
+    return Number(value);
+  };
+  const numberCheckOnZero = (e) => {
+    if (e.target.value === "0") e.target.value = "";
+  };
+
+  let fieldProps = {};
+  let normalProps = {};
+
+  if (props.type === "number") {
+    fieldProps["parse"] = normalizeNumber;
+    fieldProps["type"] = "number";
+    normalProps["onClick"] = numberCheckOnZero;
+  }
+
   return (
     <TextField
-      size="small"
+      fieldProps={{
+        ...fieldProps,
+      }}
       fullWidth
       label={label}
       name={name}
       showError={myShowErrorFunction}
       required={required}
+      {...normalProps}
       {...props}
     />
   );

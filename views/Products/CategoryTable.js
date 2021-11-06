@@ -236,10 +236,11 @@ function CategoryTable() {
                       name="description"
                       required={true}
                     />
-                    <Button disabled={invalid} type="submit">
-                      Create
-                    </Button>
                   </Stack>
+                  <Box p={1} />
+                  <Button disabled={invalid} type="submit" fullWidth={false}>
+                    Create
+                  </Button>
                 </form>
               );
             }}

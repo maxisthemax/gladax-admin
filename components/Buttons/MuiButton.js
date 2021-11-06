@@ -32,7 +32,7 @@ function MuiButton(props) {
 
   //*functions
 
-  return <Button size="small" variant="contained" {...props} />;
+  return <Button variant="contained" {...props} />;
 }
 
 export default MuiButton;

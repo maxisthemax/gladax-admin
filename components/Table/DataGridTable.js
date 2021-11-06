@@ -96,6 +96,8 @@ function DataGridTable({
 
   return (
     <DataGrid
+      columnBuffer={2}
+      columnThreshold={2}
       onStateChange={(state) => {
         handleSaveDensityState(`${id}_TableDensity`, state.density);
         handleSaveColumnHideState(

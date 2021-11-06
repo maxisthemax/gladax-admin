@@ -73,9 +73,7 @@ export default function MyApp(props) {
               >
                 <AuthWrapper>
                   <LayoutWrapper>
-                    <Container maxWidth="xl" disableGutters>
-                      <Component {...pageProps} />
-                    </Container>
+                    <Component {...pageProps} />
                   </LayoutWrapper>
                 </AuthWrapper>
               </SnackbarProvider>

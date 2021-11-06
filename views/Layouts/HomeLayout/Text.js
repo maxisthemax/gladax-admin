@@ -55,12 +55,7 @@ function Text({ id, label }) {
               <MenuItem value="body2">body2</MenuItem>
               <MenuItem value="button">button</MenuItem>
             </Select>
-            <Select
-              name={`${id}.position`}
-              label="Select a Position"
-              size="small"
-              size="medium"
-            >
+            <Select name={`${id}.position`} label="Select a Position">
               <MenuItem value="start">Start</MenuItem>
               <MenuItem value="center">Center</MenuItem>
               <MenuItem value="end">End</MenuItem>
