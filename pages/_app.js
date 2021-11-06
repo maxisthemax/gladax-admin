@@ -11,7 +11,6 @@ import { Provider } from "reactive-react-redux";
 import { SnackbarProvider } from "notistack";
 import { reactLocalStorage } from "reactjs-localstorage";
 import { AuthWrapper } from "components/Auth";
-import Container from "@mui/material/Container";
 import IconButton from "@mui/material/IconButton";
 import { CustomIcon } from "components/Icons";
 import LayoutWrapper from "layouts/LayoutWrapper";
