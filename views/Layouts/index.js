@@ -1,6 +1,7 @@
 //*components
 import { CustomTabs } from "components/Tabs";
 import HomeLayout from "./HomeLayout";
+import StartYourBuildLayout from "./StartYourBuildLayout";
 
 //*lodash
 
@@ -18,8 +19,13 @@ function Layout() {
   const tabs = [
     {
       value: "home",
-      label: "home",
+      label: "Home",
       content: <HomeLayout />,
+    },
+    {
+      value: "startyourbuild",
+      label: "Start Your Build",
+      content: <StartYourBuildLayout />,
     },
   ];
 
