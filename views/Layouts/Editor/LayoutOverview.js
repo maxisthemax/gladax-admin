@@ -173,13 +173,17 @@ function LayoutOverview({ push, change, handleOpenDialog, componentData }) {
           switch (component) {
             case "bannerCarousel":
               return (
-                <MenuItem onClick={() => handleAddNewLayout("bannerCarousel")}>
+                <MenuItem
+                  key="bannerCarousel"
+                  onClick={() => handleAddNewLayout("bannerCarousel")}
+                >
                   Banner Carousel
                 </MenuItem>
               );
             case "doubleBannerCarousel":
               return (
                 <MenuItem
+                  key="doubleBannerCarousel"
                   onClick={() => handleAddNewLayout("doubleBannerCarousel")}
                 >
                   Double Banner Carousel
@@ -187,21 +191,34 @@ function LayoutOverview({ push, change, handleOpenDialog, componentData }) {
               );
             case "gridSlider":
               return (
-                <MenuItem onClick={() => handleAddNewLayout("gridSlider")}>
+                <MenuItem
+                  key="gridSlider"
+                  onClick={() => handleAddNewLayout("gridSlider")}
+                >
                   Grid Slider
                 </MenuItem>
               );
             case "text":
-              return <MenuItem onClick={handleAddNewText}>Text</MenuItem>;
+              return (
+                <MenuItem key="text" onClick={handleAddNewText}>
+                  Text
+                </MenuItem>
+              );
             case "buildSelection":
               return (
-                <MenuItem onClick={() => handleAddNewLayout("buildSelection")}>
+                <MenuItem
+                  key="buildSelection"
+                  onClick={() => handleAddNewLayout("buildSelection")}
+                >
                   Build Selection
                 </MenuItem>
               );
             case "rangeSelection":
               return (
-                <MenuItem onClick={() => handleAddNewLayout("rangeSelection")}>
+                <MenuItem
+                  key="rangeSelection"
+                  onClick={() => handleAddNewLayout("rangeSelection")}
+                >
                   Range Selection
                 </MenuItem>
               );
