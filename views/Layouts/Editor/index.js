@@ -5,7 +5,6 @@ import { useSnackbar } from "notistack";
 //*components
 import { useDrawer } from "components/Drawers";
 import BuildSelection from "./BuildSelection";
-import RangeSelection from "./RangeSelection";
 import LayoutOverview from "./LayoutOverview";
 import { useDialog } from "components/Dialogs";
 import SingleBanner from "./CarouselBanner/SingleBanner";
@@ -134,15 +133,7 @@ function LayoutEditor({ id, componentData }) {
                             label={label}
                           />
                         );
-                      case "rangeSelection":
-                        return (
-                          <RangeSelection
-                            key={id}
-                            id={id}
-                            push={push}
-                            label={label}
-                          />
-                        );
+
                       default:
                         break;
                     }

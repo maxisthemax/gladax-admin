@@ -213,15 +213,7 @@ function LayoutOverview({ push, change, handleOpenDialog, componentData }) {
                   Build Selection
                 </MenuItem>
               );
-            case "rangeSelection":
-              return (
-                <MenuItem
-                  key="rangeSelection"
-                  onClick={() => handleAddNewLayout("rangeSelection")}
-                >
-                  Range Selection
-                </MenuItem>
-              );
+
             default:
               break;
           }

@@ -12,12 +12,7 @@ function StartYourBuildLayout() {
 
   //*functions
 
-  return (
-    <Editor
-      id="startyourbuild"
-      componentData={["buildSelection", "rangeSelection"]}
-    />
-  );
+  return <Editor id="startyourbuild" componentData={["buildSelection"]} />;
 }
 
 export default StartYourBuildLayout;
