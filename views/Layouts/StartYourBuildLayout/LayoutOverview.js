@@ -31,7 +31,7 @@ import { TextFieldForm } from "components/Form";
 
 //*useHooks
 
-function LayoutOverview({ push, change }) {
+function LayoutOverview({ push, change, handleOpenDialog }) {
   //*define
   const popupState = usePopupState({
     variant: "popover",
@@ -51,7 +51,7 @@ function LayoutOverview({ push, change }) {
   const handleAddNewLayout = (value) => {
     push("layoutOverview", {
       id: uuidv4(),
-      key: value,
+      type: value,
       label: `${startCase(value)}`,
     });
     popupState.close();
@@ -113,32 +113,52 @@ function LayoutOverview({ push, change }) {
           }}
         </FieldArray>
         <Box p={2} />
-        <Stack
-          direction={{ xs: "column", sm: "column", md: "column", lg: "row" }}
-          spacing={2}
-          flexWrap
-        >
-          <Button
-            startIcon={<CustomIcon icon="add" color="white" size="small" />}
-            {...bindTrigger(popupState)}
+        <Stack direction={"column"} spacing={2} flexWrap>
+          <Stack
+            direction={{ xs: "column", sm: "column", md: "column", lg: "row" }}
+            spacing={2}
+            flexWrap
           >
-            Layout
-          </Button>
-          <Button
-            onClick={() => {
-              setIsEdit(!isEdit);
-            }}
+            <Button
+              fullWidth
+              startIcon={<CustomIcon icon="add" color="white" size="small" />}
+              {...bindTrigger(popupState)}
+            >
+              Layout
+            </Button>
+            <Button
+              fullWidth
+              startIcon={<CustomIcon icon="edit" color="white" size="small" />}
+              onClick={handleOpenDialog}
+            >
+              Code
+            </Button>
+          </Stack>
+          <Stack
+            direction={{ xs: "column", sm: "column", md: "column", lg: "row" }}
+            spacing={2}
+            flexWrap
           >
-            Edit
-          </Button>
-          <Button type="submit" onClick={() => setIsEdit(false)}>
-            Save
-          </Button>
+            <Button
+              fullWidth
+              onClick={() => {
+                setIsEdit(!isEdit);
+              }}
+            >
+              Edit
+            </Button>
+            <Button fullWidth type="submit" onClick={() => setIsEdit(false)}>
+              Save
+            </Button>
+          </Stack>
         </Stack>
       </Box>
       <Menu {...bindMenu(popupState)}>
         <MenuItem onClick={() => handleAddNewLayout("buildSelection")}>
           Build Selection
+        </MenuItem>
+        <MenuItem onClick={() => handleAddNewLayout("rangeSelection")}>
+          Range Selection
         </MenuItem>
       </Menu>
     </Paper>

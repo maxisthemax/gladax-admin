@@ -5,14 +5,16 @@ import { useSnackbar } from "notistack";
 //*components
 import { useDrawer } from "components/Drawers";
 import BuildSelection from "./BuildSelection";
+import RangeSelection from "./RangeSelection";
 import LayoutOverview from "./LayoutOverview";
-import Text from "./Text";
+import { useDialog } from "components/Dialogs";
 
 //*material-ui
 import Grid from "@mui/material/Grid";
 import Fab from "@mui/material/Fab";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
+import TextField from "@mui/material/TextField";
 
 //*utils
 import axios from "utils/http-anxios";
@@ -22,6 +24,7 @@ import useSwrHttp from "useHooks/useSwrHttp";
 
 function StartYourBuildLayout() {
   //*define
+  const { Dialog, handleOpenDialog, handleCloseDialog } = useDialog();
   const { Drawer, handleOpenDrawer } = useDrawer();
   const { data, mutate } = useSwrHttp("layout/startyourbuild", {
     fallbackData: [],
@@ -81,16 +84,27 @@ function StartYourBuildLayout() {
             <form onSubmit={handleSubmit}>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={12} md={3}>
-                  <LayoutOverview push={push} change={change} />
+                  <LayoutOverview
+                    push={push}
+                    change={change}
+                    handleOpenDialog={handleOpenDialog}
+                  />
                 </Grid>
                 <Grid item xs={12} sm={12} md={9}>
-                  {layoutOverview.map(({ id, key, label }) => {
-                    switch (key) {
-                      case "text":
-                        return <Text key={id} id={id} label={label} />;
+                  {layoutOverview.map(({ id, type, label }) => {
+                    switch (type) {
                       case "buildSelection":
                         return (
                           <BuildSelection
+                            key={id}
+                            id={id}
+                            push={push}
+                            label={label}
+                          />
+                        );
+                      case "rangeSelection":
+                        return (
+                          <RangeSelection
                             key={id}
                             id={id}
                             push={push}
@@ -137,13 +151,30 @@ function StartYourBuildLayout() {
           );
         }}
       />
-
       <Drawer size={8}>
         <iframe
           src="http://localhost:3001"
           style={{ width: "100%", height: "100%" }}
         ></iframe>
       </Drawer>
+      <Dialog
+        title="Code Editor"
+        size="xl"
+        handleOk={async () => {
+          const value = JSON.parse(document.getElementById("dataLayout").value);
+          await axios.patch("layout/startyourbuild", {
+            layout: value,
+          });
+          handleCloseDialog();
+        }}
+      >
+        <TextField
+          id="dataLayout"
+          fullWidth
+          defaultValue={JSON.stringify(data.layout, null, 2)}
+          multiline
+        />
+      </Dialog>
     </Box>
   );
 }

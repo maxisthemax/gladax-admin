@@ -9,12 +9,14 @@ import DoubleBanner from "./CarouselBanner/DoubleBanner";
 import LayoutOverview from "./LayoutOverview";
 import GridSlider from "./GridSlider";
 import Text from "./Text";
+import { useDialog } from "components/Dialogs";
 
 //*material-ui
 import Grid from "@mui/material/Grid";
 import Fab from "@mui/material/Fab";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
+import TextField from "@mui/material/TextField";
 
 //*utils
 import axios from "utils/http-anxios";
@@ -24,6 +26,7 @@ import useSwrHttp from "useHooks/useSwrHttp";
 
 function HomeLayout() {
   //*define
+  const { Dialog, handleOpenDialog, handleCloseDialog } = useDialog();
   const { Drawer, handleOpenDrawer } = useDrawer();
   const { data, mutate } = useSwrHttp("layout/home", {
     fallbackData: [],
@@ -81,11 +84,15 @@ function HomeLayout() {
             <form onSubmit={handleSubmit}>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={12} md={3}>
-                  <LayoutOverview push={push} change={change} />
+                  <LayoutOverview
+                    push={push}
+                    change={change}
+                    handleOpenDialog={handleOpenDialog}
+                  />
                 </Grid>
                 <Grid item xs={12} sm={12} md={9}>
-                  {layoutOverview.map(({ id, key, label }) => {
-                    switch (key) {
+                  {layoutOverview.map(({ id, type, label }) => {
+                    switch (type) {
                       case "text":
                         return <Text key={id} id={id} label={label} />;
                       case "bannerCarousel":
@@ -162,6 +169,24 @@ function HomeLayout() {
           style={{ width: "100%", height: "100%" }}
         ></iframe>
       </Drawer>
+      <Dialog
+        title="Code Editor"
+        size="xl"
+        handleOk={async () => {
+          const value = JSON.parse(document.getElementById("dataLayout").value);
+          await axios.patch("layout/home", {
+            layout: value,
+          });
+          handleCloseDialog();
+        }}
+      >
+        <TextField
+          id="dataLayout"
+          fullWidth
+          defaultValue={JSON.stringify(data.layout, null, 2)}
+          multiline
+        />
+      </Dialog>
     </Box>
   );
 }
