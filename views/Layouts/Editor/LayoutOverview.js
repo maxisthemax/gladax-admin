@@ -31,7 +31,7 @@ import { TextFieldForm } from "components/Form";
 
 //*useHooks
 
-function LayoutOverview({ push, change, handleOpenDialog }) {
+function LayoutOverview({ push, change, handleOpenDialog, componentData }) {
   //*define
   const popupState = usePopupState({
     variant: "popover",
@@ -53,6 +53,21 @@ function LayoutOverview({ push, change, handleOpenDialog }) {
       id: uuidv4(),
       type: value,
       label: `${startCase(value)}`,
+    });
+    popupState.close();
+  };
+  const handleAddNewText = () => {
+    const uuid = uuidv4();
+    push("layoutOverview", {
+      id: uuid,
+      type: "text",
+      label: `Text`,
+    });
+    change(uuid, {
+      title: "Untitled",
+      variant: "h6",
+      position: "center",
+      textProperties: {},
     });
     popupState.close();
   };
@@ -154,12 +169,46 @@ function LayoutOverview({ push, change, handleOpenDialog }) {
         </Stack>
       </Box>
       <Menu {...bindMenu(popupState)}>
-        <MenuItem onClick={() => handleAddNewLayout("buildSelection")}>
-          Build Selection
-        </MenuItem>
-        <MenuItem onClick={() => handleAddNewLayout("rangeSelection")}>
-          Range Selection
-        </MenuItem>
+        {componentData?.map((component) => {
+          switch (component) {
+            case "bannerCarousel":
+              return (
+                <MenuItem onClick={() => handleAddNewLayout("bannerCarousel")}>
+                  Banner Carousel
+                </MenuItem>
+              );
+            case "doubleBannerCarousel":
+              return (
+                <MenuItem
+                  onClick={() => handleAddNewLayout("doubleBannerCarousel")}
+                >
+                  Double Banner Carousel
+                </MenuItem>
+              );
+            case "gridSlider":
+              return (
+                <MenuItem onClick={() => handleAddNewLayout("gridSlider")}>
+                  Grid Slider
+                </MenuItem>
+              );
+            case "text":
+              return <MenuItem onClick={handleAddNewText}>Text</MenuItem>;
+            case "buildSelection":
+              return (
+                <MenuItem onClick={() => handleAddNewLayout("buildSelection")}>
+                  Build Selection
+                </MenuItem>
+              );
+            case "rangeSelection":
+              return (
+                <MenuItem onClick={() => handleAddNewLayout("rangeSelection")}>
+                  Range Selection
+                </MenuItem>
+              );
+            default:
+              break;
+          }
+        })}
       </Menu>
     </Paper>
   );
