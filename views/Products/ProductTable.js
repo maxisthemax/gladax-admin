@@ -111,7 +111,7 @@ function ProductTable() {
         <Popover
           anchorReference="anchorPosition"
           keepMounted={false}
-          open={open}
+          open={true}
           onClose={() => {
             const stringValue = document.getElementById(
               `${id}${field}_string`
