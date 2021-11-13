@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { useSnackbar } from "notistack";
 import { unflatten } from "flat";
 import { reactLocalStorage } from "reactjs-localstorage";
@@ -15,6 +15,10 @@ import find from "lodash/find";
 import trim from "lodash/trim";
 import forOwn from "lodash/forOwn";
 import isEmpty from "lodash/isEmpty";
+import includes from "lodash/includes";
+import uniq from "lodash/uniq";
+import pull from "lodash/pull";
+import filter from "lodash/filter";
 
 //*components
 import { TextFieldForm } from "components/Form";
@@ -30,6 +34,7 @@ import Divider from "@mui/material/Divider";
 import MenuItem from "@mui/material/MenuItem";
 import Popover from "@mui/material/Popover";
 import TextField from "@mui/material/TextField";
+import Chip from "@mui/material/Chip";
 
 //*assets
 
@@ -47,6 +52,7 @@ import useSwrHttp from "useHooks/useSwrHttp";
 
 //*validation
 import { addNewProduct } from "validation";
+import { Typography } from "@mui/material";
 
 //*custom components
 const ISSERVER = typeof window === "undefined";
@@ -60,6 +66,7 @@ function ProductTable() {
     fallbackData: [],
   });
   const [selectionModel, setSelectionModel] = useState([]);
+  const [selectedCategory, setSelectCategory] = useState([]);
   const { enqueueSnackbar } = useSnackbar();
 
   //*states
@@ -264,6 +271,15 @@ function ProductTable() {
 
   //*ref
 
+  //*useMemo
+  const dataMemo = useMemo(() => {
+    if (selectedCategory.length === 0) return data;
+    const newData = filter(data, (data) => {
+      return includes(selectedCategory, data.categoryId);
+    });
+    return newData;
+  }, [data, selectedCategory]);
+
   //*useEffect
   useEffect(() => {
     if (!isValidating)
@@ -276,6 +292,19 @@ function ProductTable() {
   }, [enqueueSnackbar, error, isValidating]);
 
   //*functions
+  const handleSetSelectCategory = (id) => {
+    setSelectCategory((selectedCategory) => {
+      if (includes(selectedCategory, id)) {
+        const newSelectedCategory = [...pull(selectedCategory, id)];
+
+        return newSelectedCategory;
+      } else {
+        const newSelectedCategory = uniq([...selectedCategory, id]);
+        return newSelectedCategory;
+      }
+    });
+  };
+
   const handleEditCell = useCallback(
     (editData) => {
       const { field, value, id } = editData;
@@ -455,7 +484,24 @@ function ProductTable() {
               Delete {`(${selectionModel.length})`}
             </Button>
           )}
-          <Box pb={2}></Box>
+          <Box pb={1}></Box>
+
+          <Typography gutterBottom>Category Filter</Typography>
+          <Stack direction="row" spacing={1}>
+            {categoryData &&
+              categoryData.map((data) => (
+                <Chip
+                  color={
+                    includes(selectedCategory, data.id) ? "primary" : "default"
+                  }
+                  label={data.name}
+                  onClick={() => {
+                    handleSetSelectCategory(data.id);
+                  }}
+                />
+              ))}
+          </Stack>
+          <Box pb={1}></Box>
           <DataGridTable
             sortModel={{
               field: "name",
@@ -463,7 +509,7 @@ function ProductTable() {
             }}
             id="product"
             isValidating={isValidating}
-            data={data}
+            data={dataMemo}
             columns={columns}
             selectionModel={selectionModel}
             setSelectionModel={setSelectionModel}
