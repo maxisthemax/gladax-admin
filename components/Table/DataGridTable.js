@@ -192,7 +192,7 @@ function DataGridTable({
       checkboxSelection
       disableSelectionOnClick
       editMode="cell"
-      density="comfortable"
+      density="standard"
       onCellEditCommit={handleEditCell}
       onCellKeyDown={handleCellKeyDown}
       onSelectionModelChange={(newSelectionModel) => {

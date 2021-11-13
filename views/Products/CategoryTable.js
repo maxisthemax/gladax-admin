@@ -23,6 +23,8 @@ import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
 import Divider from "@mui/material/Divider";
+import TextField from "@mui/material/TextField";
+import Popover from "@mui/material/Popover";
 
 //*assets
 
@@ -92,6 +94,42 @@ function CategoryTable() {
     );
   };
 
+  const RenderEditStringCell = ({ id, field, api, value }) => {
+    const cellElement = api.getCellElement(id, field);
+    const anchor = cellElement.getBoundingClientRect();
+
+    return (
+      <Box>
+        <Popover
+          anchorReference="anchorPosition"
+          keepMounted={false}
+          open={open}
+          onClose={() => {
+            const stringValue = document.getElementById(
+              `${id}${field}_string`
+            ).value;
+            api.setEditCellValue({ id, field, value: stringValue }, event);
+            api.commitCellChange({ id, field });
+            api.setCellMode(id, field, "view");
+
+            handleEditCell({ field, id, value: stringValue });
+          }}
+          anchorPosition={{ top: anchor.top, left: anchor.left }}
+        >
+          <Box sx={{ width: "300px" }}>
+            <TextField
+              id={`${id}${field}_string`}
+              fullWidth
+              multiline
+              rows={4}
+              defaultValue={value}
+            />
+          </Box>
+        </Popover>
+      </Box>
+    );
+  };
+
   const columns = [
     {
       field: "name",
@@ -100,6 +138,7 @@ function CategoryTable() {
       editable: true,
       width: 300,
       renderCell: RenderCell,
+      renderEditCell: RenderEditStringCell,
       hide: lookupState["name"],
     },
     {
@@ -109,6 +148,7 @@ function CategoryTable() {
       editable: true,
       width: 300,
       renderCell: RenderCell,
+      renderEditCell: RenderEditStringCell,
       hide: lookupState["description"],
     },
   ];

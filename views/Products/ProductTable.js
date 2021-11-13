@@ -101,6 +101,7 @@ function ProductTable() {
       </Box>
     );
   };
+
   const RenderEditStringCell = ({ id, field, api, value }) => {
     const cellElement = api.getCellElement(id, field);
     const anchor = cellElement.getBoundingClientRect();
@@ -145,6 +146,7 @@ function ProductTable() {
       editable: true,
       width: 300,
       renderCell: RenderCell,
+      renderEditCell: RenderEditStringCell,
       hide: lookupState["name"],
     },
     {
@@ -195,6 +197,7 @@ function ProductTable() {
       editable: true,
       width: 300,
       renderCell: RenderCell,
+      renderEditCell: RenderEditStringCell,
       hide: lookupState["name"],
     },
     {
@@ -222,6 +225,7 @@ function ProductTable() {
       editable: true,
       width: 160,
       renderCell: RenderCell,
+      renderEditCell: RenderEditStringCell,
       hide: lookupState["productStatus"],
     },
     {
@@ -231,6 +235,7 @@ function ProductTable() {
       editable: true,
       width: 160,
       renderCell: RenderCell,
+      renderEditCell: RenderEditStringCell,
       hide: lookupState["stockStatus"],
     },
     {
@@ -382,7 +387,9 @@ function ProductTable() {
                         {categoryData &&
                           categoryData.map((data) => {
                             return (
-                              <MenuItem value={data.id}>{data.name}</MenuItem>
+                              <MenuItem key={data.id} value={data.id}>
+                                {data.name}
+                              </MenuItem>
                             );
                           })}
                       </Select>

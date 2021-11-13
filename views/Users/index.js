@@ -131,6 +131,7 @@ function User() {
       editable: false,
       width: 300,
       renderCell: RenderCell,
+      renderEditCell: RenderEditStringCell,
       hide: lookupState["email"],
     },
     {
@@ -140,6 +141,7 @@ function User() {
       editable: true,
       width: 300,
       renderCell: RenderCell,
+      renderEditCell: RenderEditStringCell,
       hide: lookupState["name"],
     },
     {
@@ -149,6 +151,7 @@ function User() {
       editable: true,
       width: 150,
       renderCell: RenderCell,
+      renderEditCell: RenderEditStringCell,
       hide: lookupState["phoneNo"],
     },
     {
