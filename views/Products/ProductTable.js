@@ -30,11 +30,13 @@ import { Button } from "components/Buttons";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
-import Divider from "@mui/material/Divider";
 import MenuItem from "@mui/material/MenuItem";
 import Popover from "@mui/material/Popover";
 import TextField from "@mui/material/TextField";
 import Chip from "@mui/material/Chip";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
 
 //*assets
 
@@ -398,75 +400,94 @@ function ProductTable() {
     <Box style={{ minHeight: 400, width: "100%" }}>
       <Box style={{ display: "flex", height: "100%" }}>
         <Box style={{ flexGrow: 1 }}>
-          <Form
-            initialValues={initialValues}
-            onSubmit={onSubmit}
-            validate={addNewProduct}
-            render={({ handleSubmit, invalid, form: { restart } }) => {
-              return (
-                <form
-                  id="addNewProductForm"
-                  onSubmit={(e) => handleSubmit(e).then(restart)}
-                  noValidate
-                >
-                  <Stack spacing={1} direction="column">
-                    <Stack spacing={1} direction="row">
-                      <TextFieldForm label="Name" name="name" required={true} />
-                      <Select name="categoryId" label="Select a Category">
-                        {categoryData &&
-                          categoryData.map((data) => {
-                            return (
-                              <MenuItem key={data.id} value={data.id}>
-                                {data.name}
-                              </MenuItem>
-                            );
-                          })}
-                      </Select>
-                      <TextFieldForm label="Description" name="description" />
-                    </Stack>
-                    <Stack spacing={2} direction="row">
-                      <TextFieldForm
-                        label="Dimension"
-                        name="dimension"
-                        type="number"
-                      />
-                      <TextFieldForm
-                        label="Weight"
-                        name="weight"
-                        type="number"
-                      />
-                      <TextFieldForm label="SKU" name="sku" />
-                      <TextFieldForm
-                        label="Quantity"
-                        name="quantity"
-                        type="number"
-                      />
-                    </Stack>
-                    <Stack spacing={1} direction="row">
-                      <DatePicker
-                        label="Available Date"
-                        name="availableDate"
-                        required={true}
-                        dateFunsUtils={DateFnsUtils}
-                      />
-                      <TextFieldForm
-                        label="Product Status"
-                        name="productStatus"
-                      />
-                      <TextFieldForm label="Stock Status" name="stockStatus" />
-                      <TextFieldForm label="Price" name="price" type="number" />
-                    </Stack>
-                  </Stack>
-                  <Box p={1} />
-                  <Button disabled={invalid} type="submit">
-                    Create
-                  </Button>
-                </form>
-              );
-            }}
-          />
-          <Box pb={2}></Box>
-          <Divider />
+          <Accordion>
+            <AccordionSummary expandIcon={<CustomIcon icon="expand_more" />}>
+              <Typography>Create Product</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Form
+                initialValues={initialValues}
+                onSubmit={onSubmit}
+                validate={addNewProduct}
+                render={({ handleSubmit, invalid, form: { restart } }) => {
+                  return (
+                    <form
+                      id="addNewProductForm"
+                      onSubmit={(e) => handleSubmit(e).then(restart)}
+                      noValidate
+                    >
+                      <Stack spacing={1} direction="column">
+                        <Stack spacing={1} direction="row">
+                          <TextFieldForm
+                            label="Name"
+                            name="name"
+                            required={true}
+                          />
+                          <Select name="categoryId" label="Select a Category">
+                            {categoryData &&
+                              categoryData.map((data) => {
+                                return (
+                                  <MenuItem key={data.id} value={data.id}>
+                                    {data.name}
+                                  </MenuItem>
+                                );
+                              })}
+                          </Select>
+                          <TextFieldForm
+                            label="Description"
+                            name="description"
+                          />
+                        </Stack>
+                        <Stack spacing={2} direction="row">
+                          <TextFieldForm
+                            label="Dimension"
+                            name="dimension"
+                            type="number"
+                          />
+                          <TextFieldForm
+                            label="Weight"
+                            name="weight"
+                            type="number"
+                          />
+                          <TextFieldForm label="SKU" name="sku" />
+                          <TextFieldForm
+                            label="Quantity"
+                            name="quantity"
+                            type="number"
+                          />
+                        </Stack>
+                        <Stack spacing={1} direction="row">
+                          <DatePicker
+                            label="Available Date"
+                            name="availableDate"
+                            required={true}
+                            dateFunsUtils={DateFnsUtils}
+                          />
+                          <TextFieldForm
+                            label="Product Status"
+                            name="productStatus"
+                          />
+                          <TextFieldForm
+                            label="Stock Status"
+                            name="stockStatus"
+                          />
+                          <TextFieldForm
+                            label="Price"
+                            name="price"
+                            type="number"
+                          />
+                        </Stack>
+                      </Stack>
+                      <Box p={1} />
+                      <Button disabled={invalid} type="submit">
+                        Create
+                      </Button>
+                    </form>
+                  );
+                }}
+              />
+            </AccordionDetails>
+          </Accordion>
           <Box pb={2}></Box>
           {!isEmpty(editedData) && (
             <Button
@@ -485,7 +506,6 @@ function ProductTable() {
             </Button>
           )}
           <Box pb={1}></Box>
-
           <Typography gutterBottom>Category Filter</Typography>
           <Stack direction="row" spacing={1}>
             {categoryData &&
