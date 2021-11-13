@@ -13,7 +13,6 @@ import forOwn from "lodash/forOwn";
 
 //*components
 import UserDialog from "./UserDialog";
-import { LightTooltip } from "components/Tooltip";
 import { CustomIcon } from "components/Icons";
 import { DataGridTable } from "components/Table";
 import { Button } from "components/Buttons";
@@ -67,33 +66,24 @@ function User() {
       api.commitCellChange({ id, field });
       api.setCellMode(id, field, "view");
     };
-    const cellElement = api.getCellElement(id, field);
     return (
-      <LightTooltip
-        placement="bottom-start"
-        title={formattedValue ? formattedValue : ""}
-        disableHoverListener={
-          cellElement?.scrollWidth <= cellElement?.clientWidth
-        }
+      <Box
+        bgcolor={isEdited ? "#ff943975" : "inherit"}
+        width={isEdited ? "100%" : "auto"}
       >
-        <Box
-          bgcolor={isEdited ? "#ff943975" : "inherit"}
-          width={isEdited ? "100%" : "auto"}
-        >
-          <Box display="flex" justifyContent="space-between">
-            <Box textOverflow="ellipsis" overflow="hidden" pl={2} pr={2}>
-              {formattedValue}
-            </Box>
-            {isEdited && (
-              <Box>
-                <IconButton size="small" onClick={handleClickUndoButton}>
-                  <CustomIcon size="small" icon="undo" />
-                </IconButton>
-              </Box>
-            )}
+        <Box display="flex" justifyContent="space-between">
+          <Box textOverflow="ellipsis" overflow="hidden" pl={2} pr={2}>
+            {formattedValue}
           </Box>
+          {isEdited && (
+            <Box>
+              <IconButton size="small" onClick={handleClickUndoButton}>
+                <CustomIcon size="small" icon="undo" />
+              </IconButton>
+            </Box>
+          )}
         </Box>
-      </LightTooltip>
+      </Box>
     );
   };
 

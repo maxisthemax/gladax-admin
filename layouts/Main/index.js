@@ -20,7 +20,7 @@ import Toolbar from "@mui/material/Toolbar";
 
 //*custom components
 
-const drawerWidth = 240;
+const drawerWidth = 150;
 
 function Main({ children }) {
   //*define

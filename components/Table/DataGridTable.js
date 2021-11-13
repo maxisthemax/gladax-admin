@@ -4,7 +4,6 @@ import {
   GridToolbarContainer,
   GridToolbarColumnsButton,
   GridToolbarExport,
-  GridToolbarDensitySelector,
 } from "@mui/x-data-grid";
 import { reactLocalStorage } from "reactjs-localstorage";
 
@@ -19,6 +18,7 @@ import filter from "lodash/filter";
 import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
 import Badge from "@mui/material/Badge";
+import makeStyles from "@mui/styles/makeStyles";
 
 //*assets
 
@@ -29,6 +29,84 @@ import Badge from "@mui/material/Badge";
 //*helpers
 
 //*styles
+const useStyles = makeStyles((theme) => ({
+  dataGrid: {
+    minHeight: "132px",
+
+    "& .MuiDataGrid-dataContainer, & .MuiDataGrid-viewport": {
+      minWidth: "auto!important",
+    },
+
+    "& .MuiDataGrid-viewport": {
+      width: "fit-content",
+      maxWidth: "none!important",
+      minWidth: "100%!important",
+    },
+
+    "& .MuiDataGrid-viewport, & .MuiDataGrid-renderingZone, & .MuiDataGrid-row":
+      {
+        maxHeight: "fit-content!important",
+      },
+
+    "& .MuiDataGrid-renderingZone": {
+      transform: "none!important",
+      marginRight: "-16px",
+    },
+
+    "& .MuiDataGrid-columnHeaderTitle, & .MuiDataGrid-cell": {
+      textOverflow: "unset",
+      whiteSpace: "normal",
+      lineHeight: "1.2!important",
+      maxHeight: "fit-content!important",
+      minHeight: "auto!important",
+      height: "auto",
+      display: "flex",
+      alignItems: "center",
+      alignSelf: "stretch",
+
+      "& > div": {
+        maxHeight: "inherit",
+        width: "100%",
+        whiteSpace: "initial",
+        lineHeight: "1",
+      },
+    },
+
+    "& .MuiDataGrid-columnHeader > div": {
+      height: "100%",
+    },
+
+    "& .MuiDataGrid-columnHeaderWrapper": {
+      maxHeight: "none!important",
+      flex: "1 0 auto",
+    },
+
+    "& .MuiDataGrid-row .MuiDataGrid-columnsContainer": {
+      maxHeight: "none!important",
+    },
+
+    "& .MuiDataGrid-cell": {
+      overflowWrap: "anywhere",
+      padding: "0",
+
+      "&--textRight div": {
+        textAlign: "right",
+        justifyContent: "flex-end",
+      },
+
+      "&:last-of-type > div": {
+        paddingRight: theme.spacing(3),
+      },
+
+      "& > div": {
+        padding: "0.75em",
+        display: "flex",
+        alignSelf: "stretch",
+        alignItems: "center",
+      },
+    },
+  },
+}));
 
 //*useHooks
 
@@ -54,7 +132,6 @@ function CustomToolbar({ id }) {
         <Badge badgeContent={totalHide} color="primary">
           <GridToolbarColumnsButton />
         </Badge>
-        <GridToolbarDensitySelector />
         <GridToolbarExport />
       </Stack>
     </GridToolbarContainer>
@@ -71,9 +148,7 @@ function DataGridTable({
   handleEditCell,
 }) {
   //*const
-  const densityState = ISSERVER
-    ? "compact"
-    : reactLocalStorage.getObject(`${id}_TableDensity`);
+  const classes = useStyles();
 
   //*functions
   const handleSaveColumnHideState = (id, lookup) => {
@@ -96,6 +171,7 @@ function DataGridTable({
 
   return (
     <DataGrid
+      className={classes.dataGrid}
       columnBuffer={2}
       columnThreshold={2}
       onStateChange={(state) => {
@@ -116,7 +192,7 @@ function DataGridTable({
       checkboxSelection
       disableSelectionOnClick
       editMode="cell"
-      density={densityState.value || "compact"}
+      density="comfortable"
       onCellEditCommit={handleEditCell}
       onCellKeyDown={handleCellKeyDown}
       onSelectionModelChange={(newSelectionModel) => {
