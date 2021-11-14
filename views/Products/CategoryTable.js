@@ -79,7 +79,13 @@ function CategoryTable() {
         width={isEdited ? "100%" : "auto"}
       >
         <Box display="flex" justifyContent="space-between">
-          <Box textOverflow="ellipsis" overflow="hidden" pl={2} pr={2}>
+          <Box
+            textOverflow="ellipsis"
+            overflow="hidden"
+            pl={2}
+            pr={2}
+            sx={{ placeSelf: "center" }}
+          >
             {formattedValue}
           </Box>
           {isEdited && (
