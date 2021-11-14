@@ -253,11 +253,11 @@ function CategoryTable() {
             onSubmit={onSubmit}
             validate={addNewCategory}
             validateOnBlur={true}
-            render={({ handleSubmit, invalid }) => {
+            render={({ handleSubmit, invalid, form: { restart } }) => {
               return (
                 <form
                   id="addNewCategoryForm"
-                  onSubmit={handleSubmit}
+                  onSubmit={(e) => handleSubmit(e).then(restart)}
                   noValidate
                 >
                   <Stack spacing={2} direction="row">
