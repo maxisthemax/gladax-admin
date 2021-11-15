@@ -6,6 +6,7 @@ import { Form } from "react-final-form";
 import { Select, DatePicker } from "mui-rff";
 import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
+import useHover from "react-use-hover";
 
 //*lodash
 import map from "lodash/map";
@@ -26,8 +27,12 @@ import { CustomIcon } from "components/Icons";
 import { DataGridTable } from "components/Table";
 import { Button } from "components/Buttons";
 import { useDialog } from "components/Dialogs";
+import useUploadAttachment from "components/useUploadAttachment";
 
 //*material-ui
+import Fab from "@mui/material/Fab";
+import Badge from "@mui/material/Badge";
+import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
@@ -273,9 +278,14 @@ function ProductTable() {
         const handleSelectUploadButton = () => {
           handleOpenDialog({ id: data.id });
         };
+        const totalDocuments = data.row.documents?.length;
         return [
           <GridActionsCellItem
-            icon={<CustomIcon icon="image" />}
+            icon={
+              <Badge badgeContent={totalDocuments} color="primary">
+                <CustomIcon icon="image" />
+              </Badge>
+            }
             onClick={handleSelectUploadButton}
             label="Upload"
           />,
@@ -564,25 +574,94 @@ function ProductTable() {
           />
         </Box>
       </Box>
-      <Dialog>
-        <ImageUploadComponent
-          id={params?.id}
-          documents={find(data, { id: params?.id })?.documents}
-        />
+      <Dialog title="Upload Product Images">
+        <ImageUploadComponent id={params?.id} />
       </Dialog>
     </Box>
   );
 }
 
-function ImageUploadComponent({ documents }) {
+function ImageUploadComponent({ id }) {
+  const { data, mutate } = useSwrHttp("product", {
+    fallbackData: [],
+  });
+  const documents = find(data, { id: id })?.documents;
+
+  const { startUpload, getTotalUploadedFiles, uploadAttachment, isUploading } =
+    useUploadAttachment(6);
+
+  const handleStartUpload = async () => {
+    const restData = await startUpload();
+    const uploadedDocumentIdArray = map(restData, "value.data.id");
+    const currentDocumentIdArray = map(documents, "id");
+    await axios.patch(`product/${id}`, {
+      documentIds: uniq([
+        ...currentDocumentIdArray,
+        ...uploadedDocumentIdArray,
+      ]),
+    });
+    mutate();
+  };
+
+  const handleRemoveDocumentId = useCallback(
+    async (documentId) => {
+      const newDocumentArray = [
+        ...filter(documents, (document) => {
+          return document.id !== documentId;
+        }),
+      ];
+      await axios.patch(`product/${id}`, {
+        documentIds: uniq(map(newDocumentArray, "id")),
+      });
+      mutate();
+    },
+    [documents, id]
+  );
+
   return (
     <>
-      {documents &&
-        documents.length > 0 &&
-        documents.map(({ id, url }) => {
-          return <img src={url} width="100px" alt={id} />;
-        })}
+      <Grid container>
+        {[...documents] &&
+          [...documents].map((document) => {
+            return (
+              <ImageUpload
+                document={document}
+                handleRemoveDocumentId={handleRemoveDocumentId}
+              />
+            );
+          })}
+      </Grid>
+      {documents.length < 6 && uploadAttachment}
+      {getTotalUploadedFiles() > 0 && (
+        <Button disabled={isUploading} onClick={handleStartUpload}>
+          Start Upload
+        </Button>
+      )}
     </>
+  );
+}
+
+function ImageUpload({ document, handleRemoveDocumentId }) {
+  const [isHovering, hoverProps] = useHover();
+  return (
+    <Grid item xs={4} {...hoverProps}>
+      <Box p={1}>
+        <Box position="absolute" p={1}>
+          {isHovering && (
+            <Fab
+              size="small"
+              color="primary"
+              onClick={() => {
+                handleRemoveDocumentId(document.id);
+              }}
+            >
+              <CustomIcon icon="delete" color="white" size="small" />
+            </Fab>
+          )}
+        </Box>
+        <img src={document.url} alt={document.id} width="100%" />
+      </Box>
+    </Grid>
   );
 }
 

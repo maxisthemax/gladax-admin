@@ -93,7 +93,7 @@ function DialogComponent({
         <Button color="inherit" autoFocus onClick={handleCancel}>
           Cancel
         </Button>
-        <Button onClick={handleOk}>Ok</Button>
+        {handleOk && <Button onClick={handleOk}>Ok</Button>}
       </DialogActions>
     </Dialog>
   );
