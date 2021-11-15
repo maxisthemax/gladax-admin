@@ -567,7 +567,7 @@ function ProductTable() {
       <Dialog>
         <ImageUploadComponent
           id={params?.id}
-          documents={find(data, { id: params?.id }).documents}
+          documents={find(data, { id: params?.id })?.documents}
         />
       </Dialog>
     </Box>
