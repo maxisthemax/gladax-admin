@@ -164,6 +164,27 @@ function ProductTable() {
 
   const columns = [
     {
+      field: "actions",
+      type: "actions",
+      getActions: (data) => {
+        const handleSelectUploadButton = () => {
+          handleOpenDialog({ id: data.id });
+        };
+        const totalDocuments = data.row.documents?.length;
+        return [
+          <GridActionsCellItem
+            icon={
+              <Badge badgeContent={totalDocuments} color="primary">
+                <CustomIcon icon="image" />
+              </Badge>
+            }
+            onClick={handleSelectUploadButton}
+            label="Upload"
+          />,
+        ];
+      },
+    },
+    {
       field: "name",
       headerName: "Name",
       type: "string",
@@ -270,27 +291,6 @@ function ProductTable() {
       width: 160,
       renderCell: RenderCell,
       hide: lookupState["price"],
-    },
-    {
-      field: "actions",
-      type: "actions",
-      getActions: (data) => {
-        const handleSelectUploadButton = () => {
-          handleOpenDialog({ id: data.id });
-        };
-        const totalDocuments = data.row.documents?.length;
-        return [
-          <GridActionsCellItem
-            icon={
-              <Badge badgeContent={totalDocuments} color="primary">
-                <CustomIcon icon="image" />
-              </Badge>
-            }
-            onClick={handleSelectUploadButton}
-            label="Upload"
-          />,
-        ];
-      },
     },
   ];
 
