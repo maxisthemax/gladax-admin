@@ -10,6 +10,8 @@ const instance = axios.create({
 });
 
 const ISSERVER = typeof window === "undefined";
+instance.CancelToken = axios.CancelToken;
+instance.isCancel = axios.isCancel;
 instance.interceptors.request.use(
   (req) => {
     const accessToken = ISSERVER || reactLocalStorage.get("access_token");

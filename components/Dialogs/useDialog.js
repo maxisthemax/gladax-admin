@@ -101,12 +101,15 @@ function DialogComponent({
 
 const useDialog = () => {
   const [open, setOpen] = useState(false);
+  const [params, setParams] = useState();
 
   //*functions
-  const handleOpenDialog = () => {
+  const handleOpenDialog = (params) => {
+    setParams(params);
     setOpen(true);
   };
   const handleCloseDialog = () => {
+    setParams(null);
     setOpen(false);
   };
 
@@ -127,7 +130,7 @@ const useDialog = () => {
     [open]
   );
 
-  return { isOpen: open, handleOpenDialog, handleCloseDialog, Dialog };
+  return { isOpen: open, handleOpenDialog, handleCloseDialog, Dialog, params };
 };
 
 export default useDialog;

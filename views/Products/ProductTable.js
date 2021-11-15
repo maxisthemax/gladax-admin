@@ -25,6 +25,7 @@ import { TextFieldForm } from "components/Form";
 import { CustomIcon } from "components/Icons";
 import { DataGridTable } from "components/Table";
 import { Button } from "components/Buttons";
+import { useDialog } from "components/Dialogs";
 
 //*material-ui
 import Box from "@mui/material/Box";
@@ -37,6 +38,7 @@ import Chip from "@mui/material/Chip";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
+import { GridActionsCellItem } from "@mui/x-data-grid";
 
 //*assets
 
@@ -61,6 +63,8 @@ const ISSERVER = typeof window === "undefined";
 
 function ProductTable() {
   //*define
+
+  const { Dialog, handleOpenDialog, params } = useDialog();
   const { data, mutate, isValidating, error } = useSwrHttp("product", {
     fallbackData: [],
   });
@@ -261,6 +265,22 @@ function ProductTable() {
       width: 160,
       renderCell: RenderCell,
       hide: lookupState["price"],
+    },
+    {
+      field: "actions",
+      type: "actions",
+      getActions: (data) => {
+        const handleSelectUploadButton = () => {
+          handleOpenDialog({ id: data.id });
+        };
+        return [
+          <GridActionsCellItem
+            icon={<CustomIcon icon="image" />}
+            onClick={handleSelectUploadButton}
+            label="Upload"
+          />,
+        ];
+      },
     },
   ];
 
@@ -544,7 +564,25 @@ function ProductTable() {
           />
         </Box>
       </Box>
+      <Dialog>
+        <ImageUploadComponent
+          id={params?.id}
+          documents={find(data, { id: params?.id }).documents}
+        />
+      </Dialog>
     </Box>
+  );
+}
+
+function ImageUploadComponent({ documents }) {
+  return (
+    <>
+      {documents &&
+        documents.length > 0 &&
+        documents.map(({ id, url }) => {
+          return <img src={url} width="100px" alt={id} />;
+        })}
+    </>
   );
 }
 
