@@ -99,7 +99,7 @@ const useStyles = makeStyles((theme) => ({
       },
 
       "& > div": {
-        padding: "0.75em",
+        padding: "0",
         display: "flex",
         alignSelf: "stretch",
         alignItems: "center",
