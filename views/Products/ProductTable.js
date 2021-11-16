@@ -44,6 +44,7 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import { GridActionsCellItem } from "@mui/x-data-grid";
+import Typography from "@mui/material/Typography";
 
 //*assets
 
@@ -61,7 +62,6 @@ import useSwrHttp from "useHooks/useSwrHttp";
 
 //*validation
 import { addNewProduct } from "validation";
-import { Typography } from "@mui/material";
 
 //*custom components
 const ISSERVER = typeof window === "undefined";

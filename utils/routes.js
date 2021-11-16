@@ -6,6 +6,12 @@ const routes = [
     href: "/products",
   },
   {
+    label: "Build",
+    icon: "build",
+    reference: "products",
+    href: "/build",
+  },
+  {
     label: "Layouts",
     icon: "science",
     reference: "layouts",
