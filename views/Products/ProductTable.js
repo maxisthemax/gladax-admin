@@ -591,8 +591,8 @@ function ImageUploadComponent({ id }) {
     useUploadAttachment(6);
 
   const handleStartUpload = async () => {
-    const restData = await startUpload();
-    const uploadedDocumentIdArray = map(restData, "value.data.id");
+    const resData = await startUpload();
+    const uploadedDocumentIdArray = map(resData, "value.data.id");
     const currentDocumentIdArray = map(documents, "id");
     await axios.patch(`product/${id}`, {
       documentIds: uniq([

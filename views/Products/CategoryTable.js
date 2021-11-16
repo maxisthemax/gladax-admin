@@ -157,6 +157,15 @@ function CategoryTable() {
       renderEditCell: RenderEditStringCell,
       hide: lookupState["description"],
     },
+    {
+      field: "priority",
+      headerName: "Priority",
+      type: "number",
+      editable: true,
+      width: 100,
+      renderCell: RenderCell,
+      hide: lookupState["priority"],
+    },
   ];
 
   //*let
@@ -227,7 +236,7 @@ function CategoryTable() {
           variant: "error",
         });
     });
-
+    mutate();
     setEditedData({});
   }, [editedData]);
 
@@ -273,6 +282,12 @@ function CategoryTable() {
                       name="description"
                       required={true}
                     />
+                    <TextFieldForm
+                      type="number"
+                      label="Priority"
+                      name="priority"
+                      required={true}
+                    />
                   </Stack>
                   <Box p={1} />
                   <Button disabled={invalid} type="submit" fullWidth={false}>
@@ -304,7 +319,7 @@ function CategoryTable() {
           <Box pb={2}></Box>
           <DataGridTable
             sortModel={{
-              field: "name",
+              field: "priority",
               sort: "asc",
             }}
             id="category"
