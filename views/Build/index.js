@@ -1,7 +1,9 @@
 import { useMemo } from "react";
+
 //*components
 import { CustomTabs } from "components/Tabs";
 import CreateNewBuild from "./CreateNewBuild";
+import LinkProductToBuild from "./LinkProductToBuild";
 
 //*lodash
 
@@ -22,7 +24,11 @@ function Build() {
   //*functions
   const newBuildTab = useMemo(() => {
     const newData = data.reduce((temp, value) => {
-      temp.push({ value: value.id, label: value.name, content: <div /> });
+      temp.push({
+        value: value.id,
+        label: value.name,
+        content: <LinkProductToBuild {...value} />,
+      });
       return temp;
     }, []);
 
