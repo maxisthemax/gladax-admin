@@ -276,11 +276,14 @@ function LinkProductToBuild({
                                           values.data[categoryId],
                                           { productId: dataId }
                                         );
+                                        const findProduct = find(productData, {
+                                          id: dataId,
+                                        });
                                         temp.push({
                                           productId: dataId,
                                           discountedPrice: data?.discountedPrice
                                             ? data?.discountedPrice
-                                            : 0,
+                                            : findProduct.price,
                                         });
 
                                         return temp;
