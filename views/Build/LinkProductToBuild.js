@@ -338,6 +338,26 @@ function LinkProductToBuild({
                                               Original Price :{" "}
                                               {`RM ${findProduct?.price}`}
                                             </Typography>
+                                            <Checkbox
+                                              checked={
+                                                values?.data[data.id][index]
+                                                  ?.discountedPrice
+                                              }
+                                              onChange={(event) => {
+                                                if (!event.target.checked) {
+                                                  change(
+                                                    `data.${data.id}.${index}.discountedPrice`,
+                                                    null
+                                                  );
+                                                } else {
+                                                  change(
+                                                    `data.${data.id}.${index}.discountedPrice`,
+                                                    findProduct?.price
+                                                  );
+                                                }
+                                              }}
+                                            />
+
                                             <TextFieldForm
                                               disabled={submitting}
                                               size="small"
