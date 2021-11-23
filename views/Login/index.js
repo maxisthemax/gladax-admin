@@ -9,6 +9,7 @@ import { Button } from "components/Buttons";
 
 //*material-ui
 import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -77,6 +78,7 @@ function Login() {
                 style={{ width: "300px" }}
               >
                 <Stack spacing={2}>
+                  <Box p={2} />
                   <TextFieldForm label="Email" name="email" required={true} />
                   <TextFieldForm
                     label="Password"
