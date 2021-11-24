@@ -179,22 +179,22 @@ function CategoryTable() {
       hide: lookupState["priority"],
     },
     {
-      field: "isMandatory",
-      headerName: "Mandatory",
+      field: "isRequiredForBuild",
+      headerName: "Required For Build",
       type: "boolean",
       editable: true,
       width: 100,
       renderCell: RenderCell,
-      hide: lookupState["isMandatory"],
+      hide: lookupState["isRequiredForBuild"],
     },
     {
-      field: "isShowImage",
-      headerName: "Show Image",
+      field: "showImageForBuild",
+      headerName: "Show Image For Build",
       type: "boolean",
       editable: true,
       width: 200,
       renderCell: RenderCell,
-      hide: lookupState["isShowImage"],
+      hide: lookupState["showImageForBuild"],
     },
   ];
 
