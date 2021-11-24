@@ -408,7 +408,7 @@ function ProductTable() {
           variant: "error",
         });
     });
-
+    mutate();
     setEditedData({});
   }, [editedData]);
 
