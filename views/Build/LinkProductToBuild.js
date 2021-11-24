@@ -359,6 +359,7 @@ function LinkProductToBuild({
                                             />
 
                                             <TextFieldForm
+                                              autoZero={false}
                                               disabled={submitting}
                                               size="small"
                                               fullWidth={false}

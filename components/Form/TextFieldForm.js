@@ -18,7 +18,7 @@ import { TextField } from "mui-rff";
 
 //*custom components
 
-function TextFieldForm({ name, label, required, ...props }) {
+function TextFieldForm({ name, label, required, autoZero = true, ...props }) {
   //*define
 
   //*states
@@ -51,7 +51,7 @@ function TextFieldForm({ name, label, required, ...props }) {
   if (props.type === "number") {
     fieldProps["parse"] = normalizeNumber;
     fieldProps["type"] = "number";
-    normalProps["onClick"] = numberCheckOnZero;
+    normalProps["onClick"] = autoZero ? numberCheckOnZero : null;
   }
 
   return (
