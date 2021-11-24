@@ -63,7 +63,7 @@ function CategoryTable() {
     ? {}
     : reactLocalStorage.getObject("category_TableLookupHide");
 
-  const RenderCell = ({ field, formattedValue, api, id }) => {
+  const RenderCell = ({ field, formattedValue, api, id, colDef: { type } }) => {
     const isEdited = has(editedData, `${id}.${field}`);
     const findData = find(data, { id: id }) || "";
     const handleClickUndoButton = () => {
@@ -72,11 +72,23 @@ function CategoryTable() {
       api.commitCellChange({ id, field });
       api.setCellMode(id, field, "view");
     };
+    let renderValue = formattedValue;
 
+    switch (type) {
+      case "boolean":
+        if (formattedValue === "true")
+          renderValue = <CustomIcon size="small" icon="check" />;
+        else renderValue = <CustomIcon size="small" icon="close" />;
+        break;
+
+      default:
+        break;
+    }
     return (
       <Box
         bgcolor={isEdited ? "#ff943975" : "inherit"}
         width={isEdited ? "100%" : "auto"}
+        justifyContent={type === "boolean" ? "center" : "inherit"}
       >
         <Box display="flex" justifyContent="space-between">
           <Box
@@ -86,7 +98,7 @@ function CategoryTable() {
             pr={2}
             sx={{ placeSelf: "center" }}
           >
-            {formattedValue}
+            {renderValue}
           </Box>
           {isEdited && (
             <Box>
@@ -165,6 +177,24 @@ function CategoryTable() {
       width: 100,
       renderCell: RenderCell,
       hide: lookupState["priority"],
+    },
+    {
+      field: "isMandatory",
+      headerName: "Mandatory",
+      type: "boolean",
+      editable: true,
+      width: 100,
+      renderCell: RenderCell,
+      hide: lookupState["isMandatory"],
+    },
+    {
+      field: "isShowImage",
+      headerName: "Show Image",
+      type: "boolean",
+      editable: true,
+      width: 200,
+      renderCell: RenderCell,
+      hide: lookupState["isShowImage"],
     },
   ];
 
