@@ -36,7 +36,12 @@ function Text({ id, label }) {
       </AccordionSummary>
       <AccordionDetails>
         <Stack spacing={1}>
-          <TextFieldForm name={`${id}.title`} label="Title" />
+          <TextFieldForm
+            name={`${id}.title`}
+            label="Title"
+            multiline
+            rows={3}
+          />
           <Stack spacing={1} direction="row">
             <Select name={`${id}.variant`} label="Select a Variant">
               <MenuItem value="caption">caption</MenuItem>
