@@ -44,21 +44,16 @@ function Text({ id, label }) {
           />
           <Stack spacing={1} direction="row">
             <Select name={`${id}.variant`} label="Select a Variant">
-              <MenuItem value="caption">caption</MenuItem>
+              <MenuItem value="inherit">inherit</MenuItem>
               <MenuItem value="h1">h1</MenuItem>
               <MenuItem value="h2">h2</MenuItem>
               <MenuItem value="h3">h3</MenuItem>
               <MenuItem value="h4">h4</MenuItem>
               <MenuItem value="h5">h5</MenuItem>
               <MenuItem value="h6">h6</MenuItem>
-              <MenuItem value="inherit">inherit</MenuItem>
-              <MenuItem value="overline">overline</MenuItem>
               <MenuItem value="subtitle1">subtitle1</MenuItem>
               <MenuItem value="subtitle2">subtitle2</MenuItem>
-              <MenuItem value="string">string</MenuItem>
-              <MenuItem value="body1">body1</MenuItem>
-              <MenuItem value="body2">body2</MenuItem>
-              <MenuItem value="button">button</MenuItem>
+              <MenuItem value="caption">caption</MenuItem>
             </Select>
             <Select name={`${id}.position`} label="Select a Position">
               <MenuItem value="start">Start</MenuItem>
