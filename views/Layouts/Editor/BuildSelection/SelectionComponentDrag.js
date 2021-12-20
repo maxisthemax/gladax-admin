@@ -1,5 +1,6 @@
 import { memo } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { Checkboxes } from "mui-rff";
 
 //*components
 import { Button } from "components/Buttons";
@@ -28,6 +29,7 @@ function SelectionComponentDrag({ fields, id }) {
   //*states
 
   //*const
+  const checkboxData = [{ label: "Slider" }];
 
   //*let
 
@@ -46,6 +48,11 @@ function SelectionComponentDrag({ fields, id }) {
   return (
     <Stack p={1} m={1} spacing={1}>
       <TextFieldForm name={`${id}.mainTitle`} label="Main Title" />
+      <Checkboxes
+        formGroupProps={{ row: true }}
+        name={`${id}.slider`}
+        data={checkboxData}
+      />
       <DragDropContext onDragEnd={makeOnDragEndFunction(fields)}>
         <Droppable droppableId="droppable">
           {(provided) => (
