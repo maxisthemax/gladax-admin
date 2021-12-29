@@ -22,6 +22,7 @@ function HomeLayout() {
         "bannerCarousel",
         "doubleBannerCarousel",
         "gridSlider",
+        "buildSlider",
       ]}
     />
   );

@@ -198,6 +198,15 @@ function LayoutOverview({ push, change, handleOpenDialog, componentData }) {
                   Grid Slider
                 </MenuItem>
               );
+            case "buildSlider":
+              return (
+                <MenuItem
+                  key="buildSlider"
+                  onClick={() => handleAddNewLayout("buildSlider")}
+                >
+                  Build Slider
+                </MenuItem>
+              );
             case "text":
               return (
                 <MenuItem key="text" onClick={handleAddNewText}>

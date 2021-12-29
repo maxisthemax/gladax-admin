@@ -10,6 +10,7 @@ import { useDialog } from "components/Dialogs";
 import SingleBanner from "./CarouselBanner/SingleBanner";
 import DoubleBanner from "./CarouselBanner/DoubleBanner";
 import GridSlider from "./GridSlider";
+import BuildSlider from "./BuildSlider";
 import Text from "./Text";
 
 //*material-ui
@@ -118,6 +119,15 @@ function LayoutEditor({ id, componentData }) {
                       case "gridSlider":
                         return (
                           <GridSlider
+                            key={id}
+                            id={id}
+                            push={push}
+                            label={label}
+                          />
+                        );
+                      case "buildSlider":
+                        return (
+                          <BuildSlider
                             key={id}
                             id={id}
                             push={push}
