@@ -18,6 +18,12 @@ const routes = [
     href: "/layouts",
   },
   {
+    label: "Delivery",
+    icon: "local_shipping",
+    reference: "delivery",
+    href: "/delivery",
+  },
+  {
     label: "Users",
     icon: "people",
     reference: "users",
