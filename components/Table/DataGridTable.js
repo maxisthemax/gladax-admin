@@ -184,7 +184,6 @@ function DataGridTable({
       components={{
         Toolbar: customToolbar,
       }}
-      autoHeight
       loading={isValidating}
       autoPageSize
       rows={data}
