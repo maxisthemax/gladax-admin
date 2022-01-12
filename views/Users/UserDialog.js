@@ -23,7 +23,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import axios from "utils/http-anxios";
 
 //*validation
-import { addNewUserValidation } from "validation";
+import { addNewUser } from "validation";
 
 //*helpers
 
@@ -105,7 +105,7 @@ function UserDialog() {
         }}
       >
         <Form
-          validate={addNewUserValidation}
+          validate={addNewUser}
           onSubmit={onSubmit}
           validateOnBlur={true}
           render={({ handleSubmit }) => {
