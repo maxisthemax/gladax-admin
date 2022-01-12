@@ -126,7 +126,7 @@ function CategoryTable() {
             const stringValue = document.getElementById(
               `${id}${field}_string`
             ).value;
-            api.setEditCellValue({ id, field, value: stringValue }, event);
+            api.setEditCellValue({ id, field, value: stringValue });
             api.commitCellChange({ id, field });
             api.setCellMode(id, field, "view");
 
