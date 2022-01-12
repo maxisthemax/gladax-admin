@@ -70,7 +70,7 @@ function CreateNewBuild() {
       <Box style={{ display: "flex", height: "100%" }}>
         <Box style={{ flexGrow: 1 }}>
           <Form
-            initialValues={{ description: "" }}
+            initialValues={{ description: "", weight: 0 }}
             validate={createNewBuild}
             onSubmit={onSubmit}
             render={({
@@ -100,6 +100,13 @@ function CreateNewBuild() {
                     <TextFieldForm
                       label="Tags"
                       name="tags"
+                      required={true}
+                      disabled={submitting}
+                    />
+                    <TextFieldForm
+                      label="Weight (gram)"
+                      name="weight"
+                      type="number"
                       required={true}
                       disabled={submitting}
                     />

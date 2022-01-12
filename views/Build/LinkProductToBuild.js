@@ -162,6 +162,7 @@ function LinkProductToBuild({
               name: name,
               description: description,
               tags: properties.tags.join(","),
+              weight: 0,
             }}
             onSubmit={onSubmitSaveBuildData}
             validate={createNewBuild}
@@ -193,6 +194,13 @@ function LinkProductToBuild({
                     <TextFieldForm
                       label="Tags"
                       name="tags"
+                      required={true}
+                      disabled={submitting}
+                    />
+                    <TextFieldForm
+                      label="Weight (gram)"
+                      name="weight"
+                      type="number"
                       required={true}
                       disabled={submitting}
                     />
