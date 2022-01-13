@@ -51,7 +51,7 @@ function CreateNewBuild() {
 
   //*functions
   const onSubmit = async (values) => {
-    const { name, description, tags } = values;
+    const { name, description, tags, weight } = values;
 
     const resData = getTotalUploadedFiles() === 0 ? [] : await startUpload();
     const uploadedDocumentIdArray = map(resData, "value.data.id");
@@ -61,6 +61,7 @@ function CreateNewBuild() {
       description: description,
       tags: tags?.split(","),
       documentIds: uploadedDocumentIdArray,
+      weight: weight,
     });
     mutate();
   };

@@ -52,6 +52,7 @@ const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 function LinkProductToBuild({
   id,
+  weight,
   name,
   description,
   properties,
@@ -117,11 +118,12 @@ function LinkProductToBuild({
     const resData = await startUpload();
     const uploadedDocumentIdArray = map(resData, "value.data.id");
     const currentDocumentIdArray = map(documents, "id");
-    const { name, description, tags } = values;
+    const { name, description, tags, weight } = values;
     await axios.patch(`build/${id}`, {
       name: name,
       description: description,
       tags: tags?.split(","),
+      weight: weight,
       documentIds: uniq([
         ...currentDocumentIdArray,
         ...uploadedDocumentIdArray,
@@ -162,7 +164,7 @@ function LinkProductToBuild({
               name: name,
               description: description,
               tags: properties.tags.join(","),
-              weight: 0,
+              weight: weight,
             }}
             onSubmit={onSubmitSaveBuildData}
             validate={createNewBuild}
