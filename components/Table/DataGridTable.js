@@ -31,8 +31,6 @@ import makeStyles from "@mui/styles/makeStyles";
 //*styles
 const useStyles = makeStyles((theme) => ({
   dataGrid: {
-    minHeight: "80vh",
-
     "& .MuiDataGrid-dataContainer, & .MuiDataGrid-viewport": {
       minWidth: "auto!important",
     },
@@ -184,8 +182,8 @@ function DataGridTable({
       components={{
         Toolbar: customToolbar,
       }}
+      autoHeight
       loading={isValidating}
-      autoPageSize
       rows={data}
       columns={columns}
       checkboxSelection
