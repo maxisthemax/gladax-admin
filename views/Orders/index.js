@@ -33,6 +33,7 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
+import ListItemButton from "@mui/material/ListItemButton";
 
 //*assets
 
@@ -61,6 +62,10 @@ function Orders() {
     error,
     mutate: mutateAllOrders,
   } = useSwrHttp("order/admin", {
+    fallbackData: [],
+  });
+  //*define
+  const { data: deliveryData } = useSwrHttp("delivery", {
     fallbackData: [],
   });
 
@@ -125,6 +130,12 @@ function Orders() {
       case "totalWeight":
         text = `${convertUnit(value).from("g").to("kg")} kg`;
         break;
+      case "deliveryId":
+        {
+          const findDeliveryData = find(deliveryData, { id: value });
+          text = findDeliveryData.vendor;
+        }
+        break;
       case "status": {
         const findStatus = find(orderStatus, { valueNumber: value });
         text = (
@@ -140,9 +151,11 @@ function Orders() {
               {/* <a href="#" onClick={() => handleToStatus("revert", id, value)}>
                 Revert
               </a>{" "} */}
-              <a href="#" onClick={() => handleToStatus("next", id, value)}>
-                Next
-              </a>
+              {findStatus.valueNumber < 5 && (
+                <a href="#" onClick={() => handleToStatus("next", id, value)}>
+                  Next
+                </a>
+              )}
             </Box>
           </Box>
         );
@@ -279,6 +292,45 @@ function Orders() {
     );
   };
 
+  const RenderEditDeliveryCell = ({ id, field, api, value }) => {
+    const cellElement = api.getCellElement(id, field);
+    const anchor = cellElement.getBoundingClientRect();
+
+    const submit = (selectValue) => {
+      api.setEditCellValue({ id, field, value: selectValue });
+      api.commitCellChange({ id, field });
+      api.setCellMode(id, field, "view");
+
+      handleEditCell({ field, id, value: selectValue });
+    };
+
+    return (
+      <Box>
+        <Popover
+          anchorReference="anchorPosition"
+          keepMounted={false}
+          open={true}
+          anchorPosition={{ top: anchor.top, left: anchor.left }}
+        >
+          <Box sx={{ width: "300px" }}>
+            <List>
+              {deliveryData.map((delivery) => {
+                return (
+                  <ListItemButton
+                    onClick={() => submit(delivery.id)}
+                    selected={value === delivery.id}
+                  >
+                    {delivery.vendor}
+                  </ListItemButton>
+                );
+              })}
+            </List>
+          </Box>
+        </Popover>
+      </Box>
+    );
+  };
+
   const columns = [
     {
       field: "id",
@@ -309,6 +361,14 @@ function Orders() {
       renderCell: RenderCell,
       renderEditCell: RenderEditStringCell,
       hide: lookupState["status"],
+    },
+    {
+      field: "deliveryId",
+      type: "string",
+      width: 120,
+      editable: true,
+      renderCell: RenderCell,
+      renderEditCell: RenderEditDeliveryCell,
     },
     {
       field: "createdAt",
