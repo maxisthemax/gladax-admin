@@ -133,7 +133,7 @@ function Orders() {
       case "deliveryId":
         {
           const findDeliveryData = find(deliveryData, { id: value });
-          text = findDeliveryData.vendor;
+          text = findDeliveryData?.vendor;
         }
         break;
       case "status": {
