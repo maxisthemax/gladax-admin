@@ -16,3 +16,37 @@ export const fileTypeIcon = (type) => {
       return "insert_drive_file";
   }
 };
+
+export const orderStatus = [
+  {
+    valueNumber: 1,
+    valueName: "orderPlaced",
+    label: "Order Placed",
+    icon: "description",
+  },
+  { valueNumber: 2, valueName: "orderPaid", label: "Order Paid", icon: "paid" },
+  {
+    valueNumber: 3,
+    valueName: "orderPrepared",
+    label: "Order Prepared",
+    icon: "build",
+  },
+  {
+    valueNumber: 4,
+    valueName: "orderShipped",
+    label: "Order Shipped",
+    icon: "local_shipping",
+  },
+  {
+    valueNumber: 5,
+    valueName: "orderReceived",
+    label: "Order Received",
+    icon: "move_to_inbox",
+  },
+  {
+    valueNumber: 6,
+    valueName: "orderCancelled",
+    label: "Order Cancelled",
+    icon: "cancel",
+  },
+];

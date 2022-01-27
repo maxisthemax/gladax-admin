@@ -15,6 +15,7 @@ import filter from "lodash/filter";
 //*components
 
 //*material-ui
+import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
 import Badge from "@mui/material/Badge";
@@ -144,6 +145,8 @@ function DataGridTable({
   selectionModel,
   setSelectionModel,
   handleEditCell,
+  rowHeight = 50,
+  checkboxSelection = true,
 }) {
   //*const
   const classes = useStyles();
@@ -168,35 +171,37 @@ function DataGridTable({
   const customToolbar = () => <CustomToolbar id={id} />;
 
   return (
-    <DataGrid
-      className={classes.dataGrid}
-      columnBuffer={2}
-      columnThreshold={2}
-      onStateChange={(state) => {
-        handleSaveDensityState(`${id}_TableDensity`, state.density);
-        handleSaveColumnHideState(
-          `${id}_TableLookupHide`,
-          state.columns.lookup
-        );
-      }}
-      components={{
-        Toolbar: customToolbar,
-      }}
-      autoHeight
-      loading={isValidating}
-      rows={data}
-      columns={columns}
-      checkboxSelection
-      disableSelectionOnClick
-      editMode="cell"
-      density="standard"
-      onCellEditCommit={handleEditCell}
-      onCellKeyDown={handleCellKeyDown}
-      onSelectionModelChange={(newSelectionModel) => {
-        setSelectionModel(newSelectionModel);
-      }}
-      selectionModel={selectionModel}
-    />
+    <Box height="80vh">
+      <DataGrid
+        className={classes.dataGrid}
+        columnBuffer={2}
+        columnThreshold={2}
+        onStateChange={(state) => {
+          handleSaveDensityState(`${id}_TableDensity`, state.density);
+          handleSaveColumnHideState(
+            `${id}_TableLookupHide`,
+            state.columns.lookup
+          );
+        }}
+        components={{
+          Toolbar: customToolbar,
+        }}
+        rowHeight={rowHeight}
+        loading={isValidating}
+        rows={data}
+        columns={columns}
+        checkboxSelection={checkboxSelection}
+        disableSelectionOnClick
+        editMode="cell"
+        density="standard"
+        onCellEditCommit={handleEditCell}
+        onCellKeyDown={handleCellKeyDown}
+        onSelectionModelChange={(newSelectionModel) => {
+          setSelectionModel(newSelectionModel);
+        }}
+        selectionModel={selectionModel}
+      />
+    </Box>
   );
 }
 

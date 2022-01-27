@@ -1,5 +1,11 @@
 const routes = [
   {
+    label: "Orders",
+    icon: "store",
+    reference: "orders",
+    href: "/orders",
+  },
+  {
     label: "Products",
     icon: "inventory_2",
     reference: "products",

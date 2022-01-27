@@ -18,3 +18,11 @@ export function isIsoDate(str) {
   var d = new Date(str);
   return d.toISOString() === str;
 }
+
+export function getAllPastMonths(date) {
+  const allMonths = moment.monthsShort();
+
+  const thisMonth = new Date(date).getMonth();
+
+  return allMonths.splice(0, thisMonth + 1);
+}
