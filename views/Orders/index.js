@@ -5,6 +5,7 @@ import { reactLocalStorage } from "reactjs-localstorage";
 import convertUnit from "convert-units";
 import moment from "moment";
 import PopupState, { bindTrigger, bindPopover } from "material-ui-popup-state";
+import { useDrawer } from "components/Drawers";
 
 //*lodash
 import has from "lodash/has";
@@ -22,6 +23,7 @@ import isEmpty from "lodash/isEmpty";
 import { CustomIcon } from "components/Icons";
 import { DataGridTable } from "components/Table";
 import { Button } from "components/Buttons";
+import Payment from "./Payment";
 
 //*material-ui
 import Box from "@mui/material/Box";
@@ -56,6 +58,7 @@ const ISSERVER = typeof window === "undefined";
 
 function Orders() {
   //*define
+  const { Drawer, handleOpenDrawer } = useDrawer();
   const {
     data,
     isValidating,
@@ -84,6 +87,7 @@ function Orders() {
   );
 
   //*states
+  const [orderId, setOrderId] = useState("");
   const [editedData, setEditedData] = useState({});
   const [selectedYear, setSelectYear] = useState(thisYear);
   const [selectedMonth, setSelectMonth] = useState(
@@ -124,6 +128,19 @@ function Orders() {
     };
     let text = "";
     switch (field) {
+      case "id":
+        text = (
+          <Box
+            sx={{ cursor: "pointer" }}
+            onClick={() => {
+              handleOpenDrawer();
+              setOrderId(value);
+            }}
+          >
+            {value}
+          </Box>
+        );
+        break;
       case "totalAmount":
         text = `RM ${formattedValue}`;
         break;
@@ -626,6 +643,11 @@ function Orders() {
           )}
         </Box>
       </Box>
+      <Drawer size={8}>
+        <Box p={4}>
+          <Payment orderId={orderId} />
+        </Box>
+      </Drawer>
     </Box>
   );
 }
