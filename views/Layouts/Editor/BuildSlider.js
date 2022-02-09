@@ -2,7 +2,7 @@ import { memo } from "react";
 import { FieldArray } from "react-final-form-arrays";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { v4 as uuidv4 } from "uuid";
-import { Select } from "mui-rff";
+import { Select, Radios } from "mui-rff";
 
 //*components
 import { Button } from "components/Buttons";
@@ -29,6 +29,10 @@ function BuildSlider({ id, push, label }) {
   const { data } = useSwrHttp(`build`, {
     fallbackData: [],
   });
+  const checkboxData = [
+    { label: "Slider", value: "slider" },
+    { label: "Hover", value: "hover" },
+  ];
 
   //*functions
   const makeOnDragEndFunction = (fields) => (result) => {
@@ -86,6 +90,12 @@ function BuildSlider({ id, push, label }) {
                             <Divider />
                             <Box p={1}>
                               <Stack p={1} m={1} spacing={1}>
+                                <Radios
+                                  label="Type"
+                                  name={`${name}.type`}
+                                  required={true}
+                                  data={checkboxData}
+                                />
                                 <Select
                                   name={`${name}.build`}
                                   label="Select a Build"
