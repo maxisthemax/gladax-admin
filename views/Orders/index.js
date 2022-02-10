@@ -111,8 +111,8 @@ function Orders() {
           includes(selectedMonth, createdMonth)
         ) {
           temp.push(flatten(value));
-          return temp;
         }
+        return temp;
       }, []),
     [data, selectedYear, selectedMonth]
   );
