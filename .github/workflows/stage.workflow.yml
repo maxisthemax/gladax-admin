@@ -41,4 +41,4 @@ jobs:
             ${{ secrets.REGISTRY_URL }}/gladax/stage-admin:latest
             ${{ secrets.REGISTRY_URL }}/gladax/stage-admin:${{ github.sha }}
       - name: Update stage container image
-        run: aliyun ecs RunCommand --RegionId 'ap-southeast-3' --Username 'root' --RepeatMode 'Once' --CommandContent 'ZG9ja2VyIHNlcnZpY2UgdXBkYXRlIC0td2l0aC1yZWdpc3RyeS1hdXRoIC0taW1hZ2UgcmVnaXN0cnktaW50bC5hcC1zb3V0aGVhc3QtMy5hbGl5dW5jcy5jb20vZ2xhZGF4L3N0YWdlLWFkbWluOmxhdGVzdAoKZG9ja2VyIHN5c3RlbSBwcnVuZSAtYSAtZg==' --Name 'update_stage_api_container' --Type 'RunShellScript' --ContentEncoding 'Base64' --InstanceId.1 ${{ secrets.ALIYUN_STAGE_INSTANCE_ID }}
+        run: aliyun ecs RunCommand --RegionId 'ap-southeast-3' --Username 'root' --RepeatMode 'Once' --CommandContent 'ZG9ja2VyIHNlcnZpY2UgdXBkYXRlIC0td2l0aC1yZWdpc3RyeS1hdXRoIC0taW1hZ2UgcmVnaXN0cnktaW50bC5hcC1zb3V0aGVhc3QtMy5hbGl5dW5jcy5jb20vZ2xhZGF4L3N0YWdlLWFkbWluOmxhdGVzdCBnbGFkYXgtc3RhZ2UtYWRtaW4KCmRvY2tlciBzeXN0ZW0gcHJ1bmUgLWEgLWY=' --Name 'update_stage_api_container' --Type 'RunShellScript' --ContentEncoding 'Base64' --InstanceId.1 ${{ secrets.ALIYUN_STAGE_INSTANCE_ID }}
