@@ -107,7 +107,6 @@ function UserDialog() {
         <Form
           validate={addNewUser}
           onSubmit={onSubmit}
-          validateOnBlur={true}
           render={({ handleSubmit }) => {
             return (
               <form id="addNewUserForm" onSubmit={handleSubmit} noValidate>

@@ -100,8 +100,7 @@ function DeliveryDialog() {
         <Form
           initialValues={{ desc: "" }}
           validate={addNewDelivery}
-          onSubmit={onSubmit}
-          validateOnBlur={true}
+          onSubmit={onSubmit}validateOnBlur={true}
           render={({ handleSubmit }) => {
             return (
               <form id="addNewDelivery" onSubmit={handleSubmit} noValidate>

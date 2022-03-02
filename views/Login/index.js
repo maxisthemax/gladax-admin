@@ -68,7 +68,6 @@ function Login() {
         <Form
           onSubmit={onSubmit}
           validate={loginValidate}
-          validateOnBlur={true}
           render={({ handleSubmit, invalid }) => {
             return (
               <form
