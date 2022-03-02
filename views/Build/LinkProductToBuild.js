@@ -1,7 +1,7 @@
 import { useMemo } from "react";
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 import { Form } from "react-final-form";
-import useHover from "react-use-hover";
+import useHover from "@react-hook/hover";
 
 //*lodash
 import groupBy from "lodash/groupBy";
@@ -404,9 +404,11 @@ function LinkProductToBuild({
 }
 
 function ImageUpload({ document, handleRemoveDocumentId }) {
-  const [isHovering, hoverProps] = useHover();
+  const target = useRef(null);
+  const isHovering = useHover(target, { enterDelay: 200, leaveDelay: 200 });
+
   return (
-    <Grid item xs={4} {...hoverProps}>
+    <Grid item xs={4} ref={target}>
       <Box p={1}>
         <Box position="absolute" p={1}>
           {isHovering && (

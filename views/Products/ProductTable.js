@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { useSnackbar } from "notistack";
 import { unflatten } from "flat";
 import { reactLocalStorage } from "reactjs-localstorage";
@@ -6,7 +6,7 @@ import { Form } from "react-final-form";
 import { Select, DatePicker } from "mui-rff";
 import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
-import useHover from "react-use-hover";
+import useHover from "@react-hook/hover";
 
 //*lodash
 import map from "lodash/map";
@@ -642,9 +642,11 @@ function ImageUploadComponent({ id }) {
 }
 
 function ImageUpload({ document, handleRemoveDocumentId }) {
-  const [isHovering, hoverProps] = useHover();
+  const target = useRef(null);
+  const isHovering = useHover(target, { enterDelay: 200, leaveDelay: 200 });
+
   return (
-    <Grid item xs={4} {...hoverProps}>
+    <Grid item xs={4} ref={target}>
       <Box p={1}>
         <Box position="absolute" p={1}>
           {isHovering && (
