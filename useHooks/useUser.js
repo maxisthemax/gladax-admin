@@ -35,7 +35,7 @@ function useUser() {
       });
 
       reactLocalStorage.set("access_token", resData.data.accessToken);
-      mutate();
+      await mutate();
       router.replace("/");
     } catch (eror) {
       enqueueSnackbar(eror?.response?.statusText, {
@@ -47,7 +47,7 @@ function useUser() {
   function handleLogout() {
     reactLocalStorage.remove("access_token");
     mutate({}, true);
-    router.replace("/");
+    router.replace("/login");
   }
 
   return {

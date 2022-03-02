@@ -21,8 +21,11 @@ import Main from "layouts/Main";
 
 //*custom components
 
+import useUser from "useHooks/useUser";
+
 function LayoutWrapper({ children }) {
   //*define
+  const { userData } = useUser();
   const router = useRouter();
 
   //*states
@@ -37,7 +40,7 @@ function LayoutWrapper({ children }) {
   //*useEffect
 
   //*functions
-  if (includes(minimialPath, router.pathname))
+  if (includes(minimialPath, router.pathname) || !userData?.id)
     return <Minimal>{children}</Minimal>;
   else return <Main>{children}</Main>;
 }
