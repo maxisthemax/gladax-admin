@@ -141,107 +141,97 @@ function Orders() {
           </Box>
         );
         break;
-      case "totalAmount":
-        text = `RM ${formattedValue}`;
-        break;
-      case "totalWeight":
-        text = `${convertUnit(value).from("g").to("kg")} kg`;
-        break;
-      case "deliveryId":
+
+      case "allStatus":
         {
-          const findDeliveryData = find(deliveryData, { id: value });
-          text = findDeliveryData?.vendor;
+          const findStatus = find(orderStatus, { valueNumber: row.status });
+          text = (
+            <PopupState variant="popover" popupId="demo-popup-popover">
+              {(popupState) => (
+                <div>
+                  <Button
+                    variant="contained"
+                    size="small"
+                    {...bindTrigger(popupState)}
+                  >
+                    Check Status
+                  </Button>
+                  <Popover
+                    {...bindPopover(popupState)}
+                    anchorOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "left",
+                    }}
+                  >
+                    <Box p={1} width="300px">
+                      <List dense disablePadding>
+                        {orderStatus.map(
+                          ({ label, valueName, valueNumber }) => {
+                            if (row.status < valueNumber) return "";
+                            else
+                              return (
+                                <ListItem disableGutters>
+                                  <Box
+                                    display="flex"
+                                    justifyContent="space-between"
+                                    width="100%"
+                                    color={
+                                      row.status === valueNumber
+                                        ? "darkblue"
+                                        : "inherit"
+                                    }
+                                    sx={{
+                                      fontWeight:
+                                        row.status === valueNumber
+                                          ? "bold"
+                                          : "",
+                                    }}
+                                  >
+                                    <Box>{label}</Box>
+                                    <Box>
+                                      {row[`statuesDate.${valueName}`]
+                                        ? moment(
+                                            row[`statuesDate.${valueName}`]
+                                          ).format("DD/MM/YYYY")
+                                        : ""}
+                                    </Box>
+                                  </Box>
+                                </ListItem>
+                              );
+                          }
+                        )}
+                      </List>
+                      <Box>
+                        <Stack direction="row" spacing={2}>
+                          <a
+                            href="#"
+                            onClick={() => handleToStatus("revert", id, value)}
+                          >
+                            Revert
+                          </a>
+                          {findStatus?.valueNumber < 5 && (
+                            <a
+                              href="#"
+                              onClick={() => handleToStatus("next", id, value)}
+                            >
+                              Next
+                            </a>
+                          )}
+                        </Stack>
+                      </Box>
+                    </Box>
+                  </Popover>
+                </div>
+              )}
+            </PopupState>
+          );
         }
         break;
-      case "status": {
-        const findStatus = find(orderStatus, { valueNumber: value });
-        text = (
-          <Box p={1}>
-            {`${findStatus.label} ${
-              row[`statuesDate.${findStatus.valueName}`]
-                ? moment(row[`statuesDate.${findStatus.valueName}`]).format(
-                    "DD/MM/YYYY"
-                  )
-                : ""
-            }`}
-            <Box>
-              {/* <a href="#" onClick={() => handleToStatus("revert", id, value)}>
-                Revert
-              </a>{" "} */}
-              {findStatus.valueNumber < 5 && (
-                <a href="#" onClick={() => handleToStatus("next", id, value)}>
-                  Next
-                </a>
-              )}
-            </Box>
-          </Box>
-        );
-        break;
-      }
-      case "allStatus":
-        text = (
-          <PopupState variant="popover" popupId="demo-popup-popover">
-            {(popupState) => (
-              <div>
-                <Button
-                  variant="contained"
-                  size="small"
-                  {...bindTrigger(popupState)}
-                >
-                  Check Status
-                </Button>
-                <Popover
-                  {...bindPopover(popupState)}
-                  anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "left",
-                  }}
-                >
-                  <Box p={1} width="300px">
-                    <List dense disablePadding>
-                      {orderStatus.map(({ label, valueName, valueNumber }) => {
-                        if (row.status < valueNumber) return "";
-                        else
-                          return (
-                            <ListItem disableGutters>
-                              <Box
-                                display="flex"
-                                justifyContent="space-between"
-                                width="100%"
-                                color={
-                                  row.status === valueNumber
-                                    ? "darkblue"
-                                    : "inherit"
-                                }
-                                sx={{
-                                  fontWeight:
-                                    row.status === valueNumber ? "bold" : "",
-                                }}
-                              >
-                                <Box>{label}</Box>
-                                <Box>
-                                  {row[`statuesDate.${valueName}`]
-                                    ? moment(
-                                        row[`statuesDate.${valueName}`]
-                                      ).format("DD/MM/YYYY")
-                                    : ""}
-                                </Box>
-                              </Box>
-                            </ListItem>
-                          );
-                      })}
-                    </List>
-                  </Box>
-                </Popover>
-              </div>
-            )}
-          </PopupState>
-        );
-        break;
+
       default:
         text = formattedValue;
         break;
@@ -361,29 +351,62 @@ function Orders() {
     },
     {
       field: "status",
-      headerName: "Current Status",
+      headerName: "Current Status Label",
       type: "string",
       editable: false,
       width: 150,
+      valueFormatter: (params) => {
+        const findStatus = find(orderStatus, {
+          valueNumber: params.value,
+        });
+        return findStatus.label;
+      },
       renderCell: RenderCell,
       renderEditCell: RenderEditStringCell,
       hide: lookupState["status"],
+    },
+    {
+      field: "statusDate",
+      headerName: "Current Status Date",
+      type: "date",
+      editable: false,
+      width: 150,
+      valueFormatter: (params) => {
+        return moment(params.value).format("DD/MM/YYYY");
+      },
+      valueGetter: (params) => {
+        const findStatus = find(orderStatus, {
+          valueNumber: params.row.status,
+        });
+        return params.row[`statuesDate.${findStatus.valueName}`]
+          ? moment(params.row[`statuesDate.${findStatus.valueName}`]).toDate()
+          : "";
+      },
+      renderCell: RenderCell,
+      renderEditCell: RenderEditStringCell,
+      hide: lookupState["statusDate"],
     },
     {
       field: "allStatus",
       headerName: "Status History",
-      type: "string",
+      type: "action",
       editable: false,
       width: 150,
+      sortable: false,
       renderCell: RenderCell,
       renderEditCell: RenderEditStringCell,
-      hide: lookupState["status"],
+      hide: lookupState["allStatus"],
     },
     {
       field: "deliveryId",
+      headerName: "Delivery",
       type: "string",
       width: 120,
       editable: true,
+      valueGetter: (params) => {
+        const findDeliveryData = find(deliveryData, { id: params.value });
+        return findDeliveryData?.vendor;
+      },
       renderCell: RenderCell,
       renderEditCell: RenderEditDeliveryCell,
     },
@@ -396,6 +419,9 @@ function Orders() {
       renderCell: RenderCell,
       renderEditCell: RenderEditStringCell,
       hide: lookupState["createdAt"],
+      valueFormatter: (params) => {
+        return moment(params.value).format("DD/MM/YYYY");
+      },
     },
     {
       field: "recipient",
@@ -422,6 +448,9 @@ function Orders() {
       editable: false,
       width: 120,
       renderCell: RenderCell,
+      valueFormatter: (params) => {
+        return `RM ${params.value}`;
+      },
       hide: lookupState["totalAmount"],
     },
     {
@@ -431,6 +460,9 @@ function Orders() {
       editable: false,
       width: 120,
       renderCell: RenderCell,
+      valueFormatter: (params) => {
+        return `${convertUnit(params.value).from("g").to("kg")} kg`;
+      },
       hide: lookupState["totalWeight"],
     },
     {
