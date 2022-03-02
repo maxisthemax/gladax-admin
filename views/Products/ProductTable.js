@@ -7,6 +7,7 @@ import { Select, DatePicker } from "mui-rff";
 import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
 import useHover from "@react-hook/hover";
+import moment from "moment";
 
 //*lodash
 import map from "lodash/map";
@@ -262,6 +263,9 @@ function ProductTable() {
       width: 160,
       renderCell: RenderCell,
       hide: lookupState["availableDate"],
+      valueFormatter: (params) => {
+        return moment(params.value).format("DD/MM/YYYY");
+      },
     },
     {
       field: "productStatus",
