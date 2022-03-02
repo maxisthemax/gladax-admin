@@ -74,7 +74,7 @@ function Orders() {
 
   const { enqueueSnackbar } = useSnackbar();
   //*const
-  const startYear = 2022;
+  const startYear = 2021;
   const thisYear = moment(new Date()).year();
   const thisMonth = moment(new Date()).month() + 1;
 
@@ -91,7 +91,7 @@ function Orders() {
   const [editedData, setEditedData] = useState({});
   const [selectedYear, setSelectYear] = useState(thisYear);
   const [selectedMonth, setSelectMonth] = useState(
-    getAllPastMonths(new Date(`1/1/${selectedYear}`))
+    getAllPastMonths(new Date())
   );
 
   const lookupState = ISSERVER
@@ -555,6 +555,7 @@ function Orders() {
   };
 
   const handleSetSelectYear = (year) => {
+    setSelectMonth(getAllPastMonths(moment(`12/31/${year}`).toDate()));
     setSelectYear(year);
   };
 
