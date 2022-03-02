@@ -42,7 +42,7 @@ function LayoutWrapper({ children }) {
   //*functions
   if (includes(minimialPath, router.pathname) || !userData?.id)
     return <Minimal>{children}</Minimal>;
-  else return <Main>{children}</Main>;
+  else return <Main>{userData?.id && children}</Main>;
 }
 
 export default LayoutWrapper;
