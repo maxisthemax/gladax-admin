@@ -588,7 +588,7 @@ function ImageUploadComponent({ id }) {
   const documents = find(data, { id: id })?.documents;
 
   const { startUpload, getTotalUploadedFiles, uploadAttachment, isUploading } =
-    useUploadAttachment(6 - documents.length, false);
+    useUploadAttachment(10 - documents.length, false);
 
   const handleStartUpload = async () => {
     const resData = await startUpload();
