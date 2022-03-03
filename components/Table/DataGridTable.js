@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import {
   DataGrid,
   GridToolbarContainer,
@@ -6,20 +6,31 @@ import {
   GridToolbarExport,
 } from "@mui/x-data-grid";
 import { reactLocalStorage } from "reactjs-localstorage";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { arrayMoveImmutable } from "array-move";
+import PopupState, { bindTrigger, bindPopover } from "material-ui-popup-state";
 
 //*lodash
+import map from "lodash/map";
 import forOwn from "lodash/forOwn";
 import values from "lodash/values";
 import filter from "lodash/filter";
+import sortBy from "lodash/sortBy";
+import indexOf from "lodash/indexOf";
 
 //*components
+import { Button } from "components/Buttons";
 
 //*material-ui
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
 import Badge from "@mui/material/Badge";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import Paper from "@mui/material/Paper";
 import makeStyles from "@mui/styles/makeStyles";
+import Popover from "@mui/material/Popover";
 
 //*assets
 
@@ -149,6 +160,16 @@ function DataGridTable({
   checkboxSelection = true,
 }) {
   //*const
+
+  const columnsOrderLS = ISSERVER
+    ? null
+    : reactLocalStorage.getObject(`${id}_columnsOrder`);
+  const [columnsOrder, setColumnsOrder] = useState(
+    columnsOrderLS ? columnsOrderLS : map(columns, "field")
+  );
+  const sortedColumns = sortBy(columns, ({ field }) => {
+    return indexOf(columnsOrder, field);
+  });
   const classes = useStyles();
 
   //*functions
@@ -170,8 +191,96 @@ function DataGridTable({
 
   const customToolbar = () => <CustomToolbar id={id} />;
 
+  const onDragEnd = (data) => {
+    const { source, destination } = data;
+
+    if (!source) return;
+    if (!destination) return;
+
+    const sourceIndex = source.index;
+    const destIndex = destination.index;
+    const sourceDropId = source.droppableId;
+    const destDropId = destination.droppableId;
+
+    if (
+      source.droppableId === destination.droppableId &&
+      source.index === destination.index
+    )
+      return;
+
+    if (data.type === "columns" && sourceDropId === destDropId) {
+      const reordered = map(
+        arrayMoveImmutable(sortedColumns, sourceIndex, destIndex),
+        "field"
+      );
+      reactLocalStorage.setObject(`${id}_columnsOrder`, reordered);
+      setColumnsOrder(reordered);
+    }
+  };
+
   return (
     <Box height="80vh">
+      <PopupState variant="popover" popupId="demo-popup-popover">
+        {(popupState) => (
+          <>
+            <Button
+              variant="contained"
+              size="small"
+              {...bindTrigger(popupState)}
+            >
+              Reorder Column
+            </Button>
+            <Box p={1}></Box>
+            <Popover
+              {...bindPopover(popupState)}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+            >
+              <DragDropContext onDragEnd={onDragEnd}>
+                <Droppable droppableId={id} type="columns">
+                  {(provided) => {
+                    return (
+                      <List
+                        ref={provided.innerRef}
+                        {...provided.droppableProps}
+                        style={{ maxHeight: "600px", overflow: "overlay" }}
+                      >
+                        {sortedColumns &&
+                          sortedColumns.map((column, index) => {
+                            return (
+                              <Draggable
+                                key={column.field}
+                                draggableId={column.field}
+                                index={index}
+                              >
+                                {(provided) => {
+                                  return (
+                                    <Paper
+                                      sx={{ m: 1 }}
+                                      ref={provided && provided.innerRef}
+                                      {...(provided && provided.draggableProps)}
+                                      {...(provided &&
+                                        provided.dragHandleProps)}
+                                    >
+                                      <ListItem>{column.headerName}</ListItem>
+                                    </Paper>
+                                  );
+                                }}
+                              </Draggable>
+                            );
+                          })}
+                        {provided.placeholder}
+                      </List>
+                    );
+                  }}
+                </Droppable>
+              </DragDropContext>
+            </Popover>
+          </>
+        )}
+      </PopupState>
       <DataGrid
         className={classes.dataGrid}
         columnBuffer={2}
@@ -189,7 +298,7 @@ function DataGridTable({
         rowHeight={rowHeight}
         loading={isValidating}
         rows={data}
-        columns={columns}
+        columns={sortedColumns}
         checkboxSelection={checkboxSelection}
         disableSelectionOnClick
         editMode="cell"

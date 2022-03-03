@@ -19,6 +19,7 @@
     "@mui/x-data-grid": "^5.0.0-beta.2",
     "@react-hook/hover": "^4.0.0",
     "@reduxjs/toolkit": "^1.6.1",
+    "array-move": "^4.0.0",
     "axios": "^0.22.0",
     "clsx": "^1.1.1",
     "convert-units": "^2.3.4",
