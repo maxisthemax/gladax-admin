@@ -3,6 +3,8 @@ import { CustomTabs } from "components/Tabs";
 import HomeLayout from "./HomeLayout";
 import StartYourBuildLayout from "./StartYourBuildLayout";
 import PrivacyPolicy from "./PrivacyPolicy";
+import TermsOfUse from "./TermsOfUse";
+import About from "./About";
 
 //*lodash
 
@@ -32,6 +34,16 @@ function Layout() {
       value: "privacypolicy",
       label: "Privacy Policy",
       content: <PrivacyPolicy />,
+    },
+    {
+      value: "termsofuse",
+      label: "Terms Of Use",
+      content: <TermsOfUse />,
+    },
+    {
+      value: "about",
+      label: "About",
+      content: <About />,
     },
   ];
 
