@@ -15,6 +15,8 @@ import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
+import ReturnPolicy from "./ReturnPolicy";
+import Cancellation from "./Cancellation";
 
 //*utils
 
@@ -49,6 +51,16 @@ function Layout() {
       value: "termsofuse",
       label: "Terms Of Use",
       content: <TermsOfUse />,
+    },
+    {
+      value: "returnpolicy",
+      label: "Return Policy",
+      content: <ReturnPolicy />,
+    },
+    {
+      value: "cancellation",
+      label: "Cancellation",
+      content: <Cancellation />,
     },
     {
       value: "about",
