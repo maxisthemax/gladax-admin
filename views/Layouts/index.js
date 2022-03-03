@@ -2,6 +2,7 @@
 import { CustomTabs } from "components/Tabs";
 import HomeLayout from "./HomeLayout";
 import StartYourBuildLayout from "./StartYourBuildLayout";
+import PrivacyPolicy from "./PrivacyPolicy";
 
 //*lodash
 
@@ -26,6 +27,11 @@ function Layout() {
       value: "startyourbuild",
       label: "Start Your Build",
       content: <StartYourBuildLayout />,
+    },
+    {
+      value: "privacypolicy",
+      label: "Privacy Policy",
+      content: <PrivacyPolicy />,
     },
   ];
 
