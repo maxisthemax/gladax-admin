@@ -1,5 +1,6 @@
+import { useState } from "react";
+
 //*components
-import { CustomTabs } from "components/Tabs";
 import HomeLayout from "./HomeLayout";
 import StartYourBuildLayout from "./StartYourBuildLayout";
 import PrivacyPolicy from "./PrivacyPolicy";
@@ -10,6 +11,10 @@ import About from "./About";
 
 //*material-ui
 import Box from "@mui/material/Box";
+import Tab from "@mui/material/Tab";
+import TabContext from "@mui/lab/TabContext";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
 
 //*utils
 
@@ -17,6 +22,11 @@ import Box from "@mui/material/Box";
 
 function Layout() {
   //*define
+  const [value, setValue] = useState("1");
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   //*functions
   const tabs = [
@@ -49,7 +59,18 @@ function Layout() {
 
   return (
     <Box>
-      <CustomTabs tabs={tabs} defaultTabIndex={0} />
+      <TabContext value={value}>
+        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+          <TabList onChange={handleChange}>
+            {tabs.map((tab) => (
+              <Tab label={tab.label} value={tab.value} />
+            ))}
+          </TabList>
+        </Box>
+        {tabs.map((tab) => (
+          <TabPanel value={tab.value}>{tab.content}</TabPanel>
+        ))}
+      </TabContext>
     </Box>
   );
 }
