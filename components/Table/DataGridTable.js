@@ -277,6 +277,17 @@ function DataGridTable({
                   }}
                 </Droppable>
               </DragDropContext>
+              <Box p={1}>
+                <Button
+                  variant="contained"
+                  size="small"
+                  onClick={() => {
+                    setColumnsOrder([]);
+                  }}
+                >
+                  Reset
+                </Button>
+              </Box>
             </Popover>
           </>
         )}
