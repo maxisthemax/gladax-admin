@@ -31,13 +31,16 @@ const Editor = dynamic(
   { ssr: false }
 );
 
-function Cancellation() {
+function CancellationReturnPolicy() {
   //*define
   const { enqueueSnackbar } = useSnackbar();
   const [editorState, setEditorState] = useState();
-  const { data, mutate, isValidating } = useSwrHttp(`layout/cancellation`, {
-    fallbackData: null,
-  });
+  const { data, mutate, isValidating } = useSwrHttp(
+    `layout/cancellationreturnpolicy`,
+    {
+      fallbackData: null,
+    }
+  );
   const htmlData = data?.layout.html;
   useEffect(() => {
     if (htmlData) {
@@ -62,11 +65,11 @@ function Cancellation() {
 
     try {
       const resData = data
-        ? await axios.patch(`layout/cancellation `, {
+        ? await axios.patch(`layout/cancellationreturnpolicy `, {
             layout: { html: markup },
           })
         : await axios.post("layout", {
-            key: "cancellation",
+            key: "cancellationreturnpolicy",
             layout: { html: markup },
           });
 
@@ -99,4 +102,4 @@ function Cancellation() {
   );
 }
 
-export default Cancellation;
+export default CancellationReturnPolicy;
