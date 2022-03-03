@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSnackbar } from "notistack";
 import { Form } from "react-final-form";
+import { Select } from "mui-rff";
 
 //*lodash
 
@@ -14,6 +15,7 @@ import { Button } from "components/Buttons";
 import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
+import MenuItem from "@mui/material/MenuItem";
 
 //*assets
 
@@ -105,6 +107,7 @@ function UserDialog() {
         }}
       >
         <Form
+          initialValues={{ address: { country: "Malaysia" } }}
           validate={addNewUser}
           onSubmit={onSubmit}
           render={({ handleSubmit }) => {
@@ -141,15 +144,58 @@ function UserDialog() {
                   />
                   <TextFieldForm label="Name" name="name" required={true} />
                   <TextFieldForm
-                    label="Address"
-                    name="address"
-                    required={true}
-                  />
-                  <TextFieldForm
                     label="Phone No."
                     name="phoneNo"
                     required={true}
                   />
+                  <TextFieldForm
+                    label="Address1"
+                    name="address.address1"
+                    required={true}
+                  />
+                  <TextFieldForm label="Address2" name="address.address2" />
+                  <Stack spacing={2} direction="row">
+                    <TextFieldForm
+                      label="Country"
+                      name="address.country"
+                      required={true}
+                      disabled
+                    />
+                    <Select name="address.state" label="State" size="small">
+                      <MenuItem value="Selangor">Selangor</MenuItem>
+                      <MenuItem value="Kuala Lumpur">Kuala Lumpur</MenuItem>
+                      <MenuItem value="Putrajaya">Putrajaya</MenuItem>
+                      <MenuItem value="Johor">Johor</MenuItem>
+                      <MenuItem value="Kedah">Kedah</MenuItem>
+                      <MenuItem value="Kelantan">Kelantan</MenuItem>
+                      <MenuItem value="Melaka">Melaka</MenuItem>
+                      <MenuItem value="Negeri Sembilan">
+                        Negeri Sembilan
+                      </MenuItem>
+                      <MenuItem value="Pahang">Pahang</MenuItem>
+                      <MenuItem value="Penang">Penang</MenuItem>
+                      <MenuItem value="Perak">Perak</MenuItem>
+                      <MenuItem value="Perlis">Perlis</MenuItem>
+                      <MenuItem value="Terengganu Terengganu">
+                        Terengganu
+                      </MenuItem>
+                      <MenuItem value="Sabah">Sabah</MenuItem>
+                      <MenuItem value="Sarawak">Sarawak</MenuItem>
+                      <MenuItem value="Sarawak">Labuan</MenuItem>
+                    </Select>
+                  </Stack>
+                  <Stack spacing={2} direction="row">
+                    <TextFieldForm
+                      label="City"
+                      name="address.city"
+                      required={true}
+                    />
+                    <TextFieldForm
+                      label="Postcode"
+                      name="address.postCode"
+                      required={true}
+                    />
+                  </Stack>
                 </Stack>
               </form>
             );

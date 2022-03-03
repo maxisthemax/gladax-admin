@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { useSnackbar } from "notistack";
-import { unflatten } from "flat";
+import { unflatten, flatten } from "flat";
 import { reactLocalStorage } from "reactjs-localstorage";
 
 //*lodash
@@ -57,9 +57,18 @@ function User() {
     ? {}
     : reactLocalStorage.getObject("user_TableLookupHide");
 
+  const flatData = useMemo(
+    () =>
+      data.reduce((temp, value) => {
+        temp.push(flatten(value));
+        return temp;
+      }, []),
+    [data]
+  );
+
   const RenderCell = ({ field, formattedValue, api, id }) => {
     const isEdited = has(editedData, `${id}.${field}`);
-    const findData = find(data, { id: id }) || "";
+    const findData = find(flatData, { id: id }) || "";
     const handleClickUndoButton = () => {
       handleUndoEditData(id, field);
       api.setEditCellValue({ id, field, value: findData[`${field}`] });
@@ -170,17 +179,17 @@ function User() {
       hide: lookupState["role"],
     },
     {
-      field: "address1",
+      field: "address.address1",
       headerName: "Address 1",
       type: "string",
       editable: true,
       width: 300,
       renderCell: RenderCell,
       renderEditCell: RenderEditStringCell,
-      hide: lookupState["address1"],
+      hide: lookupState["address.address1"],
     },
     {
-      field: "address2",
+      field: "address.address2",
       headerName: "Address 2",
       type: "string",
       editable: true,
@@ -190,44 +199,44 @@ function User() {
       hide: lookupState["address2"],
     },
     {
-      field: "city",
+      field: "address.city",
       headerName: "City",
       type: "string",
       editable: true,
       width: 300,
       renderCell: RenderCell,
       renderEditCell: RenderEditStringCell,
-      hide: lookupState["city"],
+      hide: lookupState["address.city"],
     },
     {
-      field: "state",
+      field: "address.state",
       headerName: "State",
       type: "string",
       editable: true,
       width: 300,
       renderCell: RenderCell,
       renderEditCell: RenderEditStringCell,
-      hide: lookupState["state"],
+      hide: lookupState["address.state"],
     },
     {
-      field: "postCode",
+      field: "address.postCode",
       headerName: "Postcode",
       type: "string",
       editable: true,
       width: 300,
       renderCell: RenderCell,
       renderEditCell: RenderEditStringCell,
-      hide: lookupState["postCode"],
+      hide: lookupState["address.postCode"],
     },
     {
-      field: "country",
+      field: "address.country",
       headerName: "Country",
       type: "string",
       editable: false,
       width: 300,
       renderCell: RenderCell,
       renderEditCell: RenderEditStringCell,
-      hide: lookupState["postcountryCode"],
+      hide: lookupState["address.country"],
     },
   ];
 
@@ -250,14 +259,14 @@ function User() {
   const handleEditCell = useCallback(
     (editData) => {
       const { field, value, id } = editData;
-      const findData = find(data, { id: id }) || "";
+      const findData = find(flatData, { id: id }) || "";
       if (trim(value) !== trim(findData[`${field}`]))
         setEditedData({ ...editedData, [`${id}.${field}`]: value });
       else {
         setEditedData({ ...omit(editedData, [`${id}.${field}`]) });
       }
     },
-    [data, editedData]
+    [flatData, editedData]
   );
 
   const handleUndoEditData = useCallback(
@@ -335,7 +344,7 @@ function User() {
           <DataGridTable
             id="user"
             isValidating={isValidating}
-            data={data}
+            data={flatData}
             columns={columns}
             selectionModel={selectionModel}
             setSelectionModel={setSelectionModel}
