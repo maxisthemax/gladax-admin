@@ -155,6 +155,11 @@ function LinkProductToBuild({
     [documents, id]
   );
 
+  const handleDelete = async () => {
+    await axios.delete(`build/${id}`);
+    mutate();
+  };
+
   return (
     <Box style={{ minHeight: 400, width: "100%" }}>
       <Box style={{ display: "flex", height: "100%" }}>
@@ -393,6 +398,8 @@ function LinkProductToBuild({
                   <Button disabled={invalid} type="submit">
                     Save
                   </Button>
+                  <Box p={1} />
+                  <Button onClick={handleDelete}>Delete</Button>
                 </form>
               );
             }}
