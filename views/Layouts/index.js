@@ -6,6 +6,8 @@ import StartYourBuildLayout from "./StartYourBuildLayout";
 import PrivacyPolicy from "./PrivacyPolicy";
 import TermsOfUse from "./TermsOfUse";
 import About from "./About";
+import CancellationReturnPolicy from "./CancellationReturnPolicy";
+import ContactUs from "./ContactUs";
 
 //*lodash
 
@@ -15,7 +17,6 @@ import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-import CancellationReturnPolicy from "./CancellationReturnPolicy";
 
 //*utils
 
@@ -55,6 +56,11 @@ function Layout() {
       value: "cancellationreturnpolicy",
       label: "Cancellation & Return Policy",
       content: <CancellationReturnPolicy />,
+    },
+    {
+      value: "contactus",
+      label: "Contact Us",
+      content: <ContactUs />,
     },
     {
       value: "about",
