@@ -238,13 +238,13 @@ function Delivery() {
       allPromises.push(axios.patch(`delivery/${key}`, flatData));
     });
     const resData = await Promise.allSettled(allPromises);
-    resData.forEach(({ status, value, reason }) => {
+    resData.forEach(({ status, reason }) => {
       if (status === "fulfilled")
-        enqueueSnackbar(value.statusText, {
+        enqueueSnackbar("Done", {
           variant: "success",
         });
       else
-        enqueueSnackbar(reason.response.data.message, {
+        enqueueSnackbar(reason?.response?.data?.message, {
           variant: "error",
         });
     });
@@ -257,9 +257,9 @@ function Delivery() {
       allPromises.push(axios.delete(`delivery/${key}`))
     );
     const resData = await Promise.allSettled(allPromises);
-    resData.forEach(({ status, value, reason }) => {
+    resData.forEach(({ status, reason }) => {
       if (status === "fulfilled")
-        enqueueSnackbar(value.statusText, {
+        enqueueSnackbar("Done", {
           variant: "success",
         });
       else

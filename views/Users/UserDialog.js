@@ -70,14 +70,14 @@ function UserDialog() {
 
   const onSubmit = async (value) => {
     try {
-      const resData = await axios.post("user", value);
+      await axios.post("user", value);
       mutate();
-      enqueueSnackbar(resData.statusText, {
+      enqueueSnackbar("DONE", {
         variant: "success",
       });
       handleCloseDialog();
-    } catch (eror) {
-      const errorMessage = eror.response.data.message;
+    } catch (error) {
+      const errorMessage = error?.response?.data?.message;
       enqueueSnackbar(errorMessage, {
         variant: "error",
       });

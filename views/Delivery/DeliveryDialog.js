@@ -65,14 +65,14 @@ function DeliveryDialog() {
 
   const onSubmit = async (value) => {
     try {
-      const resData = await axios.post("delivery", value);
+      await axios.post("delivery", value);
       mutate();
-      enqueueSnackbar(resData.statusText, {
+      enqueueSnackbar("Done", {
         variant: "success",
       });
       handleCloseDialog();
-    } catch (eror) {
-      const errorMessage = eror.response.data.message;
+    } catch (error) {
+      const errorMessage = error?.response?.data?.message;
       enqueueSnackbar(errorMessage, {
         variant: "error",
       });

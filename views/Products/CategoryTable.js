@@ -247,8 +247,8 @@ function CategoryTable() {
       enqueueSnackbar(resData.statusText, {
         variant: "success",
       });
-    } catch (eror) {
-      const errorMessage = eror.response.data.message;
+    } catch (error) {
+      const errorMessage = error?.response?.data?.message;
       enqueueSnackbar(errorMessage, {
         variant: "error",
       });
@@ -262,13 +262,13 @@ function CategoryTable() {
       allPromises.push(axios.patch(`category/${key}`, data));
     });
     const resData = await Promise.allSettled(allPromises);
-    resData.forEach(({ status, value, reason }) => {
+    resData.forEach(({ status, reason }) => {
       if (status === "fulfilled")
-        enqueueSnackbar(value.statusText, {
+        enqueueSnackbar("DONE", {
           variant: "success",
         });
       else
-        enqueueSnackbar(reason.response.data.message, {
+        enqueueSnackbar(reason?.response?.data?.message, {
           variant: "error",
         });
     });

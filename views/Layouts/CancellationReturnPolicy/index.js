@@ -74,12 +74,12 @@ function CancellationReturnPolicy() {
           });
 
       if (resData)
-        enqueueSnackbar(resData.statusText, {
+        enqueueSnackbar("Done", {
           variant: "success",
         });
       mutate();
-    } catch (eror) {
-      const errorMessage = eror.response.data.message;
+    } catch (error) {
+      const errorMessage = error?.response?.data?.message;
       enqueueSnackbar(errorMessage, {
         variant: "error",
       });

@@ -374,17 +374,17 @@ function ProductTable() {
 
   const onSubmit = async (value) => {
     try {
-      const resData = await axios.post("product", value);
+      await axios.post("product", value);
       mutate();
-      enqueueSnackbar(resData.statusText, {
+      enqueueSnackbar("DONE", {
         variant: "success",
       });
-    } catch (eror) {
+    } catch (error) {
       let errorMessage = "";
-      if (Array.isArray(eror.response.data.message)) {
+      if (Array.isArray(error?.response?.data?.message)) {
         errorMessage = (
           <ul>
-            {eror.response.data.message.map((message) => (
+            {error?.response?.data?.message.map((message) => (
               <li>{message}</li>
             ))}
           </ul>
@@ -393,7 +393,7 @@ function ProductTable() {
           variant: "error",
         });
       } else {
-        enqueueSnackbar(eror.response.data.message, {
+        enqueueSnackbar(error?.response?.data?.message, {
           variant: "error",
         });
       }
@@ -427,9 +427,9 @@ function ProductTable() {
       allPromises.push(axios.delete(`product/${key}`))
     );
     const resData = await Promise.allSettled(allPromises);
-    resData.forEach(({ status, value, reason }) => {
+    resData.forEach(({ status, reason }) => {
       if (status === "fulfilled") {
-        enqueueSnackbar(value.statusText, {
+        enqueueSnackbar("DONE", {
           variant: "success",
         });
       } else

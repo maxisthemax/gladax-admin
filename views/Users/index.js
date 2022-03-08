@@ -289,13 +289,13 @@ function User() {
       allPromises.push(axios.patch(`user/${key}`, data));
     });
     const resData = await Promise.allSettled(allPromises);
-    resData.forEach(({ status, value, reason }) => {
+    resData.forEach(({ status, reason }) => {
       if (status === "fulfilled")
-        enqueueSnackbar(value.statusText, {
+        enqueueSnackbar("DONE", {
           variant: "success",
         });
       else
-        enqueueSnackbar(reason.response.data.message, {
+        enqueueSnackbar(reason?.response?.data?.message, {
           variant: "error",
         });
     });

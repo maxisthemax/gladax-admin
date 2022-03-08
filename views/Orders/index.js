@@ -540,15 +540,13 @@ function Orders() {
   const handleToStatus = async (mode, orderId, currentStatus) => {
     let status = mode === "next" ? currentStatus + 1 : currentStatus - 1;
     try {
-      const resData = await axios.patch(
-        `order/updateStatus/${orderId}/${status}`
-      );
+      await axios.patch(`order/updateStatus/${orderId}/${status}`);
       mutateAllOrders();
-      enqueueSnackbar(resData.statusText, {
+      enqueueSnackbar("Done", {
         variant: "success",
       });
-    } catch (eror) {
-      enqueueSnackbar(eror?.response?.statusText, {
+    } catch (error) {
+      enqueueSnackbar(error?.response?.data?.message, {
         variant: "error",
       });
     }

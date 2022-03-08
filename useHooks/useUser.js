@@ -37,8 +37,8 @@ function useUser() {
       reactLocalStorage.set("access_token", resData.data.accessToken);
       await mutate();
       router.replace("/");
-    } catch (eror) {
-      enqueueSnackbar(eror?.response?.statusText, {
+    } catch (error) {
+      enqueueSnackbar(error?.response?.data?.message, {
         variant: "error",
       });
     }
