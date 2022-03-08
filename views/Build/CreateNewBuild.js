@@ -1,4 +1,6 @@
 import { Form } from "react-final-form";
+import { DatePicker } from "mui-rff";
+import DateFnsUtils from "@date-io/date-fns";
 
 //*lodash
 import map from "lodash/map";
@@ -51,7 +53,7 @@ function CreateNewBuild() {
 
   //*functions
   const onSubmit = async (values) => {
-    const { name, description, tags, weight } = values;
+    const { name, description, tags, weight, startDate, endDate } = values;
 
     const resData = getTotalUploadedFiles() === 0 ? [] : await startUpload();
     const uploadedDocumentIdArray = map(resData, "value.data.id");
@@ -62,6 +64,8 @@ function CreateNewBuild() {
       tags: tags?.split(","),
       documentIds: uploadedDocumentIdArray,
       weight: weight,
+      startDate: startDate,
+      endDate: endDate,
     });
     mutate();
   };
@@ -110,6 +114,18 @@ function CreateNewBuild() {
                       type="number"
                       required={true}
                       disabled={submitting}
+                    />
+                    <DatePicker
+                      label="Start Date"
+                      name="startDate"
+                      required={true}
+                      dateFunsUtils={DateFnsUtils}
+                    />
+                    <DatePicker
+                      label="End Date"
+                      name="endDate"
+                      required={true}
+                      dateFunsUtils={DateFnsUtils}
                     />
                   </Stack>
                   <Box p={1} />

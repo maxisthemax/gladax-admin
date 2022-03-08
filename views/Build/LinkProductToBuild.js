@@ -2,6 +2,8 @@ import { useMemo } from "react";
 import { useCallback, useRef } from "react";
 import { Form } from "react-final-form";
 import useHover from "@react-hook/hover";
+import { DatePicker } from "mui-rff";
+import DateFnsUtils from "@date-io/date-fns";
 
 //*lodash
 import groupBy from "lodash/groupBy";
@@ -59,6 +61,8 @@ function LinkProductToBuild({
   properties,
   documents,
   categories,
+  startDate,
+  endDate,
 }) {
   //*define
   const {
@@ -124,12 +128,15 @@ function LinkProductToBuild({
     const resData = await startUpload();
     const uploadedDocumentIdArray = map(resData, "value.data.id");
     const currentDocumentIdArray = map(documents, "id");
-    const { name, description, tags, weight } = values;
+    const { name, description, tags, weight, startDate, endDate } = values;
+
     await axios.patch(`build/${id}`, {
       name: name,
       description: description,
       tags: tags?.split(","),
       weight: weight,
+      startDate: startDate,
+      endDate: endDate,
       documentIds: uniq([
         ...currentDocumentIdArray,
         ...uploadedDocumentIdArray,
@@ -177,6 +184,8 @@ function LinkProductToBuild({
               description: description,
               tags: properties.tags.join(","),
               weight: weight,
+              startDate: startDate,
+              endDate: endDate,
             }}
             onSubmit={onSubmitSaveBuildData}
             validate={createNewBuild}
@@ -217,6 +226,18 @@ function LinkProductToBuild({
                       type="number"
                       required={true}
                       disabled={submitting}
+                    />
+                    <DatePicker
+                      label="Start Date"
+                      name="startDate"
+                      required={true}
+                      dateFunsUtils={DateFnsUtils}
+                    />
+                    <DatePicker
+                      label="End Date"
+                      name="endDate"
+                      required={true}
+                      dateFunsUtils={DateFnsUtils}
                     />
                   </Stack>
                   <Box p={1} />
