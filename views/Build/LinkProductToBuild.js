@@ -15,6 +15,7 @@ import { TextFieldForm } from "components/Form";
 import { Button } from "components/Buttons";
 import useUploadAttachment from "components/useUploadAttachment";
 import { CustomIcon } from "components/Icons";
+import { useDialog } from "components/Dialogs";
 
 //*material-ui
 import Fab from "@mui/material/Fab";
@@ -60,6 +61,11 @@ function LinkProductToBuild({
   categories,
 }) {
   //*define
+  const {
+    Dialog: DialogConfirm,
+    handleOpenDialog: handleOpenDialogDeleteConfirm,
+    handleCloseDialog: handleCloseDialogDelteConfirm,
+  } = useDialog();
   const { startUpload, uploadAttachment } = useUploadAttachment(
     6 - documents.length,
     false
@@ -158,6 +164,7 @@ function LinkProductToBuild({
   const handleDelete = async () => {
     await axios.delete(`build/${id}`);
     mutate();
+    handleCloseDialogDelteConfirm();
   };
 
   return (
@@ -399,13 +406,18 @@ function LinkProductToBuild({
                     Save
                   </Button>
                   <Box p={1} />
-                  <Button onClick={handleDelete}>Delete</Button>
+                  <Button onClick={handleOpenDialogDeleteConfirm}>
+                    Delete
+                  </Button>
                 </form>
               );
             }}
           />
         </Box>
       </Box>
+      <DialogConfirm title="Confirm Delete" handleOk={handleDelete}>
+        <p>You want to delete?</p>
+      </DialogConfirm>
     </Box>
   );
 }

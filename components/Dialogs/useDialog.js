@@ -36,6 +36,7 @@ function DialogComponent({
   children,
   size = "sm",
   canCloseOutside = false,
+  ...others
 }) {
   //*define
   const smDown = useGetScreen("sm", "down");
@@ -59,6 +60,7 @@ function DialogComponent({
       maxWidth={size}
       fullWidth={true}
       onClose={canCloseOutside ? handleCancel : null}
+      {...others}
     >
       <AppBar sx={{ position: "relative" }} color="primary" variant="dense">
         <Toolbar variant="dense">
@@ -99,8 +101,8 @@ function DialogComponent({
   );
 }
 
-const useDialog = () => {
-  const [open, setOpen] = useState(false);
+const useDialog = (defaultOpen = false) => {
+  const [open, setOpen] = useState(defaultOpen);
   const [params, setParams] = useState();
 
   //*functions

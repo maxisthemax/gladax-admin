@@ -71,6 +71,11 @@ function ProductTable() {
   //*define
 
   const { Dialog, handleOpenDialog, params } = useDialog();
+  const {
+    Dialog: DialogConfirm,
+    handleOpenDialog: handleOpenDialogDeleteConfirm,
+    handleCloseDialog: handleCloseDialogDelteConfirm,
+  } = useDialog();
   const { data, mutate, isValidating, error } = useSwrHttp("product", {
     fallbackData: [],
   });
@@ -434,6 +439,7 @@ function ProductTable() {
     });
     setEditedData({});
     mutate();
+    handleCloseDialogDelteConfirm();
   }, [selectionModel]);
 
   return (
@@ -539,7 +545,7 @@ function ProductTable() {
           )}
           {!isEmpty(selectionModel) && (
             <Button
-              onClick={handleDelete}
+              onClick={handleOpenDialogDeleteConfirm}
               startIcon={<CustomIcon icon="save" color="white" />}
             >
               Delete {`(${selectionModel.length})`}
@@ -581,6 +587,9 @@ function ProductTable() {
       <Dialog title="Upload Product Images">
         <ImageUploadComponent id={params?.id} />
       </Dialog>
+      <DialogConfirm title="Confirm Delete" handleOk={handleDelete}>
+        <p>You want to delete?</p>
+      </DialogConfirm>
     </Box>
   );
 }

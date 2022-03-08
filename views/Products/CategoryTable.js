@@ -17,6 +17,7 @@ import { TextFieldForm } from "components/Form";
 import { CustomIcon } from "components/Icons";
 import { DataGridTable } from "components/Table";
 import { Button } from "components/Buttons";
+import { useDialog } from "components/Dialogs";
 
 //*material-ui
 import Box from "@mui/material/Box";
@@ -48,6 +49,11 @@ const ISSERVER = typeof window === "undefined";
 
 function CategoryTable() {
   //*define
+  const {
+    Dialog: DialogConfirm,
+    handleOpenDialog: handleOpenDialogDeleteConfirm,
+    handleCloseDialog: handleCloseDialogDelteConfirm,
+  } = useDialog();
   const { data, mutate, isValidating, error } = useSwrHttp("category", {
     fallbackData: [],
   });
@@ -288,6 +294,7 @@ function CategoryTable() {
     });
     setEditedData({});
     mutate();
+    handleCloseDialogDelteConfirm();
   }, [selectionModel]);
 
   return (
@@ -339,7 +346,7 @@ function CategoryTable() {
           )}
           {!isEmpty(selectionModel) && (
             <Button
-              onClick={handleDelete}
+              onClick={handleOpenDialogDeleteConfirm}
               startIcon={<CustomIcon icon="save" color="white" />}
             >
               Delete {`(${selectionModel.length})`}
@@ -361,6 +368,9 @@ function CategoryTable() {
           />
         </Box>
       </Box>
+      <DialogConfirm title="Confirm Delete" handleOk={handleDelete}>
+        <p>You want to delete?</p>
+      </DialogConfirm>
     </Box>
   );
 }

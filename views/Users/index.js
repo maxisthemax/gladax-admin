@@ -23,6 +23,7 @@ import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
 import TextField from "@mui/material/TextField";
 import Popover from "@mui/material/Popover";
+import { useDialog } from "components/Dialogs";
 
 //*assets
 
@@ -43,6 +44,11 @@ const ISSERVER = typeof window === "undefined";
 
 function User() {
   //*define
+  const {
+    Dialog: DialogConfirm,
+    handleOpenDialog: handleOpenDialogDeleteConfirm,
+    handleCloseDialog: handleCloseDialogDelteConfirm,
+  } = useDialog();
   const { data, mutate, isValidating, error } = useSwrHttp("user", {
     fallbackData: [],
   });
@@ -314,6 +320,7 @@ function User() {
     });
     setEditedData({});
     mutate();
+    handleCloseDialogDelteConfirm();
   }, [selectionModel]);
 
   return (
@@ -333,7 +340,7 @@ function User() {
               )}
               {!isEmpty(selectionModel) && (
                 <Button
-                  onClick={handleDelete}
+                  onClick={handleOpenDialogDeleteConfirm}
                   startIcon={<CustomIcon icon="save" color="white" />}
                 >
                   Delete {`(${selectionModel.length})`}
@@ -352,6 +359,9 @@ function User() {
           />
         </Box>
       </Box>
+      <DialogConfirm title="Confirm Delete" handleOk={handleDelete}>
+        <p>You want to delete?</p>
+      </DialogConfirm>
     </Box>
   );
 }
