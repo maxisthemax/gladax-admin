@@ -529,7 +529,7 @@ function Orders() {
   useEffect(() => {
     if (!isValidating)
       if (error?.response) {
-        const errorMessage = error.response.statusText;
+        const errorMessage = error.response.data.message;
         enqueueSnackbar(errorMessage, {
           variant: "error",
         });

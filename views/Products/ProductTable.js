@@ -326,7 +326,7 @@ function ProductTable() {
   useEffect(() => {
     if (!isValidating)
       if (error?.response) {
-        const errorMessage = error.response.statusText;
+        const errorMessage = error.response.data.message;
         enqueueSnackbar(errorMessage, {
           variant: "error",
         });
@@ -423,11 +423,11 @@ function ProductTable() {
     );
     const resData = await Promise.allSettled(allPromises);
     resData.forEach(({ status, value, reason }) => {
-      if (status === "fulfilled")
+      if (status === "fulfilled") {
         enqueueSnackbar(value.statusText, {
           variant: "success",
         });
-      else
+      } else
         enqueueSnackbar(reason.response.data.message, {
           variant: "error",
         });

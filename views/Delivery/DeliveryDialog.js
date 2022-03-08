@@ -54,7 +54,7 @@ function DeliveryDialog() {
   useEffect(() => {
     if (!isValidating)
       if (error?.response) {
-        const errorMessage = error.response.statusText;
+        const errorMessage = error.response.data.message;
         enqueueSnackbar(errorMessage, {
           variant: "error",
         });
@@ -100,7 +100,8 @@ function DeliveryDialog() {
         <Form
           initialValues={{ desc: "" }}
           validate={addNewDelivery}
-          onSubmit={onSubmit}validateOnBlur={true}
+          onSubmit={onSubmit}
+          validateOnBlur={true}
           render={({ handleSubmit }) => {
             return (
               <form id="addNewDelivery" onSubmit={handleSubmit} noValidate>
