@@ -26,3 +26,7 @@ export function getAllPastMonths(date) {
 
   return allMonths.splice(0, thisMonth + 1);
 }
+
+export function convertToUtc(date) {
+  return moment.utc(moment(date)).toISOString();
+}

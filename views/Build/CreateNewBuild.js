@@ -30,6 +30,7 @@ import { createNewBuild } from "validation";
 
 //*useHooks
 import useSwrHttp from "useHooks/useSwrHttp";
+import { convertToUtc } from "helpers/dateHelpers";
 
 //*custom components
 
@@ -64,8 +65,8 @@ function CreateNewBuild() {
       tags: tags?.split(","),
       documentIds: uploadedDocumentIdArray,
       weight: weight,
-      startDate: startDate,
-      endDate: endDate,
+      startDate: convertToUtc(startDate),
+      endDate: convertToUtc(endDate),
     });
     mutate();
   };

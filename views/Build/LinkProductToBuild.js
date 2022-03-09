@@ -49,6 +49,7 @@ import { createNewBuild } from "validation";
 
 //*useHooks
 import useSwrHttp from "useHooks/useSwrHttp";
+import { convertToUtc } from "helpers/dateHelpers";
 
 //*custom components
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
@@ -135,8 +136,8 @@ function LinkProductToBuild({
       description: description,
       tags: tags?.split(","),
       weight: weight,
-      startDate: startDate,
-      endDate: endDate,
+      startDate: convertToUtc(startDate),
+      endDate: convertToUtc(endDate),
       documentIds: uniq([
         ...currentDocumentIdArray,
         ...uploadedDocumentIdArray,
@@ -232,12 +233,14 @@ function LinkProductToBuild({
                       name="startDate"
                       required={true}
                       dateFunsUtils={DateFnsUtils}
+                      disabled={submitting}
                     />
                     <DatePicker
                       label="End Date"
                       name="endDate"
                       required={true}
                       dateFunsUtils={DateFnsUtils}
+                      disabled={submitting}
                     />
                   </Stack>
                   <Box p={1} />

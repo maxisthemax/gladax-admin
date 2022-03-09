@@ -63,6 +63,7 @@ import useSwrHttp from "useHooks/useSwrHttp";
 
 //*validation
 import { addNewProduct } from "validation";
+import { convertToUtc } from "helpers/dateHelpers";
 
 //*custom components
 const ISSERVER = typeof window === "undefined";
@@ -270,6 +271,9 @@ function ProductTable() {
       hide: lookupState["availableDate"],
       valueFormatter: (params) => {
         return moment(params.value).format("DD/MM/YYYY");
+      },
+      valueGetter: (params) => {
+        return convertToUtc(params.value);
       },
     },
     {
