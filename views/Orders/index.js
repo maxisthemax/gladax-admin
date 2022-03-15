@@ -209,14 +209,26 @@ function Orders() {
                         <Stack direction="row" spacing={2}>
                           <a
                             href="#"
-                            onClick={() => handleToStatus("revert", id, value)}
+                            onClick={() =>
+                              handleToStatus(
+                                "revert",
+                                id,
+                                findStatus.valueNumber
+                              )
+                            }
                           >
                             Revert
                           </a>
                           {findStatus?.valueNumber < 5 && (
                             <a
                               href="#"
-                              onClick={() => handleToStatus("next", id, value)}
+                              onClick={() =>
+                                handleToStatus(
+                                  "next",
+                                  id,
+                                  findStatus.valueNumber
+                                )
+                              }
                             >
                               Next
                             </a>
