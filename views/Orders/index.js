@@ -358,8 +358,16 @@ function Orders() {
       editable: false,
       width: 300,
       renderCell: RenderCell,
-      renderEditCell: RenderEditStringCell,
       hide: lookupState["id"],
+    },
+    {
+      field: "orderRef",
+      headerName: "Order No.",
+      type: "string",
+      editable: false,
+      width: 200,
+      renderCell: RenderCell,
+      hide: lookupState["orderRef"],
     },
     {
       field: "status",
