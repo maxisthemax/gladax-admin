@@ -69,6 +69,7 @@ function UserDialog() {
   //*functions
 
   const onSubmit = async (value) => {
+    console.log(value);
     try {
       await axios.post("user", value);
       mutate();
@@ -107,12 +108,26 @@ function UserDialog() {
         }}
       >
         <Form
-          initialValues={{ address: { country: "Malaysia" } }}
+          initialValues={{
+            address: {
+              address1: "",
+              address2: "",
+              country: "Malaysia",
+              state: "",
+              city: "",
+              postCode: "",
+            },
+          }}
           validate={addNewUser}
           onSubmit={onSubmit}
           render={({ handleSubmit }) => {
             return (
-              <form id="addNewUserForm" onSubmit={handleSubmit} noValidate>
+              <form
+                id="addNewUserForm"
+                onSubmit={handleSubmit}
+                noValidate
+                autoComplete="off"
+              >
                 <Stack spacing={2}>
                   <TextFieldForm label="Email" name="email" required={true} />
                   <TextFieldForm

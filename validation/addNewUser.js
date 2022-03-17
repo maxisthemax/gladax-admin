@@ -7,7 +7,6 @@ const addNewUser = makeValidate(
     email: email,
     password: password,
     name: Yup.string().required("Name Is Required"),
-    address: Yup.string().required("Address Is Required"),
     phoneNo: phoneNo,
   })
 );
