@@ -16,6 +16,7 @@ import UserDialog from "./UserDialog";
 import { CustomIcon } from "components/Icons";
 import { DataGridTable } from "components/Table";
 import { Button } from "components/Buttons";
+import { useDialog } from "components/Dialogs";
 
 //*material-ui
 import Box from "@mui/material/Box";
@@ -23,7 +24,9 @@ import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
 import TextField from "@mui/material/TextField";
 import Popover from "@mui/material/Popover";
-import { useDialog } from "components/Dialogs";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
 
 //*assets
 
@@ -144,6 +147,32 @@ function User() {
     );
   };
 
+  function SelectEditInputCell({ id, field, api, value }) {
+    const handleChange = (event) => {
+      const selectValue = event.target.value;
+      api.setEditCellValue({ id, field, value: selectValue }, event);
+      api.commitCellChange({ id, field });
+      api.setCellMode(id, field, "view");
+
+      handleEditCell({ field, id, value: selectValue });
+    };
+
+    return (
+      <FormControl fullWidth>
+        <Select
+          value={value}
+          onChange={handleChange}
+          size="small"
+          sx={{ height: 1 }}
+          autoFocus
+        >
+          <MenuItem value="U">User</MenuItem>
+          <MenuItem value="A">Admin</MenuItem>
+        </Select>
+      </FormControl>
+    );
+  }
+
   const columns = [
     {
       field: "email",
@@ -179,9 +208,10 @@ function User() {
       field: "role",
       headerName: "Role",
       type: "string",
-      editable: false,
+      editable: true,
       width: 100,
       renderCell: RenderCell,
+      renderEditCell: SelectEditInputCell,
       hide: lookupState["role"],
     },
     {

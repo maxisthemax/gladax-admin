@@ -69,7 +69,6 @@ function UserDialog() {
   //*functions
 
   const onSubmit = async (value) => {
-    console.log(value);
     try {
       await axios.post("user", value);
       mutate();
