@@ -43,6 +43,18 @@ function Text({ id, label }) {
             rows={3}
           />
           <Stack spacing={1} direction="row">
+            <TextFieldForm
+              name={`${id}.pt`}
+              label="Padding Top"
+              type="number"
+            />
+            <TextFieldForm
+              name={`${id}.pb`}
+              label="Padding Bottom"
+              type="number"
+            />
+          </Stack>
+          <Stack spacing={1} direction="row">
             <Select name={`${id}.variant`} label="Select a Variant">
               <MenuItem value="inherit">inherit</MenuItem>
               <MenuItem value="h1">h1</MenuItem>

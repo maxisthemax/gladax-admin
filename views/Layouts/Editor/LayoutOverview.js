@@ -68,6 +68,8 @@ function LayoutOverview({ push, change, handleOpenDialog, componentData }) {
       variant: "h6",
       position: "center",
       textProperties: {},
+      pt: 2,
+      pb: 2,
     });
     popupState.close();
   };
