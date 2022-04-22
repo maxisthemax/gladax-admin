@@ -24,6 +24,7 @@ import { CustomIcon } from "components/Icons";
 import { DataGridTable } from "components/Table";
 import { Button } from "components/Buttons";
 import Payment from "./Payment";
+import { useDialog } from "components/Dialogs";
 
 //*material-ui
 import Box from "@mui/material/Box";
@@ -58,6 +59,7 @@ const ISSERVER = typeof window === "undefined";
 
 function Orders() {
   //*define
+  const { Dialog, handleOpenDialog, handleCloseDialog } = useDialog();
   const { Drawer, handleOpenDrawer } = useDrawer();
   const {
     data,
@@ -146,100 +148,113 @@ function Orders() {
         {
           const findStatus = find(orderStatus, { valueNumber: row.status });
           text = (
-            <PopupState variant="popover" popupId="demo-popup-popover">
-              {(popupState) => (
-                <div>
-                  <Button
-                    variant="contained"
-                    size="small"
-                    {...bindTrigger(popupState)}
-                  >
-                    Check Status
-                  </Button>
-                  <Popover
-                    {...bindPopover(popupState)}
-                    anchorOrigin={{
-                      vertical: "top",
-                      horizontal: "right",
-                    }}
-                    transformOrigin={{
-                      vertical: "top",
-                      horizontal: "left",
-                    }}
-                  >
-                    <Box p={1} width="300px">
-                      <List dense disablePadding>
-                        {orderStatus.map(
-                          ({ label, valueName, valueNumber }) => {
-                            if (row.status < valueNumber) return "";
-                            else
-                              return (
-                                <ListItem disableGutters>
-                                  <Box
-                                    display="flex"
-                                    justifyContent="space-between"
-                                    width="100%"
-                                    color={
-                                      row.status === valueNumber
-                                        ? "darkblue"
-                                        : "inherit"
-                                    }
-                                    sx={{
-                                      fontWeight:
+            <>
+              <PopupState variant="popover" popupId="demo-popup-popover">
+                {(popupState) => (
+                  <div>
+                    <Button
+                      variant="contained"
+                      size="small"
+                      {...bindTrigger(popupState)}
+                    >
+                      Check Status
+                    </Button>
+                    <Popover
+                      {...bindPopover(popupState)}
+                      anchorOrigin={{
+                        vertical: "top",
+                        horizontal: "right",
+                      }}
+                      transformOrigin={{
+                        vertical: "top",
+                        horizontal: "left",
+                      }}
+                    >
+                      <Box p={1} width="300px">
+                        <List dense disablePadding>
+                          {orderStatus.map(
+                            ({ label, valueName, valueNumber }) => {
+                              if (row.status < valueNumber) return "";
+                              else
+                                return (
+                                  <ListItem disableGutters>
+                                    <Box
+                                      display="flex"
+                                      justifyContent="space-between"
+                                      width="100%"
+                                      color={
                                         row.status === valueNumber
-                                          ? "bold"
-                                          : "",
-                                    }}
-                                  >
-                                    <Box>{label}</Box>
-                                    <Box>
-                                      {row[`statuesDate.${valueName}`]
-                                        ? moment(
-                                            row[`statuesDate.${valueName}`]
-                                          ).format("DD/MM/YYYY")
-                                        : ""}
+                                          ? "darkblue"
+                                          : "inherit"
+                                      }
+                                      sx={{
+                                        fontWeight:
+                                          row.status === valueNumber
+                                            ? "bold"
+                                            : "",
+                                      }}
+                                    >
+                                      <Box>{label}</Box>
+                                      <Box>
+                                        {row[`statuesDate.${valueName}`]
+                                          ? moment(
+                                              row[`statuesDate.${valueName}`]
+                                            ).format("DD/MM/YYYY")
+                                          : ""}
+                                      </Box>
                                     </Box>
-                                  </Box>
-                                </ListItem>
-                              );
-                          }
-                        )}
-                      </List>
-                      <Box>
-                        <Stack direction="row" spacing={2}>
-                          <a
-                            href="#"
-                            onClick={() =>
-                              handleToStatus(
-                                "revert",
-                                id,
-                                findStatus.valueNumber
-                              )
+                                  </ListItem>
+                                );
                             }
-                          >
-                            Revert
-                          </a>
-                          {findStatus?.valueNumber < 5 && (
+                          )}
+                        </List>
+                        <Box>
+                          <Stack direction="row" spacing={2}>
                             <a
                               href="#"
                               onClick={() =>
                                 handleToStatus(
-                                  "next",
+                                  "revert",
                                   id,
                                   findStatus.valueNumber
                                 )
                               }
                             >
-                              Next
+                              Revert
                             </a>
-                          )}
-                        </Stack>
+                            {findStatus?.valueNumber < 5 && (
+                              <a
+                                href="#"
+                                onClick={() =>
+                                  handleToStatus(
+                                    "next",
+                                    id,
+                                    findStatus.valueNumber
+                                  )
+                                }
+                              >
+                                Next
+                              </a>
+                            )}
+                            {findStatus?.valueNumber < 6 && (
+                              <a
+                                href="#"
+                                onClick={() => {
+                                  handleOpenDialog();
+                                  setOrderId(id);
+                                }}
+                              >
+                                Cancel
+                              </a>
+                            )}
+                          </Stack>
+                        </Box>
                       </Box>
-                    </Box>
-                  </Popover>
-                </div>
-              )}
-            </PopupState>
+                    </Popover>
+                  </div>
+                )}
+              </PopupState>
+            </>
           );
         }
         break;
@@ -557,6 +572,21 @@ function Orders() {
   }, [enqueueSnackbar, error, isValidating]);
 
   //*functions
+  const handleCancelOrder = async () => {
+    try {
+      await axios.patch(`order/cancel/${orderId}`);
+      mutateAllOrders();
+      enqueueSnackbar("Done", {
+        variant: "success",
+      });
+      handleCloseDialog();
+    } catch (error) {
+      enqueueSnackbar(error?.response?.data?.message, {
+        variant: "error",
+      });
+    }
+  };
+
   const handleToStatus = async (mode, orderId, currentStatus) => {
     let status = mode === "next" ? currentStatus + 1 : currentStatus - 1;
     try {
@@ -699,6 +729,13 @@ function Orders() {
           <Payment orderId={orderId} />
         </Box>
       </Drawer>
+      <Dialog
+        title={`Cancel Order: ${orderId}`}
+        size="md"
+        handleOk={handleCancelOrder}
+      >
+        <Typography>Are You Sure Want To Cancel Order ?</Typography>
+      </Dialog>
     </Box>
   );
 }
