@@ -35,7 +35,7 @@ jobs:
           region: ${{ secrets.ALIYUN_REGION }}
       - name: Build and push docker container
         uses: docker/build-push-action@v2
-        env:
+        build-args:
           NODE_ENV: test
         with:
           push: true
