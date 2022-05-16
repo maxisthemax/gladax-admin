@@ -36,8 +36,7 @@ jobs:
       - name: Build and push docker container
         uses: docker/build-push-action@v2
         with:
-          build-args:
-            NODE_ENV: test
+          build-args: NODE_ENV=test
           push: true
           tags: |
             ${{ secrets.REGISTRY_URL }}/gladax/admin-ui:staging
