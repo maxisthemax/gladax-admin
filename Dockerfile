@@ -4,6 +4,7 @@ COPY package.json yarn.lock ./
 RUN yarn install
 
 FROM node:16-alpine as builder
+ARG NODE_ENV
 WORKDIR /usr/src/app
 COPY . .
 COPY --from=dependencies /usr/src/app/node_modules ./node_modules
