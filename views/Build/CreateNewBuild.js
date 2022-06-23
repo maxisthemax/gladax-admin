@@ -40,7 +40,7 @@ function CreateNewBuild() {
     fallbackData: [],
   });
   const { startUpload, getTotalUploadedFiles, uploadAttachment } =
-    useUploadAttachment(10, false);
+    useUploadAttachment();
 
   //*states
 

@@ -1,9 +1,10 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useCallback, useRef } from "react";
 import { Form } from "react-final-form";
 import useHover from "@react-hook/hover";
 import { DatePicker } from "mui-rff";
 import DateFnsUtils from "@date-io/date-fns";
+import { arrayMoveImmutable } from "array-move";
 
 //*lodash
 import groupBy from "lodash/groupBy";
@@ -11,6 +12,7 @@ import find from "lodash/find";
 import filter from "lodash/filter";
 import uniq from "lodash/uniq";
 import map from "lodash/map";
+import orderBy from "lodash/orderBy";
 
 //*components
 import { TextFieldForm } from "components/Form";
@@ -71,10 +73,7 @@ function LinkProductToBuild({
     handleOpenDialog: handleOpenDialogDeleteConfirm,
     handleCloseDialog: handleCloseDialogDelteConfirm,
   } = useDialog();
-  const { startUpload, uploadAttachment } = useUploadAttachment(
-    6 - documents.length,
-    false
-  );
+  const { startUpload, uploadAttachment } = useUploadAttachment();
 
   const { mutate } = useSwrHttp(`build`, {
     fallbackData: [],
@@ -87,6 +86,7 @@ function LinkProductToBuild({
   });
 
   //*states
+  const [buildDocuments, setBuildDocuments] = useState([]);
 
   //*const
   const productGroupByCategory = groupBy(productData, "categoryId");
@@ -123,12 +123,14 @@ function LinkProductToBuild({
   //*ref
 
   //*useEffect
+  useEffect(() => {
+    setBuildDocuments(map(orderBy(documents, "order"), "id"));
+  }, [documents]);
 
   //*functions
   const onSubmitSaveBuildData = async (values) => {
     const resData = await startUpload();
     const uploadedDocumentIdArray = map(resData, "value.data.id");
-    const currentDocumentIdArray = map(documents, "id");
     const { name, description, tags, weight, startDate, endDate } = values;
 
     await axios.patch(`build/${id}`, {
@@ -138,10 +140,7 @@ function LinkProductToBuild({
       weight: weight,
       startDate: convertToUtc(startDate),
       endDate: convertToUtc(endDate),
-      documentIds: uniq([
-        ...currentDocumentIdArray,
-        ...uploadedDocumentIdArray,
-      ]),
+      documentIds: uniq([...buildDocuments, ...uploadedDocumentIdArray]),
     });
     mutate();
   };
@@ -245,17 +244,21 @@ function LinkProductToBuild({
                   </Stack>
                   <Box p={1} />
                   <Grid container>
-                    {[...documents] &&
-                      [...documents].map((document) => {
+                    {[...buildDocuments] &&
+                      buildDocuments.map((document, index) => {
+                        const findDocument = find(documents, { id: document });
                         return (
                           <ImageUpload
-                            document={document}
+                            index={index}
+                            setBuildDocuments={setBuildDocuments}
+                            buildDocuments={buildDocuments}
+                            findDocument={findDocument}
                             handleRemoveDocumentId={handleRemoveDocumentId}
                           />
                         );
                       })}
                   </Grid>
-                  {documents.length < 6 && uploadAttachment}
+                  {uploadAttachment}
                   <Button disabled={invalid} type="submit">
                     Save
                   </Button>
@@ -446,7 +449,13 @@ function LinkProductToBuild({
   );
 }
 
-function ImageUpload({ document, handleRemoveDocumentId }) {
+function ImageUpload({
+  findDocument,
+  handleRemoveDocumentId,
+  buildDocuments,
+  setBuildDocuments,
+  index,
+}) {
   const target = useRef(null);
   const isHovering = useHover(target, { enterDelay: 200, leaveDelay: 200 });
 
@@ -455,18 +464,47 @@ function ImageUpload({ document, handleRemoveDocumentId }) {
       <Box p={1}>
         <Box position="absolute" p={1}>
           {isHovering && (
-            <Fab
-              size="small"
-              color="primary"
-              onClick={() => {
-                handleRemoveDocumentId(document.id);
-              }}
-            >
-              <CustomIcon icon="delete" color="white" size="small" />
-            </Fab>
+            <Stack direction="row" spacing={1}>
+              {index > 0 && (
+                <Fab
+                  size="small"
+                  color="primary"
+                  // disabled={isUploading}
+                  onClick={() => {
+                    setBuildDocuments((documents) => {
+                      return arrayMoveImmutable(documents, index, index - 1);
+                    });
+                  }}
+                >
+                  <CustomIcon color="white" icon="keyboard_arrow_left" />
+                </Fab>
+              )}
+              {index < buildDocuments.length - 1 && (
+                <Fab
+                  size="small"
+                  color="primary"
+                  onClick={() => {
+                    setBuildDocuments((documents) => {
+                      return arrayMoveImmutable(documents, index, index + 1);
+                    });
+                  }}
+                >
+                  <CustomIcon color="white" icon="keyboard_arrow_right" />
+                </Fab>
+              )}
+              <Fab
+                size="small"
+                color="primary"
+                onClick={() => {
+                  handleRemoveDocumentId(findDocument.id);
+                }}
+              >
+                <CustomIcon icon="delete" color="white" size="small" />
+              </Fab>
+            </Stack>
           )}
         </Box>
-        <img src={document.url} alt={document.id} width="100%" />
+        <img src={findDocument?.url} alt={findDocument?.id} width="100%" />
       </Box>
     </Grid>
   );

@@ -6,6 +6,7 @@ import CreateNewBuild from "./CreateNewBuild";
 import LinkProductToBuild from "./LinkProductToBuild";
 
 //*lodash
+import orderBy from "lodash/orderBy";
 
 //*material-ui
 import Box from "@mui/material/Box";
@@ -27,7 +28,12 @@ function Build() {
       temp.push({
         value: value.id,
         label: value.name,
-        content: <LinkProductToBuild {...value} />,
+        content: (
+          <LinkProductToBuild
+            {...value}
+            documents={orderBy(value.documents, ["order"], ["asc"])}
+          />
+        ),
       });
       return temp;
     }, []);

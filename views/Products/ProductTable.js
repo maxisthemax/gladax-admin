@@ -605,7 +605,7 @@ function ImageUploadComponent({ id }) {
   const documents = find(data, { id: id })?.documents;
 
   const { startUpload, getTotalUploadedFiles, uploadAttachment, isUploading } =
-    useUploadAttachment(10 - documents.length, false);
+    useUploadAttachment();
 
   const handleStartUpload = async () => {
     const resData = await startUpload();
@@ -648,7 +648,7 @@ function ImageUploadComponent({ id }) {
             );
           })}
       </Grid>
-      {documents.length < 6 && uploadAttachment}
+      {uploadAttachment}
       {getTotalUploadedFiles() > 0 && (
         <Button disabled={isUploading} onClick={handleStartUpload}>
           Start Upload

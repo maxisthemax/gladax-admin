@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { useSnackbar } from "notistack";
+import { arrayMoveImmutable } from "array-move";
 
 //lodash
 
@@ -14,6 +15,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
+import Stack from "@mui/material/Stack";
 import axios from "utils/http-anxios";
 import { LinearProgress } from "@mui/material";
 
@@ -143,12 +145,46 @@ function useUploadAttachment(maxLength = 3, unlimited = true) {
                     justifyContent="space-between"
                   >
                     <Typography variant="caption">{file.name}</Typography>
-                    <IconButton
-                      disabled={isUploading}
-                      onClick={() => deleteFile(index)}
-                    >
-                      <CustomIcon icon="delete" />
-                    </IconButton>
+                    <Stack direction="row" spacing={1}>
+                      {index > 0 && (
+                        <IconButton
+                          disabled={isUploading}
+                          onClick={() => {
+                            setFiles((files) => {
+                              return arrayMoveImmutable(
+                                files,
+                                index,
+                                index - 1
+                              );
+                            });
+                          }}
+                        >
+                          <CustomIcon icon="keyboard_arrow_left" />
+                        </IconButton>
+                      )}
+                      {index < files.length - 1 && (
+                        <IconButton
+                          disabled={isUploading}
+                          onClick={() => {
+                            setFiles((files) => {
+                              return arrayMoveImmutable(
+                                files,
+                                index,
+                                index + 1
+                              );
+                            });
+                          }}
+                        >
+                          <CustomIcon icon="keyboard_arrow_right" />
+                        </IconButton>
+                      )}
+                      <IconButton
+                        disabled={isUploading}
+                        onClick={() => deleteFile(index)}
+                      >
+                        <CustomIcon icon="delete" />
+                      </IconButton>
+                    </Stack>
                   </Box>
                 </Box>
               </Grid>
