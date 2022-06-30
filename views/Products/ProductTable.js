@@ -305,6 +305,16 @@ function ProductTable() {
       renderCell: RenderCell,
       hide: lookupState["price"],
     },
+    {
+      field: "id",
+      headerName: "Id",
+      type: "string",
+      editable: true,
+      width: 300,
+      renderCell: RenderCell,
+      renderEditCell: RenderEditStringCell,
+      hide: lookupState["id"],
+    },
   ];
 
   const initialValues = {

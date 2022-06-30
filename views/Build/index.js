@@ -3,13 +3,18 @@ import { useMemo } from "react";
 //*components
 import { CustomTabs } from "components/Tabs";
 import CreateNewBuild from "./CreateNewBuild";
+import { CustomIcon } from "components/Icons";
 import LinkProductToBuild from "./LinkProductToBuild";
 
 //*lodash
 import orderBy from "lodash/orderBy";
+import filter from "lodash/filter";
 
 //*material-ui
 import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Tooltip from "@mui/material/Tooltip";
+import IconButton from "@mui/material/IconButton";
 
 //*utils
 
@@ -25,9 +30,45 @@ function Build() {
   //*functions
   const newBuildTab = useMemo(() => {
     const newData = data.reduce((temp, value) => {
+      const emptyProduct = value.categories?.reduce((temp, cat) => {
+        const mapProdct = filter(
+          cat.products,
+          ({ quantity }) => quantity === 0
+        );
+
+        if (mapProdct.length > 0) {
+          temp = mapProdct;
+        }
+        return temp;
+      }, []);
+
       temp.push({
         value: value.id,
-        label: value.name,
+        label: (
+          <Stack direction="row" spacing={1} alignItems="center">
+            <Box>{value.name}</Box>
+            {emptyProduct.length > 0 && (
+              <Tooltip
+                title={
+                  <ul>
+                    {emptyProduct.map(({ name }) => {
+                      return <li>Product {name} 0 quantity</li>;
+                    })}
+                  </ul>
+                }
+              >
+                <IconButton size="small">
+                  <CustomIcon
+                    icon="report"
+                    color="red"
+                    variant="outlined"
+                    size="small"
+                  />
+                </IconButton>
+              </Tooltip>
+            )}
+          </Stack>
+        ),
         content: (
           <LinkProductToBuild
             {...value}

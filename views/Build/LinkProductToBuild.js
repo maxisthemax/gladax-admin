@@ -52,6 +52,7 @@ import { createNewBuild } from "validation";
 //*useHooks
 import useSwrHttp from "useHooks/useSwrHttp";
 import { convertToUtc } from "helpers/dateHelpers";
+import { Divider } from "@mui/material";
 
 //*custom components
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
@@ -384,6 +385,9 @@ function LinkProductToBuild({
                                               Name: {findProduct?.name}
                                             </Typography>
                                             <Typography gutterBottom>
+                                              Quantity: {findProduct?.quantity}
+                                            </Typography>
+                                            <Typography gutterBottom>
                                               Original Price :{" "}
                                               {`RM ${findProduct?.price}`}
                                             </Typography>
@@ -416,6 +420,8 @@ function LinkProductToBuild({
                                               type="number"
                                               name={`data.${data.id}.${index}.discountedPrice`}
                                             />
+                                            <Box p={1}></Box>
+                                            <Divider />
                                           </Grid>
                                         );
                                       }
