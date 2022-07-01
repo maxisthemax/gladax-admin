@@ -37,7 +37,7 @@ function Build() {
         );
 
         if (mapProdct.length > 0) {
-          temp = mapProdct;
+          temp = [...temp, ...mapProdct];
         }
         return temp;
       }, []);
