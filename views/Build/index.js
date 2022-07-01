@@ -35,9 +35,13 @@ function Build() {
           cat.products,
           ({ isAvailable }) => !isAvailable
         );
+        const newMapProdct = mapProdct.map((obj) => ({
+          ...obj,
+          catName: cat.name,
+        }));
 
         if (mapProdct.length > 0) {
-          temp = [...temp, ...mapProdct];
+          temp = [...temp, ...newMapProdct];
         }
         return temp;
       }, []);
@@ -51,8 +55,12 @@ function Build() {
               <Tooltip
                 title={
                   <ul>
-                    {emptyProduct.map(({ name }) => {
-                      return <li>Product {name} Not Available</li>;
+                    {emptyProduct.map(({ name, catName }) => {
+                      return (
+                        <li>
+                          {catName} : {name} Not Available
+                        </li>
+                      );
                     })}
                   </ul>
                 }
