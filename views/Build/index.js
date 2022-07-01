@@ -33,7 +33,7 @@ function Build() {
       const emptyProduct = value.categories?.reduce((temp, cat) => {
         const mapProdct = filter(
           cat.products,
-          ({ quantity }) => quantity === 0
+          ({ isAvailable }) => !isAvailable
         );
 
         if (mapProdct.length > 0) {
@@ -52,7 +52,7 @@ function Build() {
                 title={
                   <ul>
                     {emptyProduct.map(({ name }) => {
-                      return <li>Product {name} 0 quantity</li>;
+                      return <li>Product {name} Not Available</li>;
                     })}
                   </ul>
                 }
